@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Harbor": {
+      "commandName": "Project",
+      "commandLineArgs": "init",
+      "workingDirectory": "C:\\Users\\wangyu\\Desktop\\Temp\\HarborTest"
+    }
+  }
+}

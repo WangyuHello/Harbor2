@@ -1,0 +1,70 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+var target = Argument("target", "BuildAll");
+
+Task("Synthesis")
+    .Does(() =>
+{
+    Syn("./Synthesis" , _ => _
+        .ProjectInfo(ReadProject())
+        .Verilog("./Source/**/*.v")
+<# if(!string.IsNullOrEmpty(ClockName)) { #>
+        .Clock("<#= ClockName #>")
+<# } #>
+<# if(!string.IsNullOrEmpty(ResetName)) { #>
+        .Reset("<#= ResetName #>")
+<# } #>
+        .ClockPeriod(<#= ClockPeriod #>)
+        .AddPG()
+    );
+});
+
+Task("Layout")
+    .Does(() =>
+{
+    APR("./Layout", _ => _
+        .ProjectInfo(ReadProject())
+        .SynProjectPath("./Synthesis")
+        .UseICC()
+        .MaxRoutingLayer(4)
+        .MaxPreRouteLayer(6)
+        // .PowerWidth(3)
+        // .GroundWidth(3)
+        // .VerticalSpace(1)
+        // .VerticalOffset(1)
+        // .HorizontalSpace(1)
+        // .HorizontalOffset(1)
+        .FloorPlan(_ => _
+            .Type(FloorPlanType.AspectRatio)
+            // .Type(FloorPlanType.WidthHeightAuto)
+            .Padding(4,4)
+            .CoreUtilization(0.7)
+            .HeightWidthRatio(1)
+            // .CoreWidth(200)
+            // .CoreHeight(200)
+        )
+        .Pin(_ => _
+            .PinSpace(0)
+<# if(!string.IsNullOrEmpty(ClockName)) { #>
+            .Pin("<#= ClockName #>", PortPosition.Top, 1)
+<# } #>
+            // .Constraint("./Source/pin_pad.tcl")
+        )
+        .AddPG()
+        .FormalVerify()
+        .OpenGUI()
+    );
+});
+
+Task("CreateCadenceProject")
+    .Does(CreateCadenceProject);
+
+Task("BuildAll")
+    .IsDependentOn("Synthesis")
+    .IsDependentOn("Layout")
+    .IsDependentOn("CreateCadenceProject");
+
+RunTarget(target);
