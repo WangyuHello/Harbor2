@@ -1,0 +1,97 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Harbor.Core.Tool.APR.Model" #>
+#自动生成的脚本
+#<#= System.DateTime.Now#>
+#=============左侧端口====================
+<#  
+int space = (int)model.PinSpace;
+var realLeftOrders = 1; 
+decimal offset = 0m; 
+#>
+<# foreach(var p in model.LeftPorts) { #>
+<# for(int i = p.Width.lsb; i <= p.Width.msb; i++) { #>
+<# offset += model.PinSpace;
+var tempName = $"{p.Name}[{i}]";
+if((p.Width.msb == p.Width.lsb) && (p.Width.msb == 0))
+{
+	tempName = p.Name;
+}
+#>
+<# if(model.PinPlaceMode == PinPlaceMode.Uniform ) { #>
+set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realLeftOrders #> -pin_spacing <#= space #>
+<# } else if(model.PinPlaceMode == PinPlaceMode.ByOffset) { #>
+set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realLeftOrders #> -pin_spacing 0 -offset <#= offset #>
+<# } #>
+<# realLeftOrders += 1; #>
+<# } #>
+<# } #>
+#=============上侧端口====================
+<# var realTopOrders = 1; 
+offset = 0m;
+#>
+<# foreach(var p in model.TopPorts) { #>
+<# for(int i = p.Width.lsb; i <= p.Width.msb; i++) { #>
+<#
+offset += model.PinSpace;
+var tempName = $"{p.Name}[{i}]";
+if((p.Width.msb == p.Width.lsb) && (p.Width.msb == 0))
+{
+tempName = p.Name;
+}
+#>
+<# if(model.PinPlaceMode == PinPlaceMode.Uniform ) { #>
+set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realTopOrders #> -pin_spacing <#= space #>
+<# } else if(model.PinPlaceMode == PinPlaceMode.ByOffset) { #>
+set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realTopOrders #> -pin_spacing 0 -offset <#= offset #>
+<# } #>
+<# realTopOrders += 1; #>
+<# } #>
+<# } #>
+#=============右侧端口====================
+<# var realRightOrders = 1; 
+offset = 0m;
+#>
+<# foreach(var p in model.RightPorts) { #>
+<# for(int i = p.Width.lsb; i <= p.Width.msb; i++) { #>
+<#
+offset += model.PinSpace;
+var tempName = $"{p.Name}[{i}]";
+if((p.Width.msb == p.Width.lsb) && (p.Width.msb == 0))
+{
+tempName = p.Name;
+}
+#>
+<# if(model.PinPlaceMode == PinPlaceMode.Uniform ) { #>
+set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realRightOrders #> -pin_spacing <#= space #>
+<# } else if(model.PinPlaceMode == PinPlaceMode.ByOffset) { #>
+set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realRightOrders #> -pin_spacing 0 -offset <#= offset #>
+<# } #>
+<# realRightOrders += 1; #>
+<# } #>
+<# } #>
+#=============下侧端口====================
+<# var realBottomOrders = 1; 
+offset = 0m;
+#>
+<# foreach(var p in model.BottomPorts) { #>
+<# for(int i = p.Width.lsb; i <= p.Width.msb; i++) { #>
+<#
+offset += model.PinSpace;
+var tempName = $"{p.Name}[{i}]";
+if((p.Width.msb == p.Width.lsb) && (p.Width.msb == 0))
+{
+tempName = p.Name;
+}
+#>
+<# if(model.PinPlaceMode == PinPlaceMode.Uniform ) { #>
+set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realBottomOrders #> -pin_spacing <#= space #>
+<# } else if(model.PinPlaceMode == PinPlaceMode.ByOffset) { #>
+set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realBottomOrders #> -pin_spacing 0 -offset <#= offset #>
+<# } #>
+<# realBottomOrders += 1; #>
+<# } #>
+<# } #>

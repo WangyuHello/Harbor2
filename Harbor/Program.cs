@@ -43,6 +43,7 @@ namespace Harbor
             {
                 config.AddCommand<InitCommand>("init");
                 config.AddCommand<AddRefCommand>("addref");
+                config.AddCommand<BuildCommand>("build");
 
                 config.SetApplicationName("harhor");
                 config.ValidateExamples();

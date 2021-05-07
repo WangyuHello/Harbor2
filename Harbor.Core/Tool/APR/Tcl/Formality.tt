@@ -1,0 +1,59 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+#自动生成的脚本
+#<#= System.DateTime.Now#>
+
+#=====================设置变量======================
+set top_name         "<#= model.TopName #>"
+set net_path         "<#= model.Netlist #>"
+set syn_net_path     "<#= model.SynNetlist #>"
+set script_root_path "<#= model.ScriptRootPath #>"
+set lib_path         "<#= model.LibPath #>"
+
+set search_path "$script_root_path \
+                 $lib_path         \
+                "
+
+#=====================设置工艺库======================
+
+set lib_name       "<#= model.LibName #>"
+set target_library "<#= model.LibFullName #> \
+<# foreach(var io_lib in model.IOTimingDbPaths) { #>
+                    <#= io_lib #> \
+<# } #>
+<# foreach(var addi_lib in model.AdditionalTimingDbPaths) { #>
+                    <#= addi_lib #> \
+<# } #>
+                   "
+set link_library   "<#= model.LibFullName #> \
+<# foreach(var io_lib in model.IOTimingDbPaths) { #>
+                    <#= io_lib #> \
+<# } #>
+<# foreach(var addi_lib in model.AdditionalTimingDbPaths) { #>
+                    <#= addi_lib #> \
+<# } #>
+                   "
+
+read_db -technology_lib $target_library
+
+#====================项目初始化=======================
+
+read_verilog -r $syn_net_path/${top_name}.v
+set_top r:/WORK/${top_name}
+current_design $top_name
+
+read_verilog -i $net_path/${top_name}.v
+set_top i:/WORK/${top_name}
+current_design $top_name
+
+match
+set r [verify]
+if { $r == 0 } {
+    exit 1
+}
+
+
+quit

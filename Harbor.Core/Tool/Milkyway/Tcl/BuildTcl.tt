@@ -1,0 +1,44 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+#自动生成的脚本
+#<#= System.DateTime.Now#>
+
+set libname <#= model.ProjectName #>
+
+set techfile <#= model.TechFilePath #>
+set tech_lef <#= model.TechLefFilePath #>
+set cell_lef <#= model.ProjectLefFilePath #>
+
+cmCreateLib
+setFormField "Create Library" "Library Name" "$libname"
+setFormField "Create Library" "Technology File Name" "$techfile"
+setFormField "Create Library" "Set Case Sensitive" "1"
+formOK "Create Library"
+
+read_lef
+setFormField "Read LEF" "Library Name" "$libname"
+setFormField "Read LEF" "Cell LEF Files" "$cell_lef"
+setFormField "Read LEF" "Manual Library Prep Mode" "1"
+formOK "Read LEF"
+
+cmSmash
+setFormField "Smash" "Library Name" "$libname"
+setFormField "Smash" "Cell Name" "$libname"
+formOK "Smash"
+
+auExtractBlockagePinVia
+setFormField "Extract Blockage" "Library Name" "$libname"
+formOK "Extract Blockage"
+
+gePrepLibs
+setFormField "Library Preparation" "Library Name" "$libname"
+formButton "Library Preparation" "dumpPlib"
+setFormField "Library Preparation" "Dump to Plib" "mw.plib"
+setFormField "Library Preparation" "Tech info" "1"
+setFormField "Library Preparation" "Cell info" "1"
+formOK "Library Preparation"
+
+exit

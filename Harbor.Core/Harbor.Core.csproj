@@ -1,12 +1,92 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.CodeDom" Version="5.0.0" />
+    <PackageReference Include="YamlDotNet" Version="11.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\cake\src\Cake.Common\Cake.Common.csproj" />
+    <ProjectReference Include="..\cake\src\Cake.Core\Cake.Core.csproj" />
     <ProjectReference Include="..\Harbor.CodeAnalysis.Verilog\Harbor.CodeAnalysis.Verilog.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Tool\APR\Tcl\ICCBuildTcl.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ICCBuildTcl.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Tool\APR\Tcl\Formality.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Formality.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Tool\APR\Tcl\PinPadTcl.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PinPadTcl.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Tool\LC\Tcl\BuildTcl.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BuildTcl.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Tool\Milkyway\Tcl\BuildTcl.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BuildTcl.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Tool\PrimeTime\Tcl\PrimeTime.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PrimeTime.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Tool\Syn\Tcl\BuildTcl.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BuildTcl.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Tool\APR\Tcl\ICCBuildTcl.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ICCBuildTcl.cs</LastGenOutput>
+    </None>
+    <None Update="Tool\APR\Tcl\Formality.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>Formality.cs</LastGenOutput>
+    </None>
+    <None Update="Tool\APR\Tcl\PinPadTcl.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>PinPadTcl.cs</LastGenOutput>
+    </None>
+    <None Update="Tool\LC\Tcl\BuildTcl.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BuildTcl.cs</LastGenOutput>
+    </None>
+    <None Update="Tool\Milkyway\Tcl\BuildTcl.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BuildTcl.cs</LastGenOutput>
+    </None>
+    <None Update="Tool\PrimeTime\Tcl\PrimeTime.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>PrimeTime.cs</LastGenOutput>
+    </None>
+    <None Update="Tool\Syn\Tcl\BuildTcl.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>BuildTcl.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

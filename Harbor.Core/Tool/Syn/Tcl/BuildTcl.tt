@@ -1,0 +1,219 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Harbor.Core.Util" #>
+#自动生成的脚本
+#<#= System.DateTime.Now#>
+
+#=====================设置变量======================
+set script_root_path "<#= model.ScriptRootPath #>"
+set wrk_path         "<#= model.WorkPath #>"
+set rpt_path         "<#= model.RptPath #>"
+set net_path         "<#= model.NetPath #>"
+set svf_path         "<#= model.SvfPath #>"
+set obj_path         "<#= model.ObjPath #>"
+set lib_path         "<#= model.LibPath #>"
+
+set search_path "$script_root_path \
+                 $lib_path         \
+                "
+
+set cache_write       "/tmp"
+set cache_read        "/tmp"
+
+history keep 500
+
+set_host_options -max_core <#= model.Cores #>
+
+#=====================设置工艺库======================
+
+set lib_name       "<#= model.LibName #>"
+set target_library "<#= model.LibFullName #> \
+<# foreach(var io_lib in model.IOTimingDbPaths) { #>
+                    <#= io_lib #> \
+<# } #>
+<# foreach(var addi_lib in model.AdditionalTimingDbPaths) { #>
+                    <#= addi_lib #> \
+<# } #>
+                   "
+set link_library   "<#= model.LibFullName #> \
+<# foreach(var io_lib in model.IOTimingDbPaths) { #>
+                    <#= io_lib #> \
+<# } #>
+<# foreach(var addi_lib in model.AdditionalTimingDbPaths) { #>
+                    <#= addi_lib #> \
+<# } #>
+                   "
+<# if(!string.IsNullOrEmpty(model.StdCell.symbol_full_name)) { #>
+set symbol_library "<#= model.StdCell.symbol_full_name #>"
+<# } #>
+
+#=====================设置项目====================
+
+#设置项目临时目录 
+define_design_lib DEFAULT -path "$obj_path"
+
+#设置项目目录
+define_design_lib work -path "$wrk_path"
+
+#设置命名规则:禁止小写
+define_name_rules BORG -allowed {A-Za-z0-9_} -first_restricted "_" -last_restricted "_" -max_length 30
+define_name_rules "IS_rule" -max_length "255" -allowed "A-Z0-9_$"  -replacement_char "_" -type cell
+define_name_rules "IS_rule" -max_length "255" -allowed "A-Z0-9_$"  -replacement_char "_" -type net
+define_name_rules "IS_rule" -max_length "255" -allowed "A-Z0-9_$[]"  -replacement_char "_" -type port
+
+<# if(!model.AllowTriState) {#>
+#消除三态门
+set verilogout_no_tri true
+<# } #>
+
+#=================导入Verilog源代码===================
+
+set top_name "<#= model.TopName #>"
+
+set_svf      "${svf_path}/${top_name}.svf"
+
+<# foreach(var v in model?.SourceFullPaths) { #>
+set r [analyze -format verilog -lib work <#= v #>]
+if { $r == 0 } {
+    exit 1
+}
+<# } #>
+
+set r [elaborate $top_name -arch "verilog" -lib work]
+if { $r == 0 } {
+    exit 2
+}
+
+current_design $top_name
+
+set r [link]
+if { $r == 0 } {
+    exit 3
+}
+
+set r [uniquify]
+if { $r == 0 } {
+    exit 4
+}
+
+
+change_names -rules "IS_rule" -hierarchy
+
+#======================设置约束======================
+
+#======时钟设置========
+
+set clk_name "<#= model.ClkName #>"
+<# if(!string.IsNullOrEmpty(model.RstName)) {#>
+set rst_name "<#= model.RstName #>"
+<# } #>
+
+create_clock -name $clk_name -period <#= model.ClkPeriod #> -waveform {0 <#= model.ClkPeriod / 2 #> } [get_ports $clk_name]
+
+set_dont_touch_network [get_clocks $clk_name]
+
+set_clock_latency <#= model.ClkLatency #> [get_clocks $clk_name]
+set_clock_uncertainty  <#= model.ClkUncertainty #> [get_clocks $clk_name]
+
+<# 
+var removePorts = "$clk_name";
+if(!string.IsNullOrEmpty(model.RstName)) {
+    removePorts += " $rst_name";
+}
+#>
+
+set_input_delay -max <#= model.MaxInputDelay #> -clock $clk_name [remove_from_collection [all_inputs] [get_ports "<#= removePorts #>"]]
+set_input_delay -min <#= model.MinInputDelay #> -clock $clk_name [remove_from_collection [all_inputs] [get_ports "<#= removePorts #>"]]
+set_output_delay -max <#= model.MaxOutputDelay #> -clock $clk_name [all_outputs]
+set_output_delay -min <#= model.MinOutputDelay #> -clock $clk_name [all_outputs]
+
+set_fix_hold [get_clocks $clk_name]
+
+<# if(!string.IsNullOrEmpty(model.RstName)) {#>
+set_ideal_network [get_ports "$rst_name"]
+set_false_path -from [get_ports "$rst_name"]
+set_dont_touch_network [get_ports "$rst_name"]
+<# } #>
+
+#======================驱动和负载===================
+
+# 工艺库相关
+set inv_name       "<#= model.InvName #>"
+set inv_port_name  "<#= model.InvPortName #>"
+
+set unit_load [load_of $lib_name/$inv_name/$inv_port_name]
+
+# 无限驱动
+set_drive 0 $clk_name
+<# if(!string.IsNullOrEmpty(model.RstName)) {#>
+set_drive 0 $rst_name
+<# } #>
+
+# 单位反相器的驱动
+<# if(!string.IsNullOrEmpty(model.RstName)) {#>
+set_driving_cell -lib_cell $inv_name  [remove_from_collection [all_inputs] [get_ports "$clk_name $rst_name"]]
+<# } else {#>
+set_driving_cell -lib_cell $inv_name  [remove_from_collection [all_inputs] [get_ports "$clk_name" ]]
+<# } #>
+
+# set_max_capacitance [expr $unit_load*<#= model.CapFactor #>] [all_designs]
+set_load [expr $unit_load*<#= model.LoadFactor #>] [all_outputs]
+<# foreach(var p in model.PortSettings) { #>
+<# if(string.IsNullOrEmpty(p.LoadOf)) { #>
+set_load [expr $unit_load*<#= p.LoadFactor #>] {"<#= p.Name.ToUpper() #>"}
+<# } else { #>
+set_load [load_of "<#= p.LoadOf #>"] {"<#= p.Name.ToUpper() #>"}
+<# } } #>
+
+set_max_fanout <#= model.MaxFanout #> [current_design]
+set_max_transition <#= model.MaxTransition #> [current_design]
+
+report_constraint -max_capacitance -significant_digits 13
+report_constraint -max_transition  -significant_digits 13
+report_constraint -max_fanout      -significant_digits 13
+
+#=====================其他约束=====================
+
+set_max_area <#= model.MaxArea #>
+set_critical_range <#= model.CriticalRange #> [get_designs *]
+
+#=====================综合=====================
+
+<# if(model.UseCompileUltra) {#>
+set r [compile_ultra]
+if { $r == 0 } {
+    exit 5
+}
+<# } else {#>
+set r [compile]
+if { $r == 0 } {
+    exit 5
+}
+<# } #>
+
+#====================输出======================
+
+check_design > $rpt_path/$top_name\_checkdesign.rpt
+
+#输出网表
+write -hierarchy -output                 $net_path/$top_name\.db
+write -format ddc -hierarchy -output     $net_path/$top_name\.ddc
+write -hierarchy -format verilog -output $net_path/$top_name\.v
+write_sdc                                $net_path/$top_name\.sdc
+write_sdf                                $net_path/$top_name\.sdf
+
+
+#输出报告
+
+report_constraint -all_violators -verbose -significant_digits 13  > $rpt_path/$top_name\_vio.rpt
+report_timing -max <#= model.TimingRptNum #> > $rpt_path/$top_name\_timing.rpt
+report_area -hierarchy                       > $rpt_path/$top_name\_area.rpt
+report_power                                 > $rpt_path/$top_name\_power.rpt
+
+#简报
+report_constraint -all_violators
+
+quit

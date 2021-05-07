@@ -59,8 +59,8 @@ namespace Harbor.Commands
         private static int LogException<T>(ICakeLog log, T ex)
             where T : Exception
         {
-            log = log ?? new CakeBuildLog(
-                      new CakeConsole(new CakeEnvironment(new CakePlatform(), new CakeRuntime())));
+            log ??= new CakeBuildLog(
+                new CakeConsole(new CakeEnvironment(new CakePlatform(), new CakeRuntime())));
 
             if (log.Verbosity == Verbosity.Diagnostic)
             {
