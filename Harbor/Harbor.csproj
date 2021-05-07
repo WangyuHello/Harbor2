@@ -8,17 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.2.0" />
+    <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NPOI" Version="2.5.3" />
-    <PackageReference Include="Spectre.Console" Version="0.39.0" />
+    <PackageReference Include="Spectre.Console" Version="0.37.0" />
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
     <PackageReference Include="YamlDotNet" Version="11.1.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.9.0-4.final" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+    <PackageReference Include="System.Reflection.Metadata" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\cake\src\Cake.Cli\Cake.Cli.csproj" />
     <ProjectReference Include="..\cake\src\Cake.Core\Cake.Core.csproj" />
+    <ProjectReference Include="..\cake\src\Cake\Cake.csproj" />
     <ProjectReference Include="..\Harbor.Core\Harbor.Core.csproj" />
   </ItemGroup>
 

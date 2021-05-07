@@ -5,9 +5,12 @@ using Cake.Core.IO;
 using Spectre.Console.Cli;
 using System;
 using System.Threading.Tasks;
+using Cake.Features.Bootstrapping;
+using Cake.Features.Building;
+using Cake.Infrastructure;
+using Cake.Infrastructure.Composition;
 using Harbor.Commands;
 using Harbor.Cli;
-using Harbor.Infrastructure.Composition;
 
 
 namespace Harbor
@@ -64,13 +67,13 @@ namespace Harbor
             builder.RegisterType<Cake.Cli.VerbosityConverter>();
 
             // Utilities
-            //builder.RegisterType<ContainerConfigurator>().As<IContainerConfigurator>().SingleInstance();
+            builder.RegisterType<ContainerConfigurator>().As<IContainerConfigurator>().SingleInstance();
             builder.RegisterType<VersionResolver>().As<IVersionResolver>().SingleInstance();
-            //builder.RegisterType<ModuleSearcher>().As<IModuleSearcher>().SingleInstance();
+            builder.RegisterType<ModuleSearcher>().As<IModuleSearcher>().SingleInstance();
 
             // Features
-            //builder.RegisterType<BuildFeature>().As<IBuildFeature>().SingleInstance();
-            //builder.RegisterType<BootstrapFeature>().As<IBootstrapFeature>().SingleInstance();
+            builder.RegisterType<BuildFeature>().As<IBuildFeature>().SingleInstance();
+            builder.RegisterType<BootstrapFeature>().As<IBootstrapFeature>().SingleInstance();
             builder.RegisterType<VersionFeature>().As<IHarborVersionFeature>().SingleInstance();
             builder.RegisterType<InfoFeature>().As<IHarborInfoFeature>().SingleInstance();
 
