@@ -12,7 +12,6 @@ using Cake.Infrastructure.Composition;
 using Harbor.Commands;
 using Harbor.Cli;
 
-
 namespace Harbor
 {
     public sealed class Program

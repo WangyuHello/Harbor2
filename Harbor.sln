@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harbor.Core", "Harbor.Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harbor.CodeAnalysis.Verilog", "Harbor.CodeAnalysis.Verilog\Harbor.CodeAnalysis.Verilog.csproj", "{F0C12C47-26A4-411E-B259-FBE6F65164E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harbor.CodeAnalysis.Verilog.Test", "Harbor.CodeAnalysis.Verilog.Test\Harbor.CodeAnalysis.Verilog.Test.csproj", "{38DFDEBE-B64E-4E41-83BC-C1392C700546}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harbor.CodeAnalysis.Verilog.Test", "Harbor.CodeAnalysis.Verilog.Test\Harbor.CodeAnalysis.Verilog.Test.csproj", "{38DFDEBE-B64E-4E41-83BC-C1392C700546}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harbor.Test", "Harbor.Test\Harbor.Test.csproj", "{9557C590-D551-4D7F-837F-40D2BAAF1C5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{38DFDEBE-B64E-4E41-83BC-C1392C700546}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38DFDEBE-B64E-4E41-83BC-C1392C700546}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38DFDEBE-B64E-4E41-83BC-C1392C700546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9557C590-D551-4D7F-837F-40D2BAAF1C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9557C590-D551-4D7F-837F-40D2BAAF1C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9557C590-D551-4D7F-837F-40D2BAAF1C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9557C590-D551-4D7F-837F-40D2BAAF1C5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

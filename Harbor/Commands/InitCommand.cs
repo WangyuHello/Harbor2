@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Harbor.Commands.Project;
 using Harbor.Commands.Template;
 using Harbor.Commands.Util;
+using Newtonsoft.Json;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -297,10 +298,52 @@ namespace Harbor.Commands
                     };
 
                     var text = buildCake.TransformText();
-                    await File.WriteAllTextAsync(Path.Combine(projectDir2, "build.hb"), text.Replace("\r", ""), encoding: Encoding.UTF8);
+                    await File.WriteAllTextAsync(Path.Combine(projectDir2, "build.cake"), text.Replace("\r", ""), encoding: Encoding.UTF8);
 
                     break;
+                case ProjectType.Memory:
+                    if (string.IsNullOrEmpty(settings.Name))
+                    {
+                        settings.Name = AnsiConsole.Ask<string>("请输入项目名称");
+                        projectInfo.Project = settings.Name;
+                    }
+
+                    if (Directory.Exists(settings.Name))
+                    {
+                        var overr = AnsiConsole.Confirm($"{settings.Name} 项目已存在是否覆盖?");
+                        if (overr)
+                        {
+                            Directory.Delete(Path.Combine(Environment.CurrentDirectory, settings.Name), true);
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+
+                    var projectDir3 = Path.Combine(Environment.CurrentDirectory, settings.Name);
+
+                    Directory.CreateDirectory(projectDir3);
+                    Directory.CreateDirectory(Path.Combine(projectDir3, "astro"));
+                    Directory.CreateDirectory(Path.Combine(projectDir3, "cdl"));
+                    Directory.CreateDirectory(Path.Combine(projectDir3, "doc"));
+                    Directory.CreateDirectory(Path.Combine(projectDir3, "gds"));
+                    Directory.CreateDirectory(Path.Combine(projectDir3, "lef"));
+                    Directory.CreateDirectory(Path.Combine(projectDir3, "liberty"));
+                    Directory.CreateDirectory(Path.Combine(projectDir3, "verilog"));
+                    Directory.CreateDirectory(Path.Combine(projectDir3, "Cadence"));
+                    break;
             }
+
+            await projectInfo.WriteToDirectoryAsync(Path.Combine(Environment.CurrentDirectory, settings.Name));
+
+            var gitIgnote = new GitIgnore();
+            var gitIgnoteText = gitIgnote.TransformText();
+            await File.WriteAllTextAsync(Path.Combine(Environment.CurrentDirectory, settings.Name, ".gitignore"), gitIgnoteText.Replace("\r", ""), encoding: Encoding.UTF8);
+
+            await SimpleRunner.Run("git", "init", Path.Combine(Environment.CurrentDirectory, settings.Name));
+
+            AnsiConsole.MarkupLine("[blue]项目创建成功[/]");
 
             return 0;
         }
