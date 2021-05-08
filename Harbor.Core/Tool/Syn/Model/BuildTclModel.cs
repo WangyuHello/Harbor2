@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Harbor.Core.Util;
+using Harbor.Core.Project;
 
 namespace Harbor.Core.Tool.Syn.Model
 {
@@ -43,7 +43,7 @@ namespace Harbor.Core.Tool.Syn.Model
         public int TimingRptNum { get; set; }
         public bool AllowTriState { get; set; }
 
-        public LibraryHelper.LibraryStdCell StdCell { get; set; }
+        public Library.LibraryStdCell StdCell { get; set; }
 
         public List<PortSetting> PortSettings { get; set; }
     }

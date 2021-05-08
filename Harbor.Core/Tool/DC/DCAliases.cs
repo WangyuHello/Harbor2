@@ -15,7 +15,7 @@ namespace Harbor.Core.Tool.DC
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             var runner = new DCRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(configure);
+            runner.Run(configure, context);
         }
 
         [CakeMethodAlias]
@@ -30,7 +30,7 @@ namespace Harbor.Core.Tool.DC
                 CommandFile = command_file // -f xxx.tcl
             };
 
-            runner.Run(configure);
+            runner.Run(configure, context);
         }
 
         [CakeMethodAlias]
@@ -39,7 +39,7 @@ namespace Harbor.Core.Tool.DC
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             var runner = new DCRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(configure, exitHandler);
+            runner.Run(configure, exitHandler, context);
         }
     }
 }

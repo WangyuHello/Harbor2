@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Harbor.Core.Util;
+using Harbor.Core.Project;
 
 namespace Harbor.Core.Tool.APR.Model
 {
@@ -61,6 +61,6 @@ namespace Harbor.Core.Tool.APR.Model
 
         public List<MacroPlaceSettings> MacroPlaceSettings { get; set; } = new List<MacroPlaceSettings>();
 
-        public LibraryHelper.LibraryStdCell StdCell { get; set; }
+        public Library.LibraryStdCell StdCell { get; set; }
     }
 }

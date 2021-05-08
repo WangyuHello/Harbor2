@@ -4,6 +4,7 @@ using System.Text;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
+using Harbor.Core.Project;
 using Newtonsoft.Json.Linq;
 
 namespace Harbor.Core
@@ -12,7 +13,10 @@ namespace Harbor.Core
     {
         public FilePath CommandLogFile { get; set; }
         public ICakeContext Context { get; set; }
-        public JObject ProjectInfo { get; set; }
+        private ProjectInfo _projectInfo;
+
+        public ProjectInfo ProjectInfo => _projectInfo ??= ProjectInfo.ReadFromContext(Context);
+
         internal virtual void Evaluate(ProcessArgumentBuilder args)
         {
             

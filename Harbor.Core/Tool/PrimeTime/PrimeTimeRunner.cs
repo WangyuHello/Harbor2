@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Harbor.Core.Project;
 using Harbor.Core.Tool.PrimeTime.Model;
 using Harbor.Core.Tool.Syn;
 using Harbor.Core.Util;
@@ -74,16 +75,16 @@ namespace Harbor.Core.Tool.PrimeTime
             if (SynSettings == null) return;
 
             WorkingDirectory = SynSettings.ProjectPath.Combine("STA");
-            var libInfo = LibraryHelper.GetStdCell(SynSettings.ProjectInfo);
+            var library = AllLibrary.GetLibrary(ProjectInfo);
 
             CommandFile = WorkingDirectory.CombineWithFilePath("build.tcl");
 
             var model = new PrimeTimeModel
             {
                 APRorSyn = false,
-                LibPath = libInfo.timing_db_path,
-                LibName = libInfo.timing_db_name_abbr,
-                LibFullName = libInfo.timing_db_name,
+                LibPath = library.PrimaryStdCell.timing_db_path,
+                LibName = library.PrimaryStdCell.timing_db_name_abbr,
+                LibFullName = library.PrimaryStdCell.timing_db_name,
                 TopName = SynSettings.Top,
                 SynNetlist = SynSettings.ProjectPath.Combine("netlist").FullPath,
                 //APRNetlist = APRSettings.ProjectPath.Combine("netlist").FullPath,

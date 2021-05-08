@@ -14,7 +14,7 @@ namespace Harbor.Core.Tool.ICC
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             var runner = new ICCRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(configure);
+            runner.Run(configure, context);
         }
 
         [CakeMethodAlias]
@@ -34,7 +34,7 @@ namespace Harbor.Core.Tool.ICC
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             var runner = new ICCRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(configure, exitHandler);
+            runner.Run(configure, exitHandler, context);
         }
     }
 }

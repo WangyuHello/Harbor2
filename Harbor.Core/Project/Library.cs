@@ -77,6 +77,7 @@ namespace Harbor.Core.Project
         public string Description { get; set; }
         public LibraryPdk Pdk { get; set; }
         public List<LibraryStdCell> StdCell { get; set; }
+        public LibraryStdCell PrimaryStdCell => StdCell.First();
         public List<LibraryMemory> Memory { get; set; }
         public List<LibraryIo> Io { get; set; }
         public List<LibraryIp> Ip { get; set; }

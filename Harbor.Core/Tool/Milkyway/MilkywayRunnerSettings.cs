@@ -5,6 +5,7 @@ using System.Text;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
+using Harbor.Core.Project;
 using Harbor.Core.Tool.Milkyway.Model;
 using Harbor.Core.Tool.Milkyway.Tcl;
 using Harbor.Core.Util;
@@ -33,13 +34,13 @@ namespace Harbor.Core.Tool.Milkyway
 
         internal override void GenerateTclScripts()
         {
-            var (libInfo, pdk, io) = LibraryHelper.GetLibraryParams(ProjectInfo);
+            var library = AllLibrary.GetLibrary(ProjectInfo);
             BuildTclModel model = new BuildTclModel
             {
                 ProjectLefFilePath = ProjectLefFilePath,
                 ProjectName = ProjectName,
-                TechFilePath = libInfo.techfile_full_name,
-                TechLefFilePath = libInfo.techlef_file_full_name
+                TechFilePath = library.PrimaryStdCell.techfile_full_name,
+                TechLefFilePath = library.PrimaryStdCell.techlef_file_full_name
             };
 
             CommandFile = "build.cmd";

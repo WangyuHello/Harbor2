@@ -13,8 +13,9 @@ namespace Harbor.Core.Tool.Milkyway
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
+            configure.Context = context;
             var runner = new MilkywayRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(configure);
+            runner.Run(configure, context);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Harbor.Core.Tool.AddPG
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             var runner = new AddPGRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(settings);
+            runner.Run(settings, context);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Harbor.Core.Tool.LC
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             var runner = new LCRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(configure);
+            runner.Run(configure, context);
         }
     }
 }

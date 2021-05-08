@@ -14,7 +14,7 @@ namespace Harbor.Core.Tool.Cadence
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             var runner = new CadenceRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(settings);
+            runner.Run(settings, context);
         }
 
         [CakeMethodAlias]

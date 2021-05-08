@@ -25,7 +25,7 @@ namespace Harbor.Core.Tool.GetPorts
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             var runner = new GetPortsRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(settings);
+            runner.Run(settings, context);
         }
     }
 }

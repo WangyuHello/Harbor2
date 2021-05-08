@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using Cake.Common.IO;
 using Harbor.Core;
+using Harbor.Core.Project;
 using Harbor.Core.Tool.DC;
 using Newtonsoft.Json.Linq;
 using Harbor.Core.Util;
@@ -30,7 +31,7 @@ namespace Harbor.Core.Tool.Syn
         public DirectoryPath ProjectPath { get; set; }
         public FilePathCollection Verilog { get; set; }
         public FilePathCollection AdditionalTimingDb { get; set; } = new FilePathCollection();
-        public string Top => ProjectInfo["Project"].Value<string>();
+        public string Top => ProjectInfo.Project;
         public string Clock { get; set; } = "vclk";
         public string Reset { get; set; }
         public double ClockPeriod { get; set; } = 10;
@@ -68,9 +69,7 @@ namespace Harbor.Core.Tool.Syn
             return dcRunnerSettings;
         }
 
-        private LibraryHelper.LibraryStdCell libInfo;
-        private LibraryHelper.LibraryPDK pdk;
-        private List<LibraryHelper.LibraryIO> io;
+        private Library library;
 
         internal override void GenerateTclScripts()
         {
@@ -95,20 +94,20 @@ namespace Harbor.Core.Tool.Syn
             IOHelper.CreateDirectory(model.NetPath);
             IOHelper.CreateDirectory(model.SvfPath);
             IOHelper.CreateDirectory(model.ObjPath);
-            
-            (libInfo, pdk, io) = LibraryHelper.GetLibraryParams(ProjectInfo);
 
-            model.LibPath = libInfo.timing_db_path;
-            model.LibName = libInfo.timing_db_name_abbr;
-            model.LibFullName = libInfo.timing_db_name;
+            library = AllLibrary.GetLibrary(ProjectInfo);
 
-            if (io != null && io.Count > 0)
+            model.LibPath = library.PrimaryStdCell.timing_db_path;
+            model.LibName = library.PrimaryStdCell.timing_db_name_abbr;
+            model.LibFullName = library.PrimaryStdCell.timing_db_name;
+
+            if (library.Io != null && library.Io.Count > 0)
             {
-                model.IOTimingDbPaths = io.Select(i => Path.Combine(i.timing_db_path, i.timing_db_name)).ToList();
+                model.IOTimingDbPaths = library.Io.Select(i => Path.Combine(i.timing_db_path, i.timing_db_name)).ToList();
             }
 
-            model.InvName = libInfo.primitive_inv;
-            model.InvPortName = libInfo.primitive_inv_port;
+            model.InvName = library.PrimaryStdCell.primitive_inv;
+            model.InvPortName = library.PrimaryStdCell.primitive_inv_port;
 
             model.TopName = Top;
             model.SourceFullPaths = Verilog?.Select(f => f.FullPath).ToList();
@@ -134,7 +133,7 @@ namespace Harbor.Core.Tool.Syn
             model.TimingRptNum = TimingReportNumber;
 
             model.AllowTriState = AllowTriState;
-            model.StdCell = libInfo;
+            model.StdCell = library.PrimaryStdCell;
 
             model.PortSettings = PortSettings;
 
@@ -158,24 +157,23 @@ namespace Harbor.Core.Tool.Syn
 
         internal FilePathCollection GetReferenceDb(FilePathCollection additionalDb)
         {
-            if (!ProjectInfo.ContainsKey("Reference"))
+            if (ProjectInfo.Reference == null)
             {
                 return additionalDb;
             }
-            var refs = ProjectInfo["Reference"];
+            var refs = ProjectInfo.Reference;
             foreach (var ref_ in refs)
             {
-                var name = ref_["Name"].Value<string>();
-                var path = ref_["Path"].Value<string>();
+                var name = ref_.Name;
+                var path = ref_.Path;
 
-                var refProjcetJson = Path.Combine(path, "project.json");
-                var refProjectInfo = JObject.Parse(File.ReadAllText(refProjcetJson));
-                var refProjectType = refProjectInfo["ProjectType"].Value<string>();
+                var refProjectInfo = ProjectInfo.ReadFromDirectory(path);
+                var refProjectType = refProjectInfo.Type;
                 switch (refProjectType)
                 {
-                    case "Analog":
+                    case ProjectType.Analog:
                         break;
-                    case "Memory": //当前只支持Memory
+                    case ProjectType.Memory: //当前只支持Memory
                         var refLibertyPath = Path.Combine(path, "liberty");
                         var dbs = Directory.GetFiles(refLibertyPath, "*.db", SearchOption.TopDirectoryOnly).Select(p => new FileInfo(p));
                         var ttDb = dbs.FirstOrDefault(db => db.Name.Contains("tt"));
@@ -184,9 +182,9 @@ namespace Harbor.Core.Tool.Syn
                             additionalDb.Add(ttDb.FullName);
                         }
                         break;
-                    case "Digital":
+                    case ProjectType.Digital:
                         break;
-                    case "IP":
+                    case ProjectType.Ip:
                         break;
                     default:
                         break;
@@ -228,12 +226,6 @@ namespace Harbor.Core.Tool.Syn
         public SynRunnerSettingsBuilder STA()
         {
             Settings.STA = true;
-            return this;
-        }
-
-        public SynRunnerSettingsBuilder ProjectInfo(JObject projectInfo)
-        {
-            Settings.ProjectInfo = projectInfo;
             return this;
         }
 

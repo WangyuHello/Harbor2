@@ -6,6 +6,7 @@ using System.Linq;
 using Harbor.Core.Tool.APR.Model;
 using Harbor.Core.Tool.APR.Tcl;
 using Harbor.Core;
+using Harbor.Core.Project;
 using Harbor.Core.Tool.ICC;
 using Harbor.Core.Util;
 using Newtonsoft.Json;
@@ -266,7 +267,7 @@ namespace Harbor.Core.Tool.APR
         public bool UseICC { get; set; } = true;
         public bool UseICC2 { get; set; } = false;
         public bool UseInnovus { get; set; } = false;
-        public string Top => ProjectInfo["Project"].Value<string>();
+        public string Top => ProjectInfo.Project;
         public int MaxRoutingLayer { get; set; } = 4;
         public int MaxPreRouteLayer { get; set; } = 6;
         public double PowerWidth { get; set; } = 1;
@@ -310,7 +311,7 @@ namespace Harbor.Core.Tool.APR
         internal override void GenerateTclScripts()
         {
             WorkingDirectory = ProjectPath.Combine("build");
-            var (libInfo, pdk, io) = LibraryHelper.GetLibraryParams(ProjectInfo);
+            var library = AllLibrary.GetLibrary(ProjectInfo);
 
             if (FloorPlanSettings.FloorPlanType == FloorPlanType.WidthHeightAuto) //自动计算CoreHeight和CoreWidth
             {
@@ -331,18 +332,18 @@ namespace Harbor.Core.Tool.APR
             
             BuildTclModel model = new BuildTclModel
             {
-                Library = ProjectInfo["Library"].Value<string>(),
+                Library = ProjectInfo.Library,
                 ScriptRootPath = WorkingDirectory.FullPath,
-                TechFilePath = libInfo.techfile_full_name,
-                RefLibPath = new List<string> { libInfo.ref_path },
+                TechFilePath = library.PrimaryStdCell.techfile_full_name,
+                RefLibPath = new List<string> { library.PrimaryStdCell.ref_path },
                 TopName = Top,
                 SynNetlist = SynProjectPath.Combine("netlist").FullPath,
                 Netlist = ProjectPath.Combine("netlist").FullPath,
-                TLUPMax = libInfo.tluplus_worst_full_name,
-                TLUPMin = libInfo.tluplus_best_full_name,
-                Tech2itfMap = libInfo.tluplus_map_full_name,
-                Power = libInfo.power_pin,
-                Ground = libInfo.ground_pin,
+                TLUPMax = library.PrimaryStdCell.tluplus_worst_full_name,
+                TLUPMin = library.PrimaryStdCell.tluplus_best_full_name,
+                Tech2itfMap = library.PrimaryStdCell.tluplus_map_full_name,
+                Power = library.PrimaryStdCell.power_pin,
+                Ground = library.PrimaryStdCell.ground_pin,
                 MaxRoutingLayer = MaxRoutingLayer,
                 PowerWidth = PowerWidth,
                 VerticalSpace = VerticalSpace,
@@ -350,42 +351,42 @@ namespace Harbor.Core.Tool.APR
                 GroundWidth = GroundWidth,
                 HorizontalSpace = HorizontalSpace,
                 HorizontalOffset = HorizontalOffset,
-                TapCell = libInfo.filltie_cell,
-                Antenna = libInfo.antenna_full_name,
-                AntennaCells = libInfo.antenna_cells,
-                DelayCells = libInfo.delay_cells,
-                Filler = libInfo.fill_cells,
-                CapCells = libInfo.cap_cells,
-                TieHighCell = libInfo.tie_high_cell,
-                TieLowCell = libInfo.tie_low_cell,
+                TapCell = library.PrimaryStdCell.filltie_cell,
+                Antenna = library.PrimaryStdCell.antenna_full_name,
+                AntennaCells = library.PrimaryStdCell.antenna_cells,
+                DelayCells = library.PrimaryStdCell.delay_cells,
+                Filler = library.PrimaryStdCell.fill_cells,
+                CapCells = library.PrimaryStdCell.cap_cells,
+                TieHighCell = library.PrimaryStdCell.tie_high_cell,
+                TieLowCell = library.PrimaryStdCell.tie_low_cell,
                 RptPath = ProjectPath.Combine("rpt").FullPath,
                 GDSPath = ProjectPath.Combine("gds").FullPath,
-                LibPath = libInfo.timing_db_path,
-                LibName = libInfo.timing_db_name_abbr,
-                LibFullName = libInfo.timing_db_name,
-                GDSLayerMap = libInfo.gds_layer_map,
+                LibPath = library.PrimaryStdCell.timing_db_path,
+                LibName = library.PrimaryStdCell.timing_db_name_abbr,
+                LibFullName = library.PrimaryStdCell.timing_db_name,
+                GDSLayerMap = library.PrimaryStdCell.gds_layer_map,
                 Cores = Environment.ProcessorCount < 16 ? Environment.ProcessorCount : 16,
-                M1RoutingDirection = libInfo.m1_routing_direction,
+                M1RoutingDirection = library.PrimaryStdCell.m1_routing_direction,
                 MaxPreRouteLayer = MaxPreRouteLayer,
-                PowerRailLayer = libInfo.power_rail_layer,
+                PowerRailLayer = library.PrimaryStdCell.power_rail_layer,
                 PowerStrapStart = PowerStrapStart,
                 PowerStrapStep = PowerStrapStep,
                 CreatePowerStrap = CreatePowerStrap,
 
                 FloorPlanSettings = FloorPlanSettings,
 
-                MnTXT1 = pdk.GetLayerNumber("MnTXT1"),
-                MnTXT2 = pdk.GetLayerNumber("MnTXT2"),
-                MnTXT3 = pdk.GetLayerNumber("MnTXT3"),
-                MnTXT4 = pdk.GetLayerNumber("MnTXT4"),
-                MnTXT5 = pdk.GetLayerNumber("MnTXT5"),
-                MnTXT6 = pdk.GetLayerNumber("MnTXT6"),
+                MnTXT1 = library.Pdk.GetLayerNumber("MnTXT1"),
+                MnTXT2 = library.Pdk.GetLayerNumber("MnTXT2"),
+                MnTXT3 = library.Pdk.GetLayerNumber("MnTXT3"),
+                MnTXT4 = library.Pdk.GetLayerNumber("MnTXT4"),
+                MnTXT5 = library.Pdk.GetLayerNumber("MnTXT5"),
+                MnTXT6 = library.Pdk.GetLayerNumber("MnTXT6"),
             };
 
-            if (io != null && io.Count > 0)
+            if (library.Io != null && library.Io.Count > 0)
             {
-                model.IOTimingDbPaths = io.Select(i => System.IO.Path.Combine(i.timing_db_path, i.timing_db_name)).ToList();
-                model.RefLibPath.AddRange(io.Select(i => i.icc_ref_path));
+                model.IOTimingDbPaths = library.Io.Select(i => System.IO.Path.Combine(i.timing_db_path, i.timing_db_name)).ToList();
+                model.RefLibPath.AddRange(library.Io.Select(i => i.icc_ref_path));
             }
 
             AdditionalRefLib = GetReferenceRefPath(AdditionalRefLib);
@@ -396,7 +397,7 @@ namespace Harbor.Core.Tool.APR
             InflateMacroPlaceSettings();
             model.MacroPlaceSettings = PlaceSettings.MacroPlaceSettings;
 
-            model.StdCell = libInfo;
+            model.StdCell = library.PrimaryStdCell;
 
             IOHelper.CreateDirectory(ProjectPath);
             IOHelper.CreateDirectory(model.RptPath);
@@ -433,7 +434,7 @@ namespace Harbor.Core.Tool.APR
 
             if (pinPadTclModel.ConstraintFile == null)
             {
-                PinSettings.InflatePorts(SynProjectPath, libInfo.m1_routing_direction, Top);
+                PinSettings.InflatePorts(SynProjectPath, library.PrimaryStdCell.m1_routing_direction, Top);
                 pinPadTclModel.PinSpace = PinSettings.PinSpace;
                 pinPadTclModel.PinPlaceMode = PinSettings.PinPlaceMode;
                 pinPadTclModel.LeftPorts = PinSettings.LeftPorts;
@@ -449,24 +450,23 @@ namespace Harbor.Core.Tool.APR
 
         internal FilePathCollection GetReferenceDb(FilePathCollection additionalDb)
         {
-            if (!ProjectInfo.ContainsKey("Reference"))
+            if (ProjectInfo.Reference == null)
             {
                 return additionalDb;
             }
-            var refs = ProjectInfo["Reference"];
+            var refs = ProjectInfo.Reference;
             foreach (var ref_ in refs)
             {
-                var name = ref_["Name"].Value<string>();
-                var path = ref_["Path"].Value<string>();
+                var name = ref_.Name;
+                var path = ref_.Path;
 
-                var refProjcetJson = System.IO.Path.Combine(path, "project.json");
-                var refProjectInfo = JObject.Parse(File.ReadAllText(refProjcetJson));
-                var refProjectType = refProjectInfo["ProjectType"].Value<string>();
+                var refProjectInfo = ProjectInfo.ReadFromDirectory(path);
+                var refProjectType = refProjectInfo.Type;
                 switch (refProjectType)
                 {
-                    case "Analog":
+                    case ProjectType.Analog:
                         break;
-                    case "Memory": //当前只支持Memory
+                    case ProjectType.Memory: //当前只支持Memory
                         var refLibertyPath = System.IO.Path.Combine(path, "liberty");
                         var dbs = Directory.GetFiles(refLibertyPath, "*.db", SearchOption.TopDirectoryOnly).Select(p => new FileInfo(p));
                         var ttDb = dbs.FirstOrDefault(db => db.Name.Contains("tt"));
@@ -475,9 +475,9 @@ namespace Harbor.Core.Tool.APR
                             additionalDb.Add(ttDb.FullName);
                         }
                         break;
-                    case "Digital":
+                    case ProjectType.Digital:
                         break;
-                    case "IP":
+                    case ProjectType.Ip:
                         break;
                     default:
                         break;
@@ -490,24 +490,23 @@ namespace Harbor.Core.Tool.APR
 
         internal DirectoryPathCollection GetReferenceRefPath(DirectoryPathCollection additionalRefPath)
         {
-            if (!ProjectInfo.ContainsKey("Reference"))
+            if (ProjectInfo.Reference == null)
             {
                 return additionalRefPath;
             }
-            var refs = ProjectInfo["Reference"];
+            var refs = ProjectInfo.Reference;
             foreach (var ref_ in refs)
             {
-                var name = ref_["Name"].Value<string>();
-                var path = ref_["Path"].Value<string>();
+                var name = ref_.Name;
+                var path = ref_.Path;
 
-                var refProjcetJson = System.IO.Path.Combine(path, "project.json");
-                var refProjectInfo = JObject.Parse(File.ReadAllText(refProjcetJson));
-                var refProjectType = refProjectInfo["ProjectType"].Value<string>();
+                var refProjectInfo = ProjectInfo.ReadFromDirectory(path);
+                var refProjectType = refProjectInfo.Type;
                 switch (refProjectType)
                 {
-                    case "Analog":
+                    case ProjectType.Analog:
                         break;
-                    case "Memory": //当前只支持Memory
+                    case ProjectType.Memory: //当前只支持Memory
                         var refLibertyPath = new DirectoryInfo(System.IO.Path.Combine(path, "astro"));
                         var refLibPaths = refLibertyPath.GetDirectories();
                         var refLibPath = refLibPaths.FirstOrDefault(db => db.Name.ToLower().Contains(name.ToLower()));
@@ -539,9 +538,9 @@ namespace Harbor.Core.Tool.APR
 
                         }
                         break;
-                    case "Digital":
+                    case ProjectType.Digital:
                         break;
-                    case "IP":
+                    case ProjectType.Ip:
                         break;
                     default:
                         break;

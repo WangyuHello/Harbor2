@@ -4,17 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Harbor.Core.Tool.StrmIn
+namespace Harbor.Core.Tool.Virtuoso
 {
-    public static class StrmInAliases
+    public static class VirtuosoAliases
     {
-
         [CakeMethodAlias]
-        public static void StrmIn(this ICakeContext context, StrmInRunnerSettings settings)
+        public static void Virtuoso(this ICakeContext context, VirtuosoRunnerSettings settings)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
-            var runner = new StrmInRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            var runner = new VirtuosoRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
             runner.Run(settings, context);
         }
     }

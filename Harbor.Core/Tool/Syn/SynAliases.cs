@@ -54,8 +54,8 @@ namespace Harbor.Core.Tool.Syn
             {
                 var configure = new AddPGRunnerSettings
                 {
-                    Library = settings.ProjectInfo["Library"].Value<string>(),
-                    StdCell = settings.ProjectInfo["StdCell"].Value<string>(),
+                    Library = settings.ProjectInfo.Library,
+                    StdCell = settings.ProjectInfo.GetPrimaryStdCell(),
                     ProjectJson = context.Environment.WorkingDirectory.CombineWithFilePath("project.json").FullPath,
                     File = settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}.v"),
                     WorkingDirectory = settings.ProjectPath.Combine("netlist")

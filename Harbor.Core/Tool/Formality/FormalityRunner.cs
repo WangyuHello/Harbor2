@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Harbor.Core.Project;
 using Harbor.Core.Tool.APR;
 using Harbor.Core.Util;
 using Path = System.IO.Path;
@@ -70,7 +71,7 @@ namespace Harbor.Core.Tool.Formality
         internal override void GenerateTclScripts()
         {
             WorkingDirectory = APRSettings.ProjectPath.Combine("formality");
-            var (libInfo, pdk, io) = LibraryHelper.GetLibraryParams(APRSettings.ProjectInfo);
+            var library = AllLibrary.GetLibrary(ProjectInfo);
 
             IOHelper.CreateDirectory(WorkingDirectory);
 
@@ -78,18 +79,18 @@ namespace Harbor.Core.Tool.Formality
 
             var model = new FormalityModel
             {
-                LibPath = libInfo.timing_db_path,
-                LibName = libInfo.timing_db_name_abbr,
-                LibFullName = libInfo.timing_db_name,
+                LibPath = library.PrimaryStdCell.timing_db_path,
+                LibName = library.PrimaryStdCell.timing_db_name_abbr,
+                LibFullName = library.PrimaryStdCell.timing_db_name,
                 TopName = APRSettings.Top,
                 SynNetlist = APRSettings.SynProjectPath.Combine("netlist").FullPath,
                 Netlist = APRSettings.ProjectPath.Combine("netlist").FullPath,
                 ScriptRootPath = WorkingDirectory.FullPath
             };
 
-            if (io != null && io.Count > 0)
+            if (library.Io != null && library.Io.Count > 0)
             {
-                model.IOTimingDbPaths = io.Select(i => Path.Combine(i.timing_db_path, i.timing_db_name)).ToList();
+                model.IOTimingDbPaths = library.Io.Select(i => Path.Combine(i.timing_db_path, i.timing_db_name)).ToList();
             }
 
             model.AdditionalTimingDbPaths = APRSettings.AdditionalTimingDb.Select(f => f.FullPath).ToList();

@@ -6,6 +6,7 @@ using System.Text;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
+using Cake.FileHelpers;
 
 namespace Harbor.Core
 {
@@ -23,14 +24,15 @@ namespace Harbor.Core
             return args;
         }
 
-        public void Run(TSettings settings, Action<int> exitHandler)
+        public void Run(TSettings settings, Action<int> exitHandler, ICakeContext context)
         {
-            exitCodeHandler = exitHandler;
-            Run(settings);
+            _exitCodeHandler = exitHandler;
+            Run(settings, context);
         }
 
-        public void Run(TSettings settings)
+        public void Run(TSettings settings, ICakeContext context)
         {
+            settings.Context = context;
             settings.GenerateTclScripts();
             var args = GetSettingsArguments(settings);
 
@@ -49,7 +51,7 @@ namespace Harbor.Core
                     //程序运行完一并获取Output
                     if (settings.CommandLogFile != null)
                     {
-                        File.WriteAllLines(GetWorkingDirectory(settings).CombineWithFilePath(settings.CommandLogFile).FullPath, process.GetStandardOutput());
+                        context.FileWriteLines(GetWorkingDirectory(settings).CombineWithFilePath(settings.CommandLogFile), process.GetStandardOutput().ToArray());
                     }
                 });
         }
@@ -63,13 +65,13 @@ namespace Harbor.Core
             Console.WriteLine(dash);
         }
 
-        private Action<int> exitCodeHandler;
+        private Action<int> _exitCodeHandler;
 
         protected override void ProcessExitCode(int exitCode)
         {
-            if (exitCodeHandler != null)
+            if (_exitCodeHandler != null)
             {
-                exitCodeHandler(exitCode);
+                _exitCodeHandler(exitCode);
             }
             else
             {

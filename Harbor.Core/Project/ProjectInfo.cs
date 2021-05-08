@@ -28,6 +28,8 @@ namespace Harbor.Core.Project
         public List<string> StdCell { get; set; }
         public List<string> Io { get; set; }
 
+        public string GetPrimaryStdCell() => StdCell.First();
+
         //References
         public List<ProjectReference> Reference { get; set; }
 
@@ -52,6 +54,12 @@ namespace Harbor.Core.Project
         public static async Task<ProjectInfo> ReadFromDirectoryAsync(string path)
         {
             var json = await File.ReadAllTextAsync(Path.Combine(path, "project.json"));
+            return JsonConvert.DeserializeObject<ProjectInfo>(json);
+        }
+
+        public static ProjectInfo ReadFromDirectory(string path)
+        {
+            var json = File.ReadAllText(Path.Combine(path, "project.json"));
             return JsonConvert.DeserializeObject<ProjectInfo>(json);
         }
 

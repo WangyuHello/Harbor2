@@ -45,7 +45,6 @@ namespace Harbor.Core.Tool.Memory
                 var projectName = System.IO.Path.GetFileNameWithoutExtension(lef);
                 Context.Milkyway(new MilkywayRunnerSettings
                 {
-                    ProjectInfo = ProjectInfo,
                     WorkingDirectory = workingDirectory,
                     ProjectLefFilePath = lef,
                     ProjectName = projectName

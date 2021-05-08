@@ -6,6 +6,7 @@ using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.IO;
+using Harbor.Core.Project;
 using Harbor.Core.Tool.AddPG;
 using Harbor.Core.Tool.ConvertAMS;
 using Harbor.Core.Tool.ConvertUpper;
@@ -64,18 +65,18 @@ namespace Harbor.Core.Tool.APR
             {
                 var configure = new AddPGRunnerSettings
                 {
-                    Library = settings.ProjectInfo["Library"].Value<string>(),
-                    StdCell = settings.ProjectInfo["StdCell"].Value<string>(),
+                    Library = settings.ProjectInfo.Library,
+                    StdCell = settings.ProjectInfo.GetPrimaryStdCell(),
                     ProjectJson = context.Environment.WorkingDirectory.CombineWithFilePath("project.json").FullPath,
                     File = settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"),
                     WorkingDirectory = settings.ProjectPath.Combine("netlist")
                 };
 
                 //在网表中删除wire only的单元
-                var (libInfo, pdk, io) = LibraryHelper.GetLibraryParams(settings.ProjectInfo);
-                if (libInfo.wire_only_cells != null && libInfo.wire_only_cells.Length != 0)
+                var library = AllLibrary.GetLibrary(settings.ProjectInfo);
+                if (library.PrimaryStdCell.wire_only_cells != null && library.PrimaryStdCell.wire_only_cells.Length != 0)
                 {
-                    foreach (var fill in libInfo.wire_only_cells)
+                    foreach (var fill in library.PrimaryStdCell.wire_only_cells)
                     {
                         context.Sed(settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"), $"/{fill}/d");
                     }

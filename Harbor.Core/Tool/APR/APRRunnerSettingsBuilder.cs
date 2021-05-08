@@ -20,12 +20,6 @@ namespace Harbor.Core.Tool.APR
             this.context = context;
         }
 
-        public APRRunnerSettingsBuilder ProjectInfo(JObject projectInfo)
-        {
-            Settings.ProjectInfo = projectInfo;
-            return this;
-        }
-
         public APRRunnerSettingsBuilder SynProjectPath(DirectoryPath SynProjectPath)
         {
             Settings.SynProjectPath = context.MakeAbsolute(SynProjectPath);
