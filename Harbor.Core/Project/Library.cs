@@ -55,11 +55,9 @@ namespace Harbor.Core.Project
             var lib = GetLibrary(projectInfo.Library);
             // 根据ProjectInfo中引用的StdCell、IO剔除多余的StdCell、IO
 
-            var filteredStdCell = lib.StdCell.Where(s => projectInfo.StdCell.Contains(s.Name)).ToList();
-            var filteredIo = lib.Io.Where(s => projectInfo.Io.Contains(s.Name)).ToList();
+            lib.StdCell = projectInfo.StdCell != null ? lib.StdCell.Where(s => projectInfo.StdCell.Contains(s.Name)).ToList() : new List<Library.LibraryStdCell>();
+            lib.Io = projectInfo.Io != null ? lib.Io.Where(s => projectInfo.Io.Contains(s.Name)).ToList() : new List<Library.LibraryIo>();
 
-            lib.StdCell = filteredStdCell;
-            lib.Io = filteredIo;
             return lib;
         }
 
@@ -235,6 +233,7 @@ namespace Harbor.Core.Project
             public string power_pin { get; set; }
             public string ground_pin { get; set; }
             public string gds_layer_map { get; set; }
+            public double m2_width { get; set; }
         }
 
         public class LibraryMemory

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Harbor.Commands.Template
+namespace Harbor.Core.Util.Template
 {
     partial class BuildCake
     {

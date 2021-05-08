@@ -7,7 +7,7 @@
 //     重新生成代码，这些更改将会丢失。
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace Harbor.Commands.Template
+namespace Harbor.Core.Util.Template
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace Harbor.Commands.Template
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\GitIgnore.tt"
+    #line 1 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\SimRc.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class GitIgnore : GitIgnoreBase
+    public partial class SimRc : SimRcBase
     {
 #line hidden
         /// <summary>
@@ -28,8 +28,7 @@ namespace Harbor.Commands.Template
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("Layout/\r\nSynthesis/\r\ntools/\r\nCadence/\r\n\r\nValidation/\r\n\r\n.harbor/\r\n.cadence\r\n*.log" +
-                    "*\r\n.nodeIdDynamicRanges\r\n\r\n.build.cake");
+            this.Write("auCdlCDFPinCntrl=t\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -41,7 +40,7 @@ namespace Harbor.Commands.Template
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class GitIgnoreBase
+    public class SimRcBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

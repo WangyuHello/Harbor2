@@ -16,9 +16,9 @@ namespace Harbor.Core.Tool.StrmIn
     public static class ImportGDSAliases
     {
         [CakeMethodAlias]
-        public static void ImportGDS(this ICakeContext context, FilePath gds, string lib, string topCellName)
+        public static void ImportGDS(this ICakeContext context, DirectoryPath directory, FilePath gds, string lib, string topCellName)
         {
-            var projectInfo = ProjectInfo.ReadFromContext(context);
+            var projectInfo = ProjectInfo.ReadFromDirectory(directory.FullPath);
             var library = AllLibrary.GetLibrary(projectInfo);
 
             var createLib = !context.DirectoryExists(new DirectoryPath(lib));
@@ -33,7 +33,7 @@ namespace Harbor.Core.Tool.StrmIn
             {
                 refLibList.AddRange(projectInfo.Reference.Select(r => r.Name));
             }
-            context.FileWriteLines("./.harbor/reflib.list", refLibList.ToArray());
+            context.FileWriteLines(directory.CombineWithFilePath("./.harbor/reflib.list"), refLibList.ToArray());
 
             var settings = new StrmInRunnerSettings
             {
@@ -44,7 +44,8 @@ namespace Harbor.Core.Tool.StrmIn
                 Case = StrmInCase.preserve,
                 ReplaceBusBitChar = true,
                 LayerMapFile = library.Pdk.layer_map_in_full_name,
-                RefLibList = "./.harbor/reflib.list"
+                RefLibList = "./.harbor/reflib.list",
+                WorkingDirectory = directory
             };
 
             if (createLib)

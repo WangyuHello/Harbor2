@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Harbor.Core.Project;
 
-namespace Harbor.Commands.Template
+namespace Harbor.Core.Util.Template
 {
     public partial class CdsLib
     {

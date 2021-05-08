@@ -12,7 +12,7 @@ namespace Harbor.Core.Tool.Ihdl
     public static class IhdlAliases
     {
         [CakeMethodAlias]
-        public static void Ihdl(this ICakeContext context, FilePath param, string destIRLib, FilePath verilog)
+        public static void Ihdl(this ICakeContext context, FilePath param, string destIRLib, FilePath verilog, DirectoryPath directory = null)
         {
             var configure = new IhdlRunnerSettings
             {
@@ -20,18 +20,26 @@ namespace Harbor.Core.Tool.Ihdl
                 DestIRLib = destIRLib,
                 Verilog = verilog
             };
+            if (directory !=null)
+            {
+                configure.WorkingDirectory = directory;
+            }
 
             Ihdl(context, configure);
         }
 
         [CakeMethodAlias]
-        public static void Ihdl(this ICakeContext context, FilePath param, FilePath verilog)
+        public static void Ihdl(this ICakeContext context, FilePath param, FilePath verilog, DirectoryPath directory = null)
         {
             var configure = new IhdlRunnerSettings
             {
                 Param = param,
                 Verilog = verilog
             };
+            if (directory != null)
+            {
+                configure.WorkingDirectory = directory;
+            }
 
             Ihdl(context, configure);
         }

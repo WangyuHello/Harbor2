@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.Annotations;
+using Cake.Core.IO;
 using Harbor.Core.Project;
+using Harbor.Core.Util;
 
 namespace Harbor.Core.Tool.Project
 {
@@ -17,9 +20,16 @@ namespace Harbor.Core.Tool.Project
         }
 
         [CakeMethodAlias]
-        public static void CreateAnalogProject(this ICakeContext context, string name, Library library)
+        public static void CreateAnalogProject(this ICakeContext context, DirectoryPath baseDir, string name, Library.LibraryPdk pdk, List<Library.LibraryStdCell> stdCell, List<Library.LibraryIo> io)
         {
-
+            var dir = baseDir.Combine(name);
+            if (context.DirectoryExists(dir))
+            {
+                context.DeleteDirectory(dir, new DeleteDirectorySettings {Force = true, Recursive = true});
+            }
+            context.CreateDirectory(dir);
+            context.CreateDirectory(dir.Combine(".harbor"));
+            CdsUtil.CreateCdsLibAsync(dir.FullPath, pdk, stdCell, io).Wait();
         }
     }
 }

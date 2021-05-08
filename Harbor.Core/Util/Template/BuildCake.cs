@@ -7,7 +7,7 @@
 //     重新生成代码，这些更改将会丢失。
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace Harbor.Commands.Template
+namespace Harbor.Core.Util.Template
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace Harbor.Commands.Template
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsInit.tt"
+    #line 1 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class CdsInit : CdsInitBase
+    public partial class BuildCake : BuildCakeBase
     {
 #line hidden
         /// <summary>
@@ -28,35 +28,126 @@ namespace Harbor.Commands.Template
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"load(""/export/yfxie02/tools/AutoWire.il"")
-load(""/export/yfxie02/tools/AutoAddPin.il"")
-
-load(strcat(getShellEnvVar(""CALIBRE_HOME""), ""/shared/pkgs/icv/tools/queryskl/calibre.OA.skl""))
-
-loadContext(strcat(getShellEnvVar(""STARRC_HOME""), ""/linux64_starrc/bin/rcskill.cxt""))
-callInitProc(""rcskill"")
-
-");
+            this.Write("var target = Argument(\"target\", \"BuildAll\");\r\n\r\nTask(\"Synthesis\")\r\n    .Does(() =" +
+                    ">\r\n{\r\n    Syn(\"./Synthesis\" , _ => _\r\n        .ProjectInfo(ReadProject())\r\n     " +
+                    "   .Verilog(\"./Source/**/*.v\")\r\n");
             
-            #line 14 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsInit.tt"
- if(Pdk != null && !string.IsNullOrEmpty(Pdk.cds_init_addition)){ 
+            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+ if(!string.IsNullOrEmpty(ClockName)) { 
             
             #line default
             #line hidden
+            this.Write("        .Clock(\"");
             
-            #line 15 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsInit.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Pdk.cds_init_addition));
+            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ClockName));
             
             #line default
             #line hidden
-            this.Write("\r\n");
+            this.Write("\")\r\n");
             
-            #line 16 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsInit.tt"
+            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\r\nddsOpenLibManager()");
+            
+            #line 17 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+ if(!string.IsNullOrEmpty(ResetName)) { 
+            
+            #line default
+            #line hidden
+            this.Write("        .Reset(\"");
+            
+            #line 18 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ResetName));
+            
+            #line default
+            #line hidden
+            this.Write("\")\r\n");
+            
+            #line 19 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("        .ClockPeriod(");
+            
+            #line 20 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ClockPeriod));
+            
+            #line default
+            #line hidden
+            this.Write(@")
+        .AddPG()
+    );
+});
+
+Task(""Layout"")
+    .Does(() =>
+{
+    APR(""./Layout"", _ => _
+        .ProjectInfo(ReadProject())
+        .SynProjectPath(""./Synthesis"")
+        .UseICC()
+        .MaxRoutingLayer(4)
+        .MaxPreRouteLayer(6)
+        // .PowerWidth(3)
+        // .GroundWidth(3)
+        // .VerticalSpace(1)
+        // .VerticalOffset(1)
+        // .HorizontalSpace(1)
+        // .HorizontalOffset(1)
+        .FloorPlan(_ => _
+            .Type(FloorPlanType.AspectRatio)
+            // .Type(FloorPlanType.WidthHeightAuto)
+            .Padding(4,4)
+            .CoreUtilization(0.7)
+            .HeightWidthRatio(1)
+            // .CoreWidth(200)
+            // .CoreHeight(200)
+        )
+        .Pin(_ => _
+            .PinSpace(0)
+");
+            
+            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+ if(!string.IsNullOrEmpty(ClockName)) { 
+            
+            #line default
+            #line hidden
+            this.Write("            .Pin(\"");
+            
+            #line 52 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ClockName));
+            
+            #line default
+            #line hidden
+            this.Write("\", PortPosition.Top, 1)\r\n");
+            
+            #line 53 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write(@"            // .Constraint(""./Source/pin_pad.tcl"")
+        )
+        .AddPG()
+        .FormalVerify()
+        .OpenGUI()
+    );
+});
+
+Task(""CreateCadenceProject"")
+    .Does(CreateCadenceProject);
+
+Task(""BuildAll"")
+    .IsDependentOn(""Synthesis"")
+    .IsDependentOn(""Layout"")
+    .IsDependentOn(""CreateCadenceProject"");
+
+RunTarget(target);
+");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -68,7 +159,7 @@ callInitProc(""rcskill"")
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class CdsInitBase
+    public class BuildCakeBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

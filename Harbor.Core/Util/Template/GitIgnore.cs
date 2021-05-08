@@ -7,7 +7,7 @@
 //     重新生成代码，这些更改将会丢失。
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace Harbor.Commands.Template
+namespace Harbor.Core.Util.Template
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace Harbor.Commands.Template
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
+    #line 1 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\GitIgnore.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class CdsLib : CdsLibBase
+    public partial class GitIgnore : GitIgnoreBase
     {
 #line hidden
         /// <summary>
@@ -28,97 +28,8 @@ namespace Harbor.Commands.Template
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"
-SOFTINCLUDE /apps/EDAs/cadence/IC617/share/cdssetup/dfII/cds.lib
-SOFTINCLUDE /apps/EDAs/cadence/IC617/share/cdssetup/hdl/cds.lib
-SOFTINCLUDE /apps/EDAs/cadence/IC617/share/cdssetup/pic/cds.lib
-SOFTINCLUDE /apps/EDAs/cadence/IC617/share/cdssetup/sg/cds.lib
-SOFTINCLUDE /export/yfxie02/connect_lib/cds.lib
-
-");
-            
-            #line 13 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
- if(Pdk != null) { 
-            
-            #line default
-            #line hidden
-            this.Write("DEFINE ");
-            
-            #line 14 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Pdk.pdk_name));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 14 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Pdk.pdk_path));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 15 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 16 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
- if(StdCell != null && StdCell.Count != 0) { 
-foreach(var std in StdCell) {
-            
-            #line default
-            #line hidden
-            this.Write("DEFINE ");
-            
-            #line 18 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(std.cdk_name));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 18 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(std.cdk_path));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 19 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
- } } 
-            
-            #line default
-            #line hidden
-            
-            #line 20 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
- if(Io != null && Io.Count != 0) { 
-foreach(var i in Io) {
-            
-            #line default
-            #line hidden
-            this.Write("DEFINE ");
-            
-            #line 22 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i.cdk_name));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 22 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i.cdk_path));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 23 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsLib.tt"
- } } 
-            
-            #line default
-            #line hidden
+            this.Write("Layout/\r\nSynthesis/\r\ntools/\r\nCadence/\r\n\r\nValidation/\r\n\r\n.harbor/\r\n.cadence\r\n*.log" +
+                    "*\r\n.nodeIdDynamicRanges\r\n\r\n.build.cake");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -130,7 +41,7 @@ foreach(var i in Io) {
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class CdsLibBase
+    public class GitIgnoreBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

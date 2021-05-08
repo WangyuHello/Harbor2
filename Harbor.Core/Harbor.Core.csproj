@@ -65,6 +65,36 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>BuildTcl.tt</DependentUpon>
     </Compile>
+    <Compile Update="Util\Template\BuildCake.cs">
+      <DependentUpon>BuildCake.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Util\Template\CdsEnv.cs">
+      <DependentUpon>CdsEnv.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Util\Template\CdsInit.cs">
+      <DependentUpon>CdsInit.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Util\Template\CdsLib.cs">
+      <DependentUpon>CdsLib.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Util\Template\GitIgnore.cs">
+      <DependentUpon>GitIgnore.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Util\Template\SimRc.cs">
+      <DependentUpon>SimRc.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -103,6 +133,30 @@
     <None Update="Tool\Syn\Tcl\BuildTcl.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>BuildTcl.cs</LastGenOutput>
+    </None>
+    <None Update="Util\Template\BuildCake.tt">
+      <LastGenOutput>BuildCake.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Util\Template\CdsEnv.tt">
+      <LastGenOutput>CdsEnv.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Util\Template\CdsInit.tt">
+      <LastGenOutput>CdsInit.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Util\Template\CdsLib.tt">
+      <LastGenOutput>CdsLib.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Util\Template\GitIgnore.tt">
+      <LastGenOutput>GitIgnore.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Util\Template\SimRc.tt">
+      <LastGenOutput>SimRc.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
     </None>
   </ItemGroup>
 

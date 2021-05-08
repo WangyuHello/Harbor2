@@ -7,7 +7,7 @@
 //     重新生成代码，这些更改将会丢失。
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace Harbor.Commands.Template
+namespace Harbor.Core.Util.Template
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace Harbor.Commands.Template
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\Documents\Repo\Harbor2\Harbor\Commands\Template\CdsEnv.tt"
+    #line 1 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\CdsEnv.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
     public partial class CdsEnv : CdsEnvBase
     {

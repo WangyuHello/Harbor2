@@ -28,67 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Commands\Template\BuildCake.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>BuildCake.cs</LastGenOutput>
-    </None>
-    <None Update="Commands\Template\CdsEnv.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>CdsEnv.cs</LastGenOutput>
-    </None>
-    <None Update="Commands\Template\CdsInit.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>CdsInit.cs</LastGenOutput>
-    </None>
-    <None Update="Commands\Template\CdsLib.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>CdsLib.cs</LastGenOutput>
-    </None>
-    <None Update="Commands\Template\GitIgnore.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>GitIgnore.cs</LastGenOutput>
-    </None>
-    <None Update="Commands\Template\SimRc.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>SimRc.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Commands\Template\BuildCake.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>BuildCake.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Commands\Template\CdsEnv.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CdsEnv.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Commands\Template\CdsInit.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CdsInit.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Commands\Template\CdsLib.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CdsLib.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Commands\Template\GitIgnore.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>GitIgnore.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Commands\Template\SimRc.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SimRc.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 

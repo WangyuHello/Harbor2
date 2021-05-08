@@ -8,6 +8,7 @@ using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.IO;
+using Cake.FileHelpers;
 using Harbor.Core.Project;
 
 namespace Harbor.Core.Tool.Ihdl
@@ -15,7 +16,7 @@ namespace Harbor.Core.Tool.Ihdl
     public static class ImportVerilogAliases
     {
         [CakeMethodAlias]
-        public static void ImportVerilog(this ICakeContext context, string vName, string libName, string topCellName)
+        public static void ImportVerilog(this ICakeContext context, DirectoryPath directory, FilePath vName, string libName, string topCellName)
         {
             var projectInfo = ProjectInfo.ReadFromContext(context);
             var library = AllLibrary.GetLibrary(projectInfo);
@@ -38,13 +39,13 @@ namespace Harbor.Core.Tool.Ihdl
                 TopCellName = topCellName
             };
             var templateText = template.TransformText();
-            File.WriteAllText(context.MakeAbsolute(new FilePath($"./.harbor/{topCellName}.ihdlFile")).FullPath, templateText.Replace("\r", ""), encoding: Encoding.UTF8);
+            context.FileWriteText(directory.CombineWithFilePath($"./.harbor/{topCellName}.ihdlFile"), templateText.Replace("\r", ""));
 
-            context.Ihdl($"./.harbor/{topCellName}.ihdlFile", library.StdCell.First().cdk_name, vName);
+            context.Ihdl($"./.harbor/{topCellName}.ihdlFile", library.StdCell.First().cdk_name, vName, directory);
         }
 
         [CakeMethodAlias]
-        public static void ImportVerilogFunctional(this ICakeContext context, string vName, string libName,
+        public static void ImportVerilogFunctional(this ICakeContext context, DirectoryPath directory, FilePath vName, string libName,
             string topCellName)
         {
             var template = new IhdlFile.IhdlFileFunctional
@@ -53,9 +54,9 @@ namespace Harbor.Core.Tool.Ihdl
                 TopCellName = topCellName
             };
             var templateText = template.TransformText();
-            File.WriteAllText(context.MakeAbsolute(new FilePath($"./.harbor/{topCellName}.ihdlFile")).FullPath, templateText.Replace("\r", ""), encoding: Encoding.UTF8);
+            context.FileWriteText(directory.CombineWithFilePath($"./.harbor/{topCellName}.ihdlFile"), templateText.Replace("\r", ""));
 
-            context.Ihdl($"./.harbor/{topCellName}.ihdlFile", vName);
+            context.Ihdl($"./.harbor/{topCellName}.ihdlFile", vName, directory);
         }
     }
 }
