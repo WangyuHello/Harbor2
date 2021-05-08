@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Harbor.Commands.Project;
+using Harbor.Core.Project;
 using Harbor.Commands.Template;
 using Harbor.Commands.Util;
 using Newtonsoft.Json;

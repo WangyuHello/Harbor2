@@ -4,10 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cake.Common.IO;
+using Cake.Core;
+using Cake.Core.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Path = System.IO.Path;
 
-namespace Harbor.Commands.Project
+namespace Harbor.Core.Project
 {
     public sealed class ProjectReference
     {
@@ -36,6 +40,12 @@ namespace Harbor.Commands.Project
         public static async Task<ProjectInfo> ReadFromCurrentDirectoryAsync()
         {
             var json = await File.ReadAllTextAsync(Path.Combine(Environment.CurrentDirectory, "project.json"));
+            return JsonConvert.DeserializeObject<ProjectInfo>(json);
+        }
+
+        public static ProjectInfo ReadFromContext(ICakeContext context)
+        {
+            var json = File.ReadAllText(context.MakeAbsolute(new FilePath("project.json")).FullPath);
             return JsonConvert.DeserializeObject<ProjectInfo>(json);
         }
 

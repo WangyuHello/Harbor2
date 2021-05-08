@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace Harbor.Commands.Project
+namespace Harbor.Core.Project
 {
     public class NamePathPair
     {
@@ -48,6 +48,19 @@ namespace Harbor.Commands.Project
         public static Library GetLibrary(string name)
         {
             return Libraries.FirstOrDefault(l => l.Name == name);
+        }
+
+        public static Library GetLibrary(ProjectInfo projectInfo)
+        {
+            var lib = GetLibrary(projectInfo.Library);
+            // 根据ProjectInfo中引用的StdCell、IO剔除多余的StdCell、IO
+
+            var filteredStdCell = lib.StdCell.Where(s => projectInfo.StdCell.Contains(s.Name)).ToList();
+            var filteredIo = lib.Io.Where(s => projectInfo.Io.Contains(s.Name)).ToList();
+
+            lib.StdCell = filteredStdCell;
+            lib.Io = filteredIo;
+            return lib;
         }
 
         class LibraryInfo

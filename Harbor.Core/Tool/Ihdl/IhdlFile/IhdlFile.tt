@@ -1,0 +1,38 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+dest_sch_lib := <#= DestSchLib #>
+ref_lib_list := basic, <#= string.Join(", ", RefLibList) #>
+
+import_if_exists := 1
+import_cells := 0
+import_lib_cells := 1
+structural_views := 1
+schematic_view_name := schematic
+functional_view_name := functional
+netlist_view_name := netlist
+symbol_view_name := symbol
+overwrite_symbol := 1
+log_file_name := ./.harbor/<#= TopCellName #>.verilog.log
+map_file_name := ./.harbor/<#= TopCellName #>.verilog.map.table
+work_area := /tmp
+power_net := VDD
+ground_net := VSS
+
+sheet_symbol := Asize
+page_row_limit := 512
+page_col_limit := 256
+label_height := 12
+line_line_spacing := 0.2
+line_component_spacing := 0.5
+density_level := 0
+
+client := synthesis
+alias_module := cds_alias
+cds_thru_symbol := basic cds_thru symbol
+cont_assign_symbol := basic patch symbol
+ref_sch_list := schematic, sch
+pnr_max_inst := 20000
+pnr_max_port := 5000

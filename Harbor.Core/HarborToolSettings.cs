@@ -20,4 +20,39 @@ namespace Harbor.Core
 
         internal virtual void GenerateTclScripts() { }
     }
+
+    public static class ProcessArgumentBuilderExtensions
+    {
+        public static void Append(this ProcessArgumentBuilder arg, string option, string str)
+        {
+            if (!string.IsNullOrEmpty(str))
+            {
+                arg.Append($"-{option} {str}");
+            }
+        }
+
+        public static void Append(this ProcessArgumentBuilder arg, string option, FilePath file)
+        {
+            if (file != null)
+            {
+                arg.Append($"-{option} {file.FullPath}");
+            }
+        }
+
+        public static void Append(this ProcessArgumentBuilder arg, string option, bool sw)
+        {
+            if (sw)
+            {
+                arg.Append($"-{option}");
+            }
+        }
+
+        public static void Append<T>(this ProcessArgumentBuilder arg, string option, T e) where T : Enum
+        {
+            if (e != null)
+            {
+                arg.Append($"-{option} {Enum.GetName(typeof(T), e)}");
+            }
+        }
+    }
 }

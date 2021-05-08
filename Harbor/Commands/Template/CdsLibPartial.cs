@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Harbor.Commands.Project;
+using Harbor.Core.Project;
 
 namespace Harbor.Commands.Template
 {
