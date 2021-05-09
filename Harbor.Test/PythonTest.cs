@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Harbor.Core.Tool.GetPorts;
+using Harbor.Python.Tool;
 using Xunit;
 
 namespace Harbor.Test
@@ -13,7 +14,7 @@ namespace Harbor.Test
         [Fact]
         public void Test1()
         {
-            GetPorts.Run(@"C:\Users\wangyu\OneDrive\实验室\SRAM\Source\Chip.v");
+            
         }
     }
 }

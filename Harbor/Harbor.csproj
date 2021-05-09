@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>harbor</AssemblyName>
+    <AssemblyName>harbor2</AssemblyName>
     <LangVersion>8</LangVersion>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>

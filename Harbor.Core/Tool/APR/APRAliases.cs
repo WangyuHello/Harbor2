@@ -6,7 +6,7 @@ using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.IO;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 using Harbor.Core.Tool.AddPG;
 using Harbor.Core.Tool.ConvertAMS;
 using Harbor.Core.Tool.ConvertUpper;
@@ -31,7 +31,6 @@ namespace Harbor.Core.Tool.APR
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            RunGetPorts(context, configure);
             RunAPR(context, configure);
             RunAddPG(context, configure);
             RunConvertUpper(context, configure);
@@ -110,17 +109,6 @@ namespace Harbor.Core.Tool.APR
                 WorkingDirectory = settings.ProjectPath.Combine("netlist")
             };
             context.ConvertAMS(conf);
-        }
-
-        public static void RunGetPorts(ICakeContext context, APRRunnerSettings settings)
-        {
-            var config = new GetPortsRunnerSettings
-            {
-                Top = settings.Top,
-                File = settings.SynProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}.v"),
-                WorkingDirectory = settings.SynProjectPath.Combine("netlist")
-            };
-            context.GetPorts(config);
         }
 
 

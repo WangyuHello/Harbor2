@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="pythonnet" Version="3.0.0-preview2021-02-17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Harbor.Common\Harbor.Common.csproj" />
+  </ItemGroup>
+
+</Project>

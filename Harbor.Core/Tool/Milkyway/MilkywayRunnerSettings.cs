@@ -5,7 +5,7 @@ using System.Text;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 using Harbor.Core.Tool.Milkyway.Model;
 using Harbor.Core.Tool.Milkyway.Tcl;
 using Harbor.Core.Util;

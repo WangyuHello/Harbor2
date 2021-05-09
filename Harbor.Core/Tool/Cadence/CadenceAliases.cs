@@ -6,7 +6,7 @@ using System.Text;
 using Cake.Common.IO;
 using Cake.Core.IO;
 using Cake.FileHelpers;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 using Harbor.Core.Tool.Ihdl;
 using Harbor.Core.Tool.Project;
 using Harbor.Core.Tool.StrmIn;
@@ -18,20 +18,8 @@ namespace Harbor.Core.Tool.Cadence
     public static class CadenceAliases
     {
         [CakeMethodAlias]
-        public static void CreateCadenceProject(this ICakeContext context, CadenceRunnerSettings settings)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            var runner = new CadenceRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Run(settings, context);
-        }
-
-        [CakeMethodAlias]
         public static void CreateCadenceProject(this ICakeContext context)
         {
-            //var settings = new CadenceRunnerSettings();
-            //CreateCadenceProject(context, settings);
-
             var projectInfo = ProjectInfo.ReadFromContext(context);
             var library = AllLibrary.GetLibrary(projectInfo);
 

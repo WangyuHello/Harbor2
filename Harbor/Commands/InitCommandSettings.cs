@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 using Spectre.Console.Cli;
 
 namespace Harbor.Commands

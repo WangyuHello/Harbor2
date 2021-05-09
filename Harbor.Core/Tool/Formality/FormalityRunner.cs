@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 using Harbor.Core.Tool.APR;
 using Harbor.Core.Util;
 using Path = System.IO.Path;

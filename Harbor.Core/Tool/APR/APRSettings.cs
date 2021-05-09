@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Harbor.Common.Project;
 using Harbor.Core.Tool.APR.Model;
 using Harbor.Core.Tool.APR.Tcl;
 using Harbor.Core;
-using Harbor.Core.Project;
 using Harbor.Core.Tool.ICC;
 using Harbor.Core.Util;
 using Newtonsoft.Json;
@@ -65,8 +65,10 @@ namespace Harbor.Core.Tool.APR
         /// <param name="top"></param>
         public void InflatePorts(DirectoryPath synProjectPath, string m1direction, string top)
         {
-            var content = File.ReadAllText(synProjectPath.Combine("netlist").CombineWithFilePath($"{top}.ports").FullPath);
-            var ports = JsonConvert.DeserializeObject<Port[]>(content);
+            //TODO WorkingDirectory = settings.SynProjectPath.Combine("netlist")
+            var ports = Python.Tool.GetPorts.Run(
+                synProjectPath.Combine("netlist").CombineWithFilePath($"{top}.v").FullPath, top);
+            
             var r = new Random(10);
 
             var leftOrders = new HashSet<int>();
@@ -102,7 +104,7 @@ namespace Harbor.Core.Tool.APR
                     MetalLayer = metalNum,
                     Name = p.Name,
                     Position = pos,
-                    Width = p.Width,
+                    Width = new Width(){lsb = p.Width.lsb, msb = p.Width.msb},
                     Order = order
                 };
 

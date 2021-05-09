@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Harbor.Core.Project
+namespace Harbor.Common.Project
 {
     public enum ProjectType
     {

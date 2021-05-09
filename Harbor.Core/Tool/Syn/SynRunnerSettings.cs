@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using Cake.Common.IO;
 using Harbor.Core;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 using Harbor.Core.Tool.DC;
 using Newtonsoft.Json.Linq;
 using Harbor.Core.Util;

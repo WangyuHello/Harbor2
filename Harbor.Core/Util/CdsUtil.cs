@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Cake.Core.IO;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 using Harbor.Core.Util.Template;
 using Path = System.IO.Path;
 
@@ -48,7 +48,8 @@ namespace Harbor.Core.Util
                 ProjectType.Digital => new DirectoryPath(referncePath).Combine($"Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
                 ProjectType.Analog => throw new NotImplementedException(),
                 ProjectType.Memory => new DirectoryPath(referncePath).Combine($"Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
-                ProjectType.Ip => new DirectoryPath(referncePath).Combine($"Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath
+                ProjectType.Ip => new DirectoryPath(referncePath).Combine($"Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
+                _ => throw new NotImplementedException()
             };
         }
 

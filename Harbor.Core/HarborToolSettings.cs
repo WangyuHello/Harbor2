@@ -4,7 +4,7 @@ using System.Text;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 using Newtonsoft.Json.Linq;
 
 namespace Harbor.Core

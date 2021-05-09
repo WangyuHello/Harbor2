@@ -9,7 +9,7 @@ using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.IO;
 using Cake.FileHelpers;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 
 namespace Harbor.Core.Tool.Ihdl
 {

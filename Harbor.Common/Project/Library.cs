@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace Harbor.Core.Project
+namespace Harbor.Common.Project
 {
     public class NamePathPair
     {
@@ -234,6 +234,11 @@ namespace Harbor.Core.Project
             public string ground_pin { get; set; }
             public string gds_layer_map { get; set; }
             public double m2_width { get; set; }
+
+            public string[] GetCellList()
+            {
+                return File.ReadAllLines(cell_list);
+            }
         }
 
         public class LibraryMemory

@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Path = System.IO.Path;
 
-namespace Harbor.Core.Project
+namespace Harbor.Common.Project
 {
     public sealed class ProjectReference
     {

@@ -6,7 +6,7 @@ using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.IO;
-using Harbor.Core.Project;
+using Harbor.Common.Project;
 using Harbor.Core.Util;
 
 namespace Harbor.Core.Tool.Project

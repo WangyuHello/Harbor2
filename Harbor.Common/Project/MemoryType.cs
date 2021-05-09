@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Harbor.Core.Project
+namespace Harbor.Common.Project
 {
     public enum MemoryType
     {
