@@ -220,7 +220,7 @@ set_ignored_layers -max_routing_layer $MAX_ROUTING_LAYER
 set_ignored_layers -min_routing_layer $MIN_ROUTING_LAYER
 
 set_pnet_options -complete {M1 M2} -see_object {all_types}
-set_pnet_options -partial {M3 M4 M5 M6}
+set_pnet_options -partial {M3 M4}
 report_pnet_options
 set physopt_new_fix_constants true
 set_buffer_opt_strategy -effort high
@@ -326,22 +326,31 @@ create_rectilinear_rings -around macro -macro_cells {<#= macroPlace.Name.ToUpper
 <# if(model.FloorPlanSettings.FloorPlanType == FloorPlanType.WidthHeight || model.FloorPlanSettings.FloorPlanType == FloorPlanType.WidthHeightAuto) { 
 var width = model.FloorPlanSettings.CoreWidth;
 var height = model.FloorPlanSettings.CoreHeight;
-var layer = 5; 
+var layer = 5;
+var hlayer = 6;
 if(model.MaxPreRouteLayer % 2 == 0) { //最高层为偶数
     layer = model.MaxPreRouteLayer - 1; //奇数
+    hlayer  = model.MaxPreRouteLayer;
     if(model.M1RoutingDirection == "horizontal") {
         layer = model.MaxPreRouteLayer; //偶数
+        hlayer  = model.MaxPreRouteLayer - 1;
     }
 } else { //最高层为奇数
     layer = model.MaxPreRouteLayer; //奇数
+    hlayer  = model.MaxPreRouteLayer - 1;
     if(model.M1RoutingDirection == "horizontal") {
         layer = model.MaxPreRouteLayer - 1; //偶数
+        hlayer  = model.MaxPreRouteLayer;
     }
 }
 #>
 <# if(model.CreatePowerStrap) { #>
-# 电源网格
-create_power_straps -direction vertical -start_at <#= model.PowerStrapStart #> -nets {VSS VDD} -layer M<#= layer #> -width 2 -configure step_and_stop -step <#= model.PowerStrapStep #> -stop <#= width #>
+# 纵向电源网格
+create_power_straps -direction vertical -start_at <#= model.PowerStrapStart #> -nets {VDD VSS} -layer M<#= layer #> -width <#= model.PowerStrapWidth #> -configure step_and_stop -step <#= model.PowerStrapStep #> -stop <#= width #>
+<# } #>
+<# if(model.CreateHorizontalPowerStrap) { #>
+# 横向电源网格
+create_power_straps -direction horizontal -start_at <#= model.HorizontalPowerStrapStart #> -nets {VDD VSS} -layer M<#= hlayer #> -width <#= model.HorizontalPowerStrapWidth #> -configure step_and_stop -step <#= model.HorizontalPowerStrapStep #> -stop <#= height #>
 <# } #>
 <# } #>
 
@@ -368,7 +377,7 @@ gui_execute_events
 save_mw_cel -design $top_name -as "$top_name\_power_ring"
 
 set_preroute_drc_strategy -max_layer M<#= model.MaxPreRouteLayer #>
-preroute_instances -preferred_routing_layer low
+preroute_instances -primary_routing_layer preferred -preferred_routing_layer low
 
 <# if(model.PowerRailLayer == 2) { #>
 # 避免电源网格通孔经过M1
@@ -657,7 +666,7 @@ foreach_in_collection p $ports {
     set layer [string range [get_attribute $p layer] 1 end]
     set mntxt_layer [dict get $MnTXTs $layer]
 
-    create_text -height 0.05 -layer $mntxt_layer -origin [list [expr $x_location] [expr $y_location]] -orient W $name_1
+    create_text -height 0.01 -layer $mntxt_layer -origin [list [expr $x_location] [expr $y_location]] -orient W $name_1
 }
 
 save_mw_cel -design $top_name -as "$top_name\_gds_label"

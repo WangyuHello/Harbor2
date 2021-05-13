@@ -9,9 +9,9 @@ namespace Harbor.Core.Tool.APR.Model
     {
         public string Library { get; set; }
         public string TechFilePath { get; set; }
-        public List<string> RefLibPath { get; set; } = new List<string>();
-        public List<string> AdditionalTimingDbPaths { get; set; } = new List<string>();
-        public List<string> IOTimingDbPaths { get; set; } = new List<string>();
+        public List<string> RefLibPath { get; set; } = new();
+        public List<string> AdditionalTimingDbPaths { get; set; } = new();
+        public List<string> IOTimingDbPaths { get; set; } = new();
         public string LibPath { get; set; }
         public string LibName { get; set; }
         public string LibFullName { get; set; }
@@ -48,7 +48,12 @@ namespace Harbor.Core.Tool.APR.Model
         public int PowerRailLayer { get; set; }
         public double PowerStrapStart { get; set; }
         public double PowerStrapStep { get; set; }
+        public double PowerStrapWidth { get; set; }
         public bool CreatePowerStrap { get; set; }
+        public double HorizontalPowerStrapStart { get; set; }
+        public double HorizontalPowerStrapStep { get; set; }
+        public double HorizontalPowerStrapWidth { get; set; }
+        public bool CreateHorizontalPowerStrap { get; set; }
 
         public FloorPlanSettings FloorPlanSettings { get; set; }
 

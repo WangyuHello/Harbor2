@@ -154,11 +154,21 @@ namespace Harbor.Core.Tool.APR
             return this;
         }
 
-        public APRRunnerSettingsBuilder PowerStrap(double powerStrapStart = 20, double powerStrapStep = 20)
+        public APRRunnerSettingsBuilder PowerStrap(double powerStrapStart = 20, double powerStrapStep = 20, double powerStrapWidth = 2)
         {
             Settings.CreatePowerStrap = true;
             Settings.PowerStrapStart = powerStrapStart;
             Settings.PowerStrapStep = powerStrapStep;
+            Settings.PowerStrapWidth = powerStrapWidth;
+            return this;
+        }
+
+        public APRRunnerSettingsBuilder HorizontalPowerStrap(double powerStrapStart = 20, double powerStrapStep = 20, double powerStrapWidth = 2)
+        {
+            Settings.CreateHorizontalPowerStrap = true;
+            Settings.HorizontalPowerStrapStart = powerStrapStart;
+            Settings.HorizontalPowerStrapStep = powerStrapStep;
+            Settings.HorizontalPowerStrapWidth = powerStrapWidth;
             return this;
         }
 

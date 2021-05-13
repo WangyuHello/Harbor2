@@ -66,7 +66,6 @@ namespace Harbor.Core.Tool.APR
         /// <param name="top"></param>
         public void InflatePorts(DirectoryPath synProjectPath, string m1direction, string top)
         {
-            //TODO WorkingDirectory = settings.SynProjectPath.Combine("netlist")
             var ports = Python.Tool.GetPorts.Run(
                 synProjectPath.Combine("netlist").CombineWithFilePath($"{top}.v").FullPath, top, synProjectPath.Combine("netlist").FullPath);
             
@@ -281,7 +280,12 @@ namespace Harbor.Core.Tool.APR
         public double HorizontalOffset { get; set; } = 0.5;
         public double PowerStrapStart { get; set; } = 20;
         public double PowerStrapStep { get; set; } = 20;
+        public double PowerStrapWidth { get; set; } = 2;
         public bool CreatePowerStrap { get; set; } = false;
+        public double HorizontalPowerStrapStart { get; set; } = 20;
+        public double HorizontalPowerStrapStep { get; set; } = 20;
+        public double HorizontalPowerStrapWidth { get; set; } = 2;
+        public bool CreateHorizontalPowerStrap { get; set; } = false;
         public RouteSettings RouteSettings { get; set; } = new RouteSettings();
         public PlaceSettings PlaceSettings { get; set; } = new PlaceSettings();
         public FloorPlanSettings FloorPlanSettings { get; set; } = new FloorPlanSettings();
@@ -374,7 +378,12 @@ namespace Harbor.Core.Tool.APR
                 PowerRailLayer = library.PrimaryStdCell.power_rail_layer,
                 PowerStrapStart = PowerStrapStart,
                 PowerStrapStep = PowerStrapStep,
+                PowerStrapWidth = PowerStrapWidth,
                 CreatePowerStrap = CreatePowerStrap,
+                HorizontalPowerStrapStart = HorizontalPowerStrapStart,
+                HorizontalPowerStrapStep = HorizontalPowerStrapStep,
+                HorizontalPowerStrapWidth = HorizontalPowerStrapWidth,
+                CreateHorizontalPowerStrap = CreateHorizontalPowerStrap,
 
                 FloorPlanSettings = FloorPlanSettings,
 
