@@ -137,7 +137,7 @@ Task(""Layout"")
 });
 
 Task(""Cadence"")
-    .Does(Cadence);
+    .Does(CreateCadenceProject);
 
 Task(""BuildAll"")
     .IsDependentOn(""Synthesis"")
