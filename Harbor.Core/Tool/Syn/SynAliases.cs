@@ -36,11 +36,11 @@ namespace Harbor.Core.Tool.Syn
         }
 
         [CakeMethodAlias]
-        public static void Syn(this ICakeContext context, DirectoryPath project, Action<SynRunnerSettingsBuilder> configure)
+        public static void Syn(this ICakeContext context, Action<SynRunnerSettingsBuilder> configure)
         {
             var builder = new SynRunnerSettingsBuilder(context);
             configure?.Invoke(builder);
-            Syn(context, project, builder.Settings);
+            Syn(context, "./Synthesis", builder.Settings);
         }
 
         private static void RunDC(ICakeContext context, SynRunnerSettings settings)

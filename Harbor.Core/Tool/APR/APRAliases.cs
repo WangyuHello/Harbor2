@@ -49,11 +49,11 @@ namespace Harbor.Core.Tool.APR
 
         [CakeMethodAlias]
         [CakeNamespaceImport("Harbor.Core.Tool.APR.Model")]
-        public static void APR(this ICakeContext context, DirectoryPath project, Action<APRRunnerSettingsBuilder> configure)
+        public static void APR(this ICakeContext context, Action<APRRunnerSettingsBuilder> configure)
         {
             var builder = new APRRunnerSettingsBuilder(context);
             configure?.Invoke(builder);
-            var absProject = context.MakeAbsolute(project);
+            var absProject = context.MakeAbsolute(new DirectoryPath("./Layout"));
             builder.Settings.ProjectPath = absProject;
             APR(context, builder.Settings);
         }

@@ -29,51 +29,50 @@ namespace Harbor.Core.Util.Template
         public virtual string TransformText()
         {
             this.Write("var target = Argument(\"target\", \"BuildAll\");\r\n\r\nTask(\"Synthesis\")\r\n    .Does(() =" +
-                    ">\r\n{\r\n    Syn(\"./Synthesis\" , _ => _\r\n        .ProjectInfo(ReadProject())\r\n     " +
-                    "   .Verilog(\"./Source/**/*.v\")\r\n");
+                    ">\r\n{\r\n    Syn(_ => _\r\n        .Verilog(\"./Source/**/*.v\")\r\n");
             
-            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 13 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  if(!string.IsNullOrEmpty(ClockName)) { 
             
             #line default
             #line hidden
             this.Write("        .Clock(\"");
             
-            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClockName));
             
             #line default
             #line hidden
             this.Write("\")\r\n");
             
-            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 17 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  if(!string.IsNullOrEmpty(ResetName)) { 
             
             #line default
             #line hidden
             this.Write("        .Reset(\"");
             
-            #line 18 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 17 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ResetName));
             
             #line default
             #line hidden
             this.Write("\")\r\n");
             
-            #line 19 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 18 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  } 
             
             #line default
             #line hidden
             this.Write("        .ClockPeriod(");
             
-            #line 20 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 19 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClockPeriod));
             
             #line default
@@ -86,8 +85,7 @@ namespace Harbor.Core.Util.Template
 Task(""Layout"")
     .Does(() =>
 {
-    APR(""./Layout"", _ => _
-        .ProjectInfo(ReadProject())
+    APR(_ => _
         .SynProjectPath(""./Synthesis"")
         .UseICC()
         .MaxRoutingLayer(4)
@@ -111,21 +109,21 @@ Task(""Layout"")
             .PinSpace(0)
 ");
             
-            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  if(!string.IsNullOrEmpty(ClockName)) { 
             
             #line default
             #line hidden
             this.Write("            .Pin(\"");
             
-            #line 52 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClockName));
             
             #line default
             #line hidden
             this.Write("\", PortPosition.Top, 1)\r\n");
             
-            #line 53 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  } 
             
             #line default

@@ -8,8 +8,7 @@ var target = Argument("target", "BuildAll");
 Task("Synthesis")
     .Does(() =>
 {
-    Syn("./Synthesis" , _ => _
-        .ProjectInfo(ReadProject())
+    Syn(_ => _
         .Verilog("./Source/**/*.v")
 <# if(!string.IsNullOrEmpty(ClockName)) { #>
         .Clock("<#= ClockName #>")
@@ -25,8 +24,7 @@ Task("Synthesis")
 Task("Layout")
     .Does(() =>
 {
-    APR("./Layout", _ => _
-        .ProjectInfo(ReadProject())
+    APR(_ => _
         .SynProjectPath("./Synthesis")
         .UseICC()
         .MaxRoutingLayer(4)
