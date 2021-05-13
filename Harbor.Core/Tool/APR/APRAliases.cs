@@ -55,6 +55,7 @@ namespace Harbor.Core.Tool.APR
             configure?.Invoke(builder);
             var absProject = context.MakeAbsolute(new DirectoryPath("./Layout"));
             builder.Settings.ProjectPath = absProject;
+            builder.Settings.SynProjectPath = context.MakeAbsolute(new DirectoryPath("./Synthesis"));
             APR(context, builder.Settings);
         }
 

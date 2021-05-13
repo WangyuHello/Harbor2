@@ -21,12 +21,6 @@ namespace Harbor.Core.Tool.APR
             Settings.Context = context;
         }
 
-        public APRRunnerSettingsBuilder SynProjectPath(DirectoryPath SynProjectPath)
-        {
-            Settings.SynProjectPath = context.MakeAbsolute(SynProjectPath);
-            return this;
-        }
-
         public APRRunnerSettingsBuilder Verilog(FilePathCollection verilog)
         {
             Settings.Verilog = verilog;
