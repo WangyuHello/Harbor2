@@ -522,7 +522,7 @@ namespace Harbor.Core.Tool.APR
                         if (lefFile != null)
                         {
                             var lef = LefObject.Parse(lefFile.FullName);
-                            var macro = lef.Macros.First().Value;
+                            var macro = lef.Macros[name];
                             var macroSize = macro.Size;
 
                             var pins = macro.Pins;

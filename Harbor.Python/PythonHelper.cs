@@ -12,22 +12,23 @@ namespace Harbor.Python
         public static void SetEnvironment()
         {
 #if DEBUG
-            Runtime.PythonDLL = @"C:\Python\Python38\python38.dll";
-            PythonEngine.PythonHome = @"C:\Python\Python38";
             var pathToVirtualEnv = @"C:\Python\Python38";
-            Environment.SetEnvironmentVariable("PATH", @"C:\Python\Python38;E:\Tools\iverilog\bin", EnvironmentVariableTarget.Process);
+            Runtime.PythonDLL = $"{pathToVirtualEnv}\\python38.dll";
+            PythonEngine.PythonHome = pathToVirtualEnv;
+            Environment.SetEnvironmentVariable("PATH", $"{pathToVirtualEnv};E:\\Tools\\iverilog\\bin", EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable("PYTHONHOME", pathToVirtualEnv, EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable("PYTHONPATH", $"{pathToVirtualEnv}\\Lib\\site-packages;{pathToVirtualEnv}\\Lib", EnvironmentVariableTarget.Process);
+            PythonEngine.PythonPath = PythonEngine.PythonPath + ";" + Environment.GetEnvironmentVariable("PYTHONPATH", EnvironmentVariableTarget.Process);
 #else
-            Runtime.PythonDLL = @"C:\Python\Python38\python38.dll";
-            PythonEngine.PythonHome = @"/export/yfxie02/bin/python/";
-            var pathToVirtualEnv = @"/export/yfxie02/bin/python/";
-            Environment.SetEnvironmentVariable("PATH", @"/export/yfxie02/bin/python/bin;E:\Tools\iverilog\bin", EnvironmentVariableTarget.Process);
+            var pathToVirtualEnv = "/export/yfxie02/bin/python";
+            Runtime.PythonDLL = $"{pathToVirtualEnv}/lib/libpython3.8.so.1.0";
+            PythonEngine.PythonHome = pathToVirtualEnv;
+            Environment.SetEnvironmentVariable("PATH", $"{pathToVirtualEnv}/bin " + Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process), EnvironmentVariableTarget.Process);
             Environment.SetEnvironmentVariable("PYTHONHOME", pathToVirtualEnv, EnvironmentVariableTarget.Process);
-            Environment.SetEnvironmentVariable("PYTHONPATH", $"{pathToVirtualEnv}\\Lib\\site-packages;{pathToVirtualEnv}\\Lib", EnvironmentVariableTarget.Process);
+            Environment.SetEnvironmentVariable("PYTHONPATH", $"{pathToVirtualEnv}/lib/python3.8/site-packages;{pathToVirtualEnv}/lib", EnvironmentVariableTarget.Process);
+            PythonEngine.PythonPath = PythonEngine.PythonPath + " " + Environment.GetEnvironmentVariable("PYTHONPATH", EnvironmentVariableTarget.Process);
 #endif
 
-            PythonEngine.PythonPath = PythonEngine.PythonPath + ";" + Environment.GetEnvironmentVariable("PYTHONPATH", EnvironmentVariableTarget.Process);
         }
     }
 }
