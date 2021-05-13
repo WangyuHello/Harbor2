@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Cake.Common.IO;
+using Harbor.Common.Project;
 using Harbor.Core.Tool.AddPG;
 using Harbor.Core.Tool.DC;
 using Harbor.Core.Tool.PrimeTime;
@@ -52,15 +53,11 @@ namespace Harbor.Core.Tool.Syn
         {
             if (settings.AddPG)
             {
-                var configure = new AddPGRunnerSettings
-                {
-                    Library = settings.ProjectInfo.Library,
-                    StdCell = settings.ProjectInfo.GetPrimaryStdCell(),
-                    ProjectJson = context.Environment.WorkingDirectory.CombineWithFilePath("project.json").FullPath,
-                    File = settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}.v"),
-                    WorkingDirectory = settings.ProjectPath.Combine("netlist")
-                };
-                context.AddPG(configure);
+                //TODO WorkingDirectory = settings.ProjectPath.Combine("netlist")
+                context.AddPG(AllLibrary.GetLibrary(settings.ProjectInfo), settings.ProjectInfo,
+                    settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}.v"),
+                    settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_PG.v"),
+                    settings.ProjectPath.Combine("netlist"));
             }
         }
 

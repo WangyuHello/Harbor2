@@ -15,12 +15,10 @@ namespace Harbor.Python.Tool
 
     public static class GetPorts
     {
-        public static List<VerilogPortDefinition> Run(string filename, string topModuleName)
+        public static List<VerilogPortDefinition> Run(string filename, string topModuleName, string workingDirectory)
         {
-            PythonHelper.SetEnvironment();
             List<VerilogPortDefinition> topPorts = new List<VerilogPortDefinition>();
-
-            using (Py.GIL())
+            PythonHelper.SetEnvironment(workingDirectory, () =>
             {
                 dynamic pyverilog = Py.Import("pyverilog");
                 dynamic parser = Py.Import("pyverilog.vparser.parser");
@@ -36,12 +34,15 @@ namespace Harbor.Python.Tool
                             {
                                 var w = p.first.width;
                                 topPorts.Add(new VerilogPortDefinition
-                                    {Name = p.first.name, Width = (int.Parse(w.msb.value.As<string>()), int.Parse(w.lsb.value.As<string>())) });
+                                {
+                                    Name = p.first.name,
+                                    Width = (int.Parse(w.msb.value.As<string>()), int.Parse(w.lsb.value.As<string>()))
+                                });
                             }
                             else
                             {
                                 topPorts.Add(new VerilogPortDefinition
-                                    { Name = p.first.name, Width = (0, 0) });
+                                    {Name = p.first.name, Width = (0, 0)});
                             }
                         }
                     }
@@ -55,18 +56,23 @@ namespace Harbor.Python.Tool
                         {
                             foreach (var ll in i.list)
                             {
-                                if (ll.__class__.ToString() == vast.Input.ToString() || ll.__class__.ToString() == vast.Output.ToString())
+                                if (ll.__class__.ToString() == vast.Input.ToString() ||
+                                    ll.__class__.ToString() == vast.Output.ToString())
                                 {
                                     if (ll.width != null)
                                     {
                                         var w = ll.width;
                                         topPorts.Add(new VerilogPortDefinition
-                                            { Name = ll.name, Width = (int.Parse(w.msb.value.As<string>()), int.Parse(w.lsb.value.As<string>())) });
+                                        {
+                                            Name = ll.name,
+                                            Width = (int.Parse(w.msb.value.As<string>()),
+                                                int.Parse(w.lsb.value.As<string>()))
+                                        });
                                     }
                                     else
                                     {
                                         topPorts.Add(new VerilogPortDefinition
-                                            { Name = ll.name, Width = (0, 0) });
+                                            {Name = ll.name, Width = (0, 0)});
                                     }
                                 }
                             }
@@ -84,17 +90,17 @@ namespace Harbor.Python.Tool
                             GetPortsInPorts(i.portlist);
                             GetPortsInItems(i.items);
                         }
+
                         GetPortsInner(i);
                     }
                 }
 
 
-                dynamic tuple = parser.parse(new List<string> { filename });
+                dynamic tuple = parser.parse(new List<string> {filename});
                 dynamic ast = tuple[0];
                 GetPortsInner(ast);
-
-                return topPorts;
-            }
+            });
+            return topPorts;
         }
     }
 }

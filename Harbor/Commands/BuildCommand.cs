@@ -8,6 +8,7 @@ using Cake.Core.Diagnostics;
 using Cake.Features.Bootstrapping;
 using Cake.Features.Building;
 using Harbor.Cli;
+using Spectre.Console;
 using Spectre.Console.Cli;
 
 namespace Harbor.Commands
@@ -74,7 +75,10 @@ namespace Harbor.Commands
 
             if (log.Verbosity == Verbosity.Diagnostic)
             {
-                log.Error("Error: {0}", ex);
+                //log.Error("Error: {0}", ex);
+                AnsiConsole.WriteException(ex,
+                    ExceptionFormats.ShortenPaths | ExceptionFormats.ShortenTypes |
+                    ExceptionFormats.ShortenMethods | ExceptionFormats.ShowLinks);
             }
             else
             {

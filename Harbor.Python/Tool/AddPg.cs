@@ -17,12 +17,11 @@ namespace Harbor.Python.Tool
 // Created by: Harbor
 // Version   : 2.0.0
 // Author    : Wang Yu
-";
+// Time      : ";
 
-        public static void Run(Library library, ProjectInfo projectInfo, string filename)
+        public static void Run(Library library, ProjectInfo projectInfo, string filename, string output, string workingDirectory)
         {
-            PythonHelper.SetEnvironment();
-            using (Py.GIL())
+            PythonHelper.SetEnvironment(workingDirectory, () =>
             {
                 dynamic pyverilog = Py.Import("pyverilog");
                 dynamic parser = Py.Import("pyverilog.vparser.parser");
@@ -48,10 +47,10 @@ namespace Harbor.Python.Tool
                 {
                     dynamic dvdd = vast.Port(name: "DVDD", width: null, dimensions: 1, type: null, lineno: -1);
                     dynamic dvss = vast.Port(name: "DVSS", width: null, dimensions: 1, type: null, lineno: -1);
-                    List<PyObject> ports = portlist.ports.As<List<PyObject>>();
-                    ports.Add(dvdd);
-                    ports.Add(dvss);
-                    portlist.ports = ports;
+                    dynamic ports = PyList.AsList(portlist.ports);
+                    ports.Append(dvdd);
+                    ports.Append(dvss);
+                    portlist.ports = PyTuple.AsTuple(ports);
                 }
 
                 void AddPowerForDecl(dynamic i)
@@ -60,14 +59,14 @@ namespace Harbor.Python.Tool
                     dynamic dvss = vast.Input("DVSS");
                     var inputs = new List<PyObject> {dvdd, dvss};
                     dynamic decl = vast.Decl(inputs, lineno: -1);
-                    dynamic items = i.items;
-                    items.insert(0, decl);
-                    i.items = items;
+                    dynamic items = PyList.AsList(i.items);
+                    items.Insert(0, decl);
+                    i.items = PyTuple.AsTuple(items);
                 }
 
                 void AddPowerForLibInstance(dynamic instance)
                 {
-                    List<PyObject> ports = instance.portlist.As<List<PyObject>>();
+                    dynamic ports = PyList.AsList(instance.portlist);
                     dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
                     dynamic dvss = vast.Identifier(name: "DVSS", lineno: -1);
                     PyObject vdd = vast.PortArg(libInsPowerPin, dvdd, lineno: -1);
@@ -75,22 +74,32 @@ namespace Harbor.Python.Tool
                     PyObject vss = vast.PortArg(libInsGroundPin, dvss, lineno: -1);
                     PyObject vpw = vast.PortArg("VPW", dvss, lineno: -1);
 
-                    ports.AddRange(library.PrimaryStdCell.Name.StartsWith("scc")
-                        ? new[] {vdd, vnw, vss, vpw } //SMIC Std Cell 含有VNW/VPW接口
-                        : new[] {vdd, vss});
+                    if (library.PrimaryStdCell.Name.StartsWith("scc"))
+                    {
+                        ports.Append(vdd); //SMIC Std Cell 含有VNW/VPW接口
+                        ports.Append(vnw);
+                        ports.Append(vss);
+                        ports.Append(vpw);
+                    }
+                    else
+                    {
+                        ports.Append(vdd);
+                        ports.Append(vss);
+                    }
 
-                    instance.portlist = ports;
+                    instance.portlist = PyTuple.AsTuple(ports);
                 }
 
                 void AddPowerForUserInstance(dynamic instance)
                 {
-                    List<PyObject> ports = instance.portlist.As<List<PyObject>>();
+                    dynamic ports = PyList.AsList(instance.portlist);
                     dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
                     dynamic dvss = vast.Identifier(name: "DVSS", lineno: -1);
                     PyObject vdd = vast.PortArg("DVDD", dvdd, lineno: -1);
                     PyObject vss = vast.PortArg("DVSS", dvss, lineno: -1);
-                    ports.AddRange(new[] { vdd, vss });
-                    instance.portlist = ports;
+                    ports.Append(vdd);
+                    ports.Append(vss);
+                    instance.portlist = PyTuple.AsTuple(ports);
                 }
 
                 void AddPowerForMacroInstance(dynamic instance)
@@ -99,25 +108,27 @@ namespace Harbor.Python.Tool
                     var powerPins = macroPowerPins[moduleName].powerPins;
                     var groundPins = macroPowerPins[moduleName].groundPins;
 
-                    List<PyObject> ports = instance.portlist.As<List<PyObject>>();
+                    dynamic ports = PyList.AsList(instance.portlist);
                     dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
                     dynamic dvss = vast.Identifier(name: "DVSS", lineno: -1);
 
                     foreach (var p in powerPins)
                     {
-                        PyObject p2 = vast.PortArg(p, dvdd, lineno: -1);
-                        ports.Add(p2);
+                        dynamic p2 = vast.PortArg(p, dvdd, lineno: -1);
+                        ports.Append(p2);
                     }
 
                     foreach (var g in groundPins)
                     {
-                        PyObject g2 = vast.PortArg(g, dvdd, lineno: -1);
-                        ports.Add(g2);
+                        dynamic g2 = vast.PortArg(g, dvdd, lineno: -1);
+                        ports.Append(g2);
                     }
-                    instance.portlist = ports;
+
+                    instance.portlist = PyTuple.AsTuple(ports);
                 }
 
                 int zeroCounter = 0;
+
                 void Convert1b0ToWire(dynamic i)
                 {
                     dynamic c1 = i.argname;
@@ -177,16 +188,18 @@ namespace Harbor.Python.Tool
                                 {
                                     AddPowerForUserInstance(i);
                                 }
+
                                 break;
                             case "PortArg":
                                 Convert1b0ToWire(i);
                                 break;
                         }
+
                         AddPower(i);
                     }
                 }
 
-                dynamic srcTuple = parser.parse(new List<string> { filename });
+                dynamic srcTuple = parser.parse(new List<string> {filename});
                 dynamic srcAst = srcTuple[0];
 
                 AddPower(srcAst);
@@ -194,8 +207,8 @@ namespace Harbor.Python.Tool
                 dynamic codegenI = codegen.ASTCodeGenerator();
                 string rslt = codegenI.visit(srcAst).As<string>();
                 var fi = new FileInfo(filename);
-                File.WriteAllText(Path.Combine(fi.DirectoryName, fi.Name + "_PG", fi.Extension), Banner + Environment.NewLine + rslt);
-            }
+                File.WriteAllText(output, Banner + DateTime.Now + Environment.NewLine + rslt);
+            });
         }
 
         private static Dictionary<string, (List<string> powerPins, List<string> groundPins)> GetMacroPowerPins(

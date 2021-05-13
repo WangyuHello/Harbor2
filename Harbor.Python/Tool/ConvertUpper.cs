@@ -14,7 +14,7 @@ namespace Harbor.Python.Tool
 // Created by: Harbor
 // Version   : 2.0.0
 // Author    : Wang Yu
-";
+// Time      : ";
         /// <summary>
         /// 
         /// </summary>
@@ -22,10 +22,9 @@ namespace Harbor.Python.Tool
         /// <param name="source">RTL源代码</param>
         /// <param name="netlist">LAYOUT后输出的网表,将会提取其端口顺序</param>
         /// <param name="output">输出文件名称,输出文件的端口将会全部大写,并且添加DVDD和DVSS占位,并且端口顺序和netlist.v相同</param>
-        public static void Run(string top, string source, string netlist, string output)
+        public static void Run(string top, string source, string netlist, string output, string workingDirectory)
         {
-            PythonHelper.SetEnvironment();
-            using (Py.GIL())
+            PythonHelper.SetEnvironment(workingDirectory, () =>
             {
                 dynamic pyverilog = Py.Import("pyverilog");
                 dynamic parser = Py.Import("pyverilog.vparser.parser");
@@ -47,8 +46,10 @@ namespace Harbor.Python.Tool
                                     ? (string) p.first.name
                                     : (string) p.name);
                             }
+
                             portLists.Add(moduleName, realPortList);
                         }
+
                         GetPorts(i, portLists);
                     }
                 }
@@ -84,7 +85,8 @@ namespace Harbor.Python.Tool
                     }
                 }
 
-                void ConvertPortsToUpper(Dictionary<string, List<string>> srcps, Dictionary<string, List<string>> netlistps, dynamic node)
+                void ConvertPortsToUpper(Dictionary<string, List<string>> srcps,
+                    Dictionary<string, List<string>> netlistps, dynamic node)
                 {
                     foreach (var i in node.children())
                     {
@@ -138,6 +140,7 @@ namespace Harbor.Python.Tool
                                             string n = p.name.As<string>();
                                             p.first.name = n.ToUpper();
                                         }
+
                                         newOrderPortList.Add(p);
                                     }
                                 }
@@ -152,13 +155,14 @@ namespace Harbor.Python.Tool
                                 ConvertIdentifierToUpperInModule(srcps[top], i);
                             }
                         }
+
                         ConvertPortsToUpper(srcps, netlistps, i);
                     }
                 }
 
-                dynamic srcTuple = parser.parse(new List<string> { source });
+                dynamic srcTuple = parser.parse(new List<string> {source});
                 dynamic srcAst = srcTuple[0];
-                dynamic netlistTuple = parser.parse(new List<string> { netlist });
+                dynamic netlistTuple = parser.parse(new List<string> {netlist});
                 dynamic netlistAst = netlistTuple[0];
 
                 var srcPorts = new Dictionary<string, List<string>>();
@@ -170,8 +174,8 @@ namespace Harbor.Python.Tool
                 dynamic codegenI = codegen.ASTCodeGenerator();
                 string rslt = codegenI.visit(srcAst).As<string>();
 
-                File.WriteAllText(output, Banner + Environment.NewLine + rslt);
-            }
+                File.WriteAllText(output, Banner + DateTime.Now + Environment.NewLine + rslt);
+            });
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Harbor
 
         public Program(
             Action<ContainerBuilder> overrides = null,
-            bool propagateExceptions = false)
+            bool propagateExceptions = true)
         {
             _overrides = overrides;
             _propagateExceptions = propagateExceptions;

@@ -14,17 +14,16 @@ namespace Harbor.Python.Tool
 // Created by: Harbor
 // Version   : 2.0.0
 // Author    : Wang Yu
-";
+// Time      : ";
         /// <summary>
         /// 
         /// </summary>
         /// <param name="top"></param>
         /// <param name="source">RTL源代码</param>
         /// <param name="output">输出文件名称, 顶层模块不变, 其余模块重命名为 _AMS</param>
-        public static void Run(string top, string source, string output)
+        public static void Run(string top, string source, string output, string workingDirectory)
         {
-            PythonHelper.SetEnvironment();
-            using (Py.GIL())
+            PythonHelper.SetEnvironment(workingDirectory, () =>
             {
                 dynamic pyverilog = Py.Import("pyverilog");
                 dynamic parser = Py.Import("pyverilog.vparser.parser");
@@ -43,6 +42,7 @@ namespace Harbor.Python.Tool
                                 {
                                     i.name = moduleName + "_AMS";
                                 }
+
                                 break;
                             case "Instance":
                             case "InstanceList":
@@ -55,7 +55,7 @@ namespace Harbor.Python.Tool
                     }
                 }
 
-                dynamic srcTuple = parser.parse(new List<string> { source });
+                dynamic srcTuple = parser.parse(new List<string> {source});
                 dynamic srcAst = srcTuple[0];
 
                 ConvertRtlToAms(srcAst);
@@ -63,8 +63,8 @@ namespace Harbor.Python.Tool
                 dynamic codegenI = codegen.ASTCodeGenerator();
                 string rslt = codegenI.visit(srcAst).As<string>();
 
-                File.WriteAllText(output, Banner + Environment.NewLine + rslt);
-            }
+                File.WriteAllText(output, Banner + DateTime.Now + Environment.NewLine + rslt);
+            });
         }
     }
 }

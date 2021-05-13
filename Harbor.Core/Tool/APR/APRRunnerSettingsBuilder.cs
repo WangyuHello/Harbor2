@@ -18,6 +18,7 @@ namespace Harbor.Core.Tool.APR
         public APRRunnerSettingsBuilder(ICakeContext context)
         {
             this.context = context;
+            Settings.Context = context;
         }
 
         public APRRunnerSettingsBuilder SynProjectPath(DirectoryPath SynProjectPath)

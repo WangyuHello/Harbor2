@@ -68,7 +68,7 @@ namespace Harbor.Core.Tool.APR
         {
             //TODO WorkingDirectory = settings.SynProjectPath.Combine("netlist")
             var ports = Python.Tool.GetPorts.Run(
-                synProjectPath.Combine("netlist").CombineWithFilePath($"{top}.v").FullPath, top);
+                synProjectPath.Combine("netlist").CombineWithFilePath($"{top}.v").FullPath, top, synProjectPath.Combine("netlist").FullPath);
             
             var r = new Random(10);
 

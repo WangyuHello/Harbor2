@@ -62,15 +62,6 @@ namespace Harbor.Core.Tool.APR
         {
             if (settings.AddPG)
             {
-                var configure = new AddPGRunnerSettings
-                {
-                    Library = settings.ProjectInfo.Library,
-                    StdCell = settings.ProjectInfo.GetPrimaryStdCell(),
-                    ProjectJson = context.Environment.WorkingDirectory.CombineWithFilePath("project.json").FullPath,
-                    File = settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"),
-                    WorkingDirectory = settings.ProjectPath.Combine("netlist")
-                };
-
                 //在网表中删除wire only的单元
                 var library = AllLibrary.GetLibrary(settings.ProjectInfo);
                 if (library.PrimaryStdCell.wire_only_cells != null && library.PrimaryStdCell.wire_only_cells.Length != 0)
@@ -80,35 +71,33 @@ namespace Harbor.Core.Tool.APR
                         context.Sed(settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"), $"/{fill}/d");
                     }
                 }
-                context.AddPG(configure);
+                //TODO WorkingDirectory = settings.ProjectPath.Combine("netlist")
+                context.AddPG(AllLibrary.GetLibrary(settings.ProjectInfo), settings.ProjectInfo,
+                    settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"),
+                    settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_PG.v"),
+                    settings.ProjectPath.Combine("netlist"));
             }
         }
 
         public static void RunConvertUpper(ICakeContext context, APRRunnerSettings settings)
         {
-            var conf = new ConvertUpperRunnerSettings
-            {
-                Top = settings.Top,
-                SourceFile = settings.SynProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_combine.v"),
-                NetlistFile = settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_PG.v"),
-                OutputFile = settings.ProjectPath.Combine("netlist")
+            //TODO WorkingDirectory = settings.ProjectPath.Combine("netlist")
+            context.ConvertUpper(settings.Top,
+                settings.SynProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_combine.v"),
+                settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_PG.v"), settings
+                    .ProjectPath.Combine("netlist")
                     .CombineWithFilePath($"{settings.Top}_cds_func.v"),
-                WorkingDirectory = settings.ProjectPath.Combine("netlist")
-            };
-            context.ConvertUpper(conf);
+                settings.ProjectPath.Combine("netlist"));
         }
 
         public static void RunConvertAMS(ICakeContext context, APRRunnerSettings settings)
         {
-            var conf = new ConvertAMSRunnerSettings
-            {
-                Top = settings.Top,
-                SourceFile = settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_func.v"),
-                OutputFile = settings.ProjectPath.Combine("netlist")
+            //TODO　WorkingDirectory = settings.ProjectPath.Combine("netlist")
+            context.ConvertAMS(settings.Top,
+                settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_func.v"), settings
+                    .ProjectPath.Combine("netlist")
                     .CombineWithFilePath($"{settings.Top}_cds_functional.v"),
-                WorkingDirectory = settings.ProjectPath.Combine("netlist")
-            };
-            context.ConvertAMS(conf);
+                settings.ProjectPath.Combine("netlist"));
         }
 
 
