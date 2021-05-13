@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Harbor.Common.Project;
+using Harbor.Common.Util;
 using Harbor.Core.Tool.APR.Model;
 using Harbor.Core.Tool.APR.Tcl;
 using Harbor.Core;
@@ -238,8 +239,8 @@ namespace Harbor.Core.Tool.APR
         public double X { get; set; }
         public double Y { get; set; }
         public Orientation Orientation { get; set; }
-        public double Width { get; set; } //无需用户指定,自动从LEF文件读取
-        public double Height { get; set; } //无需用户指定,自动从LEF文件读取
+        public double? Width { get; set; } //无需用户指定,自动从LEF文件读取
+        public double? Height { get; set; } //无需用户指定,自动从LEF文件读取
         public List<string> PowerPins { get; set; } = new List<string>(); //无需用户指定,自动从LEF文件读取
         public List<string> GroundPins { get; set; } = new List<string>(); //无需用户指定,自动从LEF文件读取
         public double MarginLeft { get; set; } = 8;
@@ -258,8 +259,8 @@ namespace Harbor.Core.Tool.APR
     internal class MacroInfo
     {
         public string Name { get; set; }
-        public double Width { get; set; }
-        public double Height { get; set; }
+        public double? Width { get; set; }
+        public double? Height { get; set; }
         public List<string> PowerPins { get; set; }
         public List<string> GroundPins { get; set; }
     }
@@ -517,23 +518,24 @@ namespace Harbor.Core.Tool.APR
                             additionalRefPath.Add(refLibPath.FullName);
                         }
                         var refLefPath = new DirectoryInfo(System.IO.Path.Combine(path, "lef"));
-                        var lefJsons = refLefPath.GetFiles("*.json").FirstOrDefault();
-                        if (lefJsons != null)
+                        var lefFile = refLefPath.GetFiles("*.lef").FirstOrDefault();
+                        if (lefFile != null)
                         {
-                            var lefJ = JObject.Parse(File.ReadAllText(lefJsons.FullName));
-                            var macroSize = (JArray)lefJ["macro_dict"][name]["info"]["SIZE"];
+                            var lef = LefObject.Parse(lefFile.FullName);
+                            var macro = lef.Macros.First().Value;
+                            var macroSize = macro.Size;
 
-                            var pins = (JArray)lefJ["macro_dict"][name]["info"]["PIN"];
-                            var powerPins = pins.Where(p => p["info"]["USE"].Value<string>() == "POWER")
-                                .Select(p => p["name"].Value<string>()).ToList();
-                            var groundPins = pins.Where(p => p["info"]["USE"].Value<string>() == "GROUND")
-                                .Select(p => p["name"].Value<string>()).ToList();
+                            var pins = macro.Pins;
+                            var powerPins = pins.Where(p => p.Use == "POWER")
+                                .Select(p => p.Name).ToList();
+                            var groundPins = pins.Where(p => p.Use == "GROUND")
+                                .Select(p => p.Name).ToList();
 
                             MacroInfos.Add(new MacroInfo
                             {
                                 Name = name,
-                                Width = macroSize[0].Value<double>(),
-                                Height = macroSize[1].Value<double>(),
+                                Width = macroSize?.w,
+                                Height = macroSize?.h,
                                 PowerPins = powerPins,
                                 GroundPins = groundPins
                             });

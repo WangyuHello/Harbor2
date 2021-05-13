@@ -552,10 +552,10 @@ switch (model.FloorPlanSettings.FloorPlanType)
  foreach(var macroPlace in model.MacroPlaceSettings) { 
 var x1 = macroPlace.X;
 var y1 = macroPlace.Y;
-var x2 = macroPlace.X + macroPlace.Width;
-var y2 = macroPlace.Y + macroPlace.Height;
-var x2_ = macroPlace.X + macroPlace.Height;
-var y2_ = macroPlace.Y + macroPlace.Width;
+var x2 = macroPlace.X + (double)macroPlace.Width;
+var y2 = macroPlace.Y + (double)macroPlace.Height;
+var x2_ = macroPlace.X + (double)macroPlace.Height;
+var y2_ = macroPlace.Y + (double)macroPlace.Width;
 
             
             #line default

@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Harbor.Common\Harbor.Common.csproj" />
     <ProjectReference Include="..\Harbor.Core\Harbor.Core.csproj" />
     <ProjectReference Include="..\Harbor.Python\Harbor.Python.csproj" />
     <ProjectReference Include="..\Harbor\Harbor.csproj" />

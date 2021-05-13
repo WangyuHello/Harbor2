@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Harbor.Common.Project;
+using Harbor.Common.Util;
 using Newtonsoft.Json.Linq;
 using Python.Runtime;
 
@@ -223,19 +224,19 @@ namespace Harbor.Python.Tool
                             throw new FileNotFoundException("未找到lef文件: " + name);
                         }
 
-                        var lef = ReadLef.Run(lefFile.FullName);
-                        var pins = lef["macro_dict"][name]["info"]["PIN"];
+                        var lef = LefObject.Parse(lefFile.FullName);
+                        var pins = lef.Macros[name].Pins;
                         var powerPins = new List<string>();
                         var groundPins = new List<string>();
                         foreach (var p in pins)
                         {
-                            if (p["info"]["USE"].Value<string>() == "POWER")
+                            if (p.Use == "POWER")
                             {
-                                powerPins.Add(p["name"].Value<string>());
+                                powerPins.Add(p.Name);
                             }
-                            else if (p["info"]["USE"].Value<string>() == "GROUND")
+                            else if (p.Use == "GROUND")
                             {
-                                groundPins.Add(p["name"].Value<string>());
+                                groundPins.Add(p.Name);
                             }
                         }
                         macroPowerPins.Add(name, (powerPins, groundPins));
