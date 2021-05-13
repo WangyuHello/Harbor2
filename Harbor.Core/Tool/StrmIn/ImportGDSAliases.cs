@@ -39,7 +39,7 @@ namespace Harbor.Core.Tool.StrmIn
             {
                 Library = lib,
                 StrmFile = gds,
-                LogFile = $"./harbor/{topCellName}.stream.log",
+                LogFile = directory.CombineWithFilePath($"./.harbor/{topCellName}.stream.log"),
                 View = "layout",
                 Case = StrmInCase.preserve,
                 ReplaceBusBitChar = true,

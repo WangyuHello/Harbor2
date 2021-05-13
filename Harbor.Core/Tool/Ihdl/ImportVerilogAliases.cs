@@ -41,7 +41,7 @@ namespace Harbor.Core.Tool.Ihdl
             var templateText = template.TransformText();
             context.FileWriteText(directory.CombineWithFilePath($"./.harbor/{topCellName}.ihdlFile"), templateText.Replace("\r", ""));
 
-            context.Ihdl($"./.harbor/{topCellName}.ihdlFile", library.StdCell.First().cdk_name, vName, directory);
+            context.Ihdl(directory.CombineWithFilePath($"./.harbor/{topCellName}.ihdlFile"), library.PrimaryStdCell.cdk_name, vName, directory);
         }
 
         [CakeMethodAlias]
@@ -56,7 +56,7 @@ namespace Harbor.Core.Tool.Ihdl
             var templateText = template.TransformText();
             context.FileWriteText(directory.CombineWithFilePath($"./.harbor/{topCellName}.ihdlFile"), templateText.Replace("\r", ""));
 
-            context.Ihdl($"./.harbor/{topCellName}.ihdlFile", vName, directory);
+            context.Ihdl(directory.CombineWithFilePath($"./.harbor/{topCellName}.ihdlFile"), vName, directory);
         }
     }
 }

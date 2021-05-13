@@ -45,10 +45,10 @@ namespace Harbor.Core.Util
             var refProjectInfo = ProjectInfo.ReadFromDirectory(referncePath);
             return refProjectInfo.Type switch
             {
-                ProjectType.Digital => new DirectoryPath(referncePath).Combine($"Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
+                ProjectType.Digital => new DirectoryPath(referncePath).Combine($"./Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
                 ProjectType.Analog => throw new NotImplementedException(),
-                ProjectType.Memory => new DirectoryPath(referncePath).Combine($"Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
-                ProjectType.Ip => new DirectoryPath(referncePath).Combine($"Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
+                ProjectType.Memory => new DirectoryPath(referncePath).Combine($"./Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
+                ProjectType.Ip => new DirectoryPath(referncePath).Combine($"./Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
                 _ => throw new NotImplementedException()
             };
         }

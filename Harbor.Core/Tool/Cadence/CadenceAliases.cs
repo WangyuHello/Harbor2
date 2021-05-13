@@ -23,7 +23,7 @@ namespace Harbor.Core.Tool.Cadence
             var projectInfo = ProjectInfo.ReadFromContext(context);
             var library = AllLibrary.GetLibrary(projectInfo);
 
-            var cadenceDir = context.Environment.WorkingDirectory.Combine("Cadence");
+            var cadenceDir = new DirectoryPath("./Cadence");
             var cdsDir = cadenceDir.Combine(projectInfo.Project);
             if (context.DirectoryExists(cadenceDir))
             {
@@ -37,12 +37,9 @@ namespace Harbor.Core.Tool.Cadence
             projectInfo.WriteToDirectoryAsync(cdsDir.FullPath).Wait();
             CdsUtil.RefreshCdsLibAsync(cdsDir.FullPath, projectInfo).Wait();
 
-            var vName = context.Environment.WorkingDirectory.CombineWithFilePath(
-                $"./Layout/netlist/{projectInfo.Project}_cds_PG.v");
-            var funcvName = context.Environment.WorkingDirectory.CombineWithFilePath(
-                $"./Layout/netlist/{projectInfo.Project}_cds_functional.v");
-            var gdsName = context.Environment.WorkingDirectory.CombineWithFilePath(
-                $"./Layout/gds/{projectInfo.Project}.gds");
+            var vName = new FilePath($"./Layout/netlist/{projectInfo.Project}_cds_PG.v");
+            var funcvName = new FilePath($"./Layout/netlist/{projectInfo.Project}_cds_functional.v");
+            var gdsName = new FilePath($"./Layout/gds/{projectInfo.Project}.gds");
 
             //AutoImport
             context.AutoImport(cdsDir, vName, funcvName, gdsName, projectInfo.Project, projectInfo.Project);
@@ -62,8 +59,8 @@ namespace Harbor.Core.Tool.Cadence
 
             var addPinTemplate = libraryName switch
             {
-                string l when l.StartsWith("TSMC") => $"auto_add_pin_tsmc(\"{libName}\" \"{topCellName}\" {m2Width})",
-                string l when l.StartsWith("HL") => $"auto_add_pin_hl(\"{libName}\" \"{topCellName}\" {m2Width})",
+                { } l when l.StartsWith("TSMC") => $"auto_add_pin_tsmc(\"{libName}\" \"{topCellName}\" {m2Width})",
+                { } l when l.StartsWith("HL") => $"auto_add_pin_hl(\"{libName}\" \"{topCellName}\" {m2Width})",
                 _ => $"auto_add_pin(\"{libName}\" \"{topCellName}\" {m2Width})"
             };
 
@@ -92,13 +89,13 @@ namespace Harbor.Core.Tool.Cadence
 
             var preTemplate = libraryName switch
             {
-                string l when l.StartsWith("SMIC40HV") => $"auto_wire_lib(\"{libName}\")",
+                { } l when l.StartsWith("SMIC40HV") => $"auto_wire_lib(\"{libName}\")",
                 _ => ""
             };
 
             var postTemplate = libraryName switch
             {
-                string l when l.StartsWith("SMIC40HV") => $"auto_add_dnw(\"{libName}\" \"{topCellName}\")",
+                { } l when l.StartsWith("SMIC40HV") => $"auto_add_dnw(\"{libName}\" \"{topCellName}\")",
                 _ => ""
             };
 
