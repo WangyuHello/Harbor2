@@ -4,6 +4,7 @@ using System.Text;
 using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.IO;
+using Harbor.Common.Project;
 using Harbor.Core.Tool.APR.Model;
 using Newtonsoft.Json.Linq;
 
@@ -19,6 +20,16 @@ namespace Harbor.Core.Tool.APR
         {
             this.context = context;
             Settings.Context = context;
+        }
+
+        public APRRunnerSettingsBuilder ProjectInfo(ProjectInfo _)
+        {
+            return this;
+        }
+
+        public APRRunnerSettingsBuilder SynProjectPath(string _)
+        {
+            return this;
         }
 
         public APRRunnerSettingsBuilder Verilog(FilePathCollection verilog)

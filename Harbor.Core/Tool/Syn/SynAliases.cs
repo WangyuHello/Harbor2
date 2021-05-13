@@ -36,6 +36,12 @@ namespace Harbor.Core.Tool.Syn
         }
 
         [CakeMethodAlias]
+        public static void Syn(this ICakeContext context, DirectoryPath _, Action<SynRunnerSettingsBuilder> configure)
+        {
+            Syn(context, configure);
+        }
+
+        [CakeMethodAlias]
         public static void Syn(this ICakeContext context, Action<SynRunnerSettingsBuilder> configure)
         {
             var builder = new SynRunnerSettingsBuilder(context);

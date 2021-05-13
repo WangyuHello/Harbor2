@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.IO;
+using Harbor.Common.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Path = System.IO.Path;
@@ -23,9 +24,12 @@ namespace Harbor.Common.Project
     {
         public string Project { get; set; }
         public string Library { get; set; }
+        [JsonProperty("ProjectType")]
         [JsonConverter(typeof(StringEnumConverter))]
         public ProjectType Type { get; set; }
+        [JsonConverter(typeof(SingleOrArrayConverter<string>))]
         public List<string> StdCell { get; set; }
+        [JsonConverter(typeof(SingleOrArrayConverter<string>))]
         public List<string> Io { get; set; }
 
         public string GetPrimaryStdCell() => StdCell.First();

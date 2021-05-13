@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,6 @@ using Harbor.Commands.Util;
 using Harbor.Common.Project;
 using Harbor.Core.Util;
 using Harbor.Core.Util.Template;
-using Newtonsoft.Json;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -262,21 +260,15 @@ namespace Harbor.Commands
                                     .AllowEmpty());
                         }
 
-                        if (settings.ClockPeriod is null)
-                        {
-                            settings.ClockPeriod = AnsiConsole.Prompt(
-                               new TextPrompt<double?>("[grey][[可选]][/] 请输入时钟周期(ns)")
-                                   .AllowEmpty()) ?? 10;
-                        }
+                        settings.ClockPeriod ??= AnsiConsole.Prompt(
+                            new TextPrompt<double?>("[grey][[可选]][/] 请输入时钟周期(ns)")
+                                .AllowEmpty()) ?? 10;
                     }
                     else
                     {
-                        if (settings.ClockPeriod is null)
-                        {
-                            settings.ClockPeriod = AnsiConsole.Prompt(
-                                new TextPrompt<double?>("[grey][[可选]][/] 请输入虚拟时钟周期(ns)")
-                                    .AllowEmpty()) ?? 10;
-                        }
+                        settings.ClockPeriod ??= AnsiConsole.Prompt(
+                            new TextPrompt<double?>("[grey][[可选]][/] 请输入虚拟时钟周期(ns)")
+                                .AllowEmpty()) ?? 10;
                     }
 
                     var projectDir2 = Path.Combine(Environment.CurrentDirectory, settings.Name);
@@ -342,11 +334,33 @@ namespace Harbor.Commands
             var gitIgnoteText = gitIgnote.TransformText();
             await File.WriteAllTextAsync(Path.Combine(Environment.CurrentDirectory, settings.Name, ".gitignore"), gitIgnoteText.Replace("\r", ""), encoding: Encoding.UTF8);
 
-            await SimpleRunner.Run("git", "init", Path.Combine(Environment.CurrentDirectory, settings.Name));
+            await CreateGitRepo(Path.Combine(Environment.CurrentDirectory, settings.Name));
 
             AnsiConsole.MarkupLine("[blue]项目创建成功[/]");
 
             return 0;
+        }
+
+        async Task CreateGitRepo(string directory)
+        {
+            DirectoryInfo d = new(directory);
+            DirectoryInfo? p = d;
+            bool parentHasGit = false;
+            while (p != null)
+            {
+                var gd = p.GetDirectories(".git");
+                if (gd.Length != 0)
+                {
+                    parentHasGit = true;
+                    break;
+                }
+                p = p.Parent;
+            }
+
+            if (!parentHasGit)
+            {
+                await SimpleRunner.Run("git", "init", directory);
+            }
         }
     }
 }

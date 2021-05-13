@@ -144,8 +144,8 @@ namespace Harbor.Python.Tool
                     }
                     else if (c1Name == "Concat")
                     {
-                        List<PyObject> l1 = c1.list.As<List<PyObject>>();
-                        for (int j = 0; j < l1.Count; j++)
+                        PyList l1 = PyList.AsList(c1.list);
+                        for (int j = 0; j < l1.Length(); j++)
                         {
                             dynamic c2 = l1[j];
                             string c2Name = c2.__class__.__name__.As<string>();
@@ -157,7 +157,7 @@ namespace Harbor.Python.Tool
                             }
                         }
 
-                        c1.list = l1;
+                        c1.list = PyTuple.AsTuple(l1);
                     }
                 }
 

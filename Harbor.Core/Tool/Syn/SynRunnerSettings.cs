@@ -211,6 +211,11 @@ namespace Harbor.Core.Tool.Syn
             Settings.Context = context;
         }
 
+        public SynRunnerSettingsBuilder ProjectInfo(ProjectInfo _)
+        {
+            return this;
+        }
+
         public SynRunnerSettingsBuilder AddPG()
         {
             Settings.AddPG = true;

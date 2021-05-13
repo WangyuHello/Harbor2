@@ -49,6 +49,13 @@ namespace Harbor.Core.Tool.APR
 
         [CakeMethodAlias]
         [CakeNamespaceImport("Harbor.Core.Tool.APR.Model")]
+        public static void APR(this ICakeContext context, DirectoryPath _, Action<APRRunnerSettingsBuilder> configure)
+        {
+            APR(context, configure);
+        }
+
+        [CakeMethodAlias]
+        [CakeNamespaceImport("Harbor.Core.Tool.APR.Model")]
         public static void APR(this ICakeContext context, Action<APRRunnerSettingsBuilder> configure)
         {
             var builder = new APRRunnerSettingsBuilder(context);
