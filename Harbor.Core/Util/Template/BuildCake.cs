@@ -136,13 +136,13 @@ Task(""Layout"")
     );
 });
 
-Task(""CreateCadenceProject"")
-    .Does(CreateCadenceProject);
+Task(""Cadence"")
+    .Does(Cadence);
 
 Task(""BuildAll"")
     .IsDependentOn(""Synthesis"")
     .IsDependentOn(""Layout"")
-    .IsDependentOn(""CreateCadenceProject"");
+    .IsDependentOn(""Cadence"");
 
 RunTarget(target);
 ");
