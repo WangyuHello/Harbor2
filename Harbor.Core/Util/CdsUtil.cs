@@ -22,22 +22,22 @@ namespace Harbor.Core.Util
                 Io = io
             };
             var text = cdsLib.TransformText();
-            await File.WriteAllTextAsync(Path.Combine(dir, "cds.lib"), text.Replace("\r",""), encoding: Encoding.UTF8);
+            await File.WriteAllTextAsync(Path.Combine(dir, "cds.lib"), text.Replace("\r",""), new UTF8Encoding(false));
 
             var cdsInit = new CdsInit
             {
                 Pdk = pdk
             };
             text = cdsInit.TransformText();
-            await File.WriteAllTextAsync(Path.Combine(dir, ".cdsinit"), text.Replace("\r", ""), encoding: Encoding.UTF8);
+            await File.WriteAllTextAsync(Path.Combine(dir, ".cdsinit"), text.Replace("\r", ""), new UTF8Encoding(false));
 
             var cdsEnv = new CdsEnv();
             text = cdsEnv.TransformText();
-            await File.WriteAllTextAsync(Path.Combine(dir, ".cdsenv"), text.Replace("\r", ""), encoding: Encoding.UTF8);
+            await File.WriteAllTextAsync(Path.Combine(dir, ".cdsenv"), text.Replace("\r", ""), new UTF8Encoding(false));
 
             var simRc = new SimRc();
             text = simRc.TransformText();
-            await File.WriteAllTextAsync(Path.Combine(dir, ".simrc"), text.Replace("\r", ""), encoding: Encoding.UTF8);
+            await File.WriteAllTextAsync(Path.Combine(dir, ".simrc"), text.Replace("\r", ""), new UTF8Encoding(false));
         }
 
         private static string GetReferencePath(string referncePath)
@@ -63,10 +63,10 @@ namespace Harbor.Core.Util
             var ios = library.Io;
 
             var definePairs = new Dictionary<string, (string path, bool found)>();
-            references.ForEach(r => definePairs.Add(r.Name, (GetReferencePath(r.Path), false)));
+            references?.ForEach(r => definePairs.Add(r.Name, (GetReferencePath(r.Path), false)));
             definePairs.Add(pdk.pdk_name, (pdk.pdk_path, false));
-            stdCells.ForEach(s => definePairs.Add(s.cdk_name, (s.cdk_path, false)));
-            ios.ForEach(s => definePairs.Add(s.cdk_name, (s.cdk_path, false)));
+            stdCells?.ForEach(s => definePairs.Add(s.cdk_name, (s.cdk_path, false)));
+            ios?.ForEach(s => definePairs.Add(s.cdk_name, (s.cdk_path, false)));
 
             var cdsLibContent = await File.ReadAllLinesAsync(dir.CombineWithFilePath("cds.lib").FullPath);
 
@@ -101,7 +101,7 @@ namespace Harbor.Core.Util
                 }
             }
 
-            await File.WriteAllLinesAsync(dir.CombineWithFilePath("cds.lib").FullPath, newCdsLibContent, Encoding.UTF8);
+            await File.WriteAllLinesAsync(dir.CombineWithFilePath("cds.lib").FullPath, newCdsLibContent, new UTF8Encoding(false));
         }
     }
 }

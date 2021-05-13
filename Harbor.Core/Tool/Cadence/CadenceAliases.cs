@@ -23,7 +23,7 @@ namespace Harbor.Core.Tool.Cadence
             var projectInfo = ProjectInfo.ReadFromContext(context);
             var library = AllLibrary.GetLibrary(projectInfo);
 
-            var cadenceDir = new DirectoryPath("./Cadence");
+            var cadenceDir = context.MakeAbsolute(new DirectoryPath("./Cadence"));
             var cdsDir = cadenceDir.Combine(projectInfo.Project);
             if (context.DirectoryExists(cadenceDir))
             {
@@ -37,9 +37,9 @@ namespace Harbor.Core.Tool.Cadence
             projectInfo.WriteToDirectoryAsync(cdsDir.FullPath).Wait();
             CdsUtil.RefreshCdsLibAsync(cdsDir.FullPath, projectInfo).Wait();
 
-            var vName = new FilePath($"./Layout/netlist/{projectInfo.Project}_cds_PG.v");
-            var funcvName = new FilePath($"./Layout/netlist/{projectInfo.Project}_cds_functional.v");
-            var gdsName = new FilePath($"./Layout/gds/{projectInfo.Project}.gds");
+            var vName = context.MakeAbsolute(new FilePath($"./Layout/netlist/{projectInfo.Project}_cds_PG.v"));
+            var funcvName = context.MakeAbsolute(new FilePath($"./Layout/netlist/{projectInfo.Project}_cds_functional.v"));
+            var gdsName = context.MakeAbsolute(new FilePath($"./Layout/gds/{projectInfo.Project}.gds"));
 
             //AutoImport
             context.AutoImport(cdsDir, vName, funcvName, gdsName, projectInfo.Project, projectInfo.Project);
@@ -112,7 +112,7 @@ namespace Harbor.Core.Tool.Cadence
                 WorkingDirectory = directory,
                 NoGraph = true,
                 RestoreFile = ilFile,
-                CommandLogFile = directory.CombineWithFilePath($"./.harbor/{topCellName}.virtuoso.log")
+                CommandLogFile = $"./.harbor/{topCellName}.virtuoso.log"
             });
         }
     }

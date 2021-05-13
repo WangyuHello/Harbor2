@@ -44,7 +44,7 @@ namespace Harbor.Core.Tool.StrmIn
                 Case = StrmInCase.preserve,
                 ReplaceBusBitChar = true,
                 LayerMapFile = library.Pdk.layer_map_in_full_name,
-                RefLibList = "./.harbor/reflib.list",
+                RefLibList = directory.CombineWithFilePath("./.harbor/reflib.list"),
                 WorkingDirectory = directory
             };
 
