@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.IO;
 using Harbor.Common.Project;
 using Harbor.Core.Tool.AddPG;
-using Harbor.Core.Tool.ConvertAMS;
-using Harbor.Core.Tool.ConvertUpper;
 using Harbor.Core.Tool.Formality;
-using Harbor.Core.Tool.GetPorts;
 using Harbor.Core.Tool.ICC;
 using Harbor.Core.Tool.Sed;
-using Harbor.Core.Util;
-using Newtonsoft.Json.Linq;
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
 
 namespace Harbor.Core.Tool.APR
 {
@@ -33,8 +27,6 @@ namespace Harbor.Core.Tool.APR
 
             RunAPR(context, configure);
             RunAddPG(context, configure);
-            RunConvertUpper(context, configure);
-            RunConvertAMS(context, configure);
             RunFormality(context, configure);
         }
 
@@ -79,7 +71,6 @@ namespace Harbor.Core.Tool.APR
                         context.Sed(settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"), $"/{fill}/d");
                     }
                 }
-                //TODO WorkingDirectory = settings.ProjectPath.Combine("netlist")
                 context.AddPG(AllLibrary.GetLibrary(settings.ProjectInfo), settings.ProjectInfo,
                     settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"),
                     settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_PG.v"),
@@ -87,26 +78,7 @@ namespace Harbor.Core.Tool.APR
             }
         }
 
-        public static void RunConvertUpper(ICakeContext context, APRRunnerSettings settings)
-        {
-            //TODO WorkingDirectory = settings.ProjectPath.Combine("netlist")
-            context.ConvertUpper(settings.Top,
-                settings.SynProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_combine.v"),
-                settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_PG.v"), settings
-                    .ProjectPath.Combine("netlist")
-                    .CombineWithFilePath($"{settings.Top}_cds_func.v"),
-                settings.ProjectPath.Combine("netlist"));
-        }
 
-        public static void RunConvertAMS(ICakeContext context, APRRunnerSettings settings)
-        {
-            //TODO　WorkingDirectory = settings.ProjectPath.Combine("netlist")
-            context.ConvertAMS(settings.Top,
-                settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_func.v"), settings
-                    .ProjectPath.Combine("netlist")
-                    .CombineWithFilePath($"{settings.Top}_cds_functional.v"),
-                settings.ProjectPath.Combine("netlist"));
-        }
 
 
         public static void RunAPR(ICakeContext context, APRRunnerSettings settings)
@@ -128,14 +100,12 @@ namespace Harbor.Core.Tool.APR
 
         public static void RunFormality(ICakeContext context, APRRunnerSettings settings)
         {
-            if (settings.FormalVerify)
+            if (!settings.FormalVerify) return;
+            var configure = new FormalityRunnerSettings
             {
-                var configure = new FormalityRunnerSettings
-                {
-                    APRSettings = settings
-                };
-                context.Formality(configure);
-            }
+                APRSettings = settings
+            };
+            context.Formality(configure);
         }
 
     }

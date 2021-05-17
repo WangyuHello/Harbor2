@@ -12,7 +12,7 @@ namespace Harbor.Core.Tool.ConvertAMS
         [CakeMethodAlias]
         public static void ConvertAMS(this ICakeContext context, string top, FilePath source, FilePath output, DirectoryPath workingDirectory)
         {
-            Harbor.Python.Tool.ConvertAMS.Run(top, source.FullPath, output.FullPath, workingDirectory.FullPath);
+            Harbor.Python.Tool.ConvertAMS.Run2(top, source.FullPath, output.FullPath, workingDirectory.FullPath);
         }
     }
 }

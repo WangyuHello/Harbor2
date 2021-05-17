@@ -13,7 +13,7 @@ namespace Harbor.Core.Tool.GetPorts
         [CakeMethodAlias]
         public static List<VerilogPortDefinition> GetPorts(this ICakeContext context, string top, string file, DirectoryPath workingDirectory)
         {
-            return Python.Tool.GetPorts.Run(file, top, workingDirectory.FullPath);
+            return Python.Tool.GetPorts.Run2(file, top, workingDirectory.FullPath);
         }
 
     }

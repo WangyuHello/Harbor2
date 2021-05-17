@@ -66,7 +66,7 @@ namespace Harbor.Core.Tool.APR
         /// <param name="top"></param>
         public void InflatePorts(DirectoryPath synProjectPath, string m1direction, string top)
         {
-            var ports = Python.Tool.GetPorts.Run(
+            var ports = Python.Tool.GetPorts.Run2(
                 synProjectPath.Combine("netlist").CombineWithFilePath($"{top}.v").FullPath, top, synProjectPath.Combine("netlist").FullPath);
             
             var r = new Random(10);

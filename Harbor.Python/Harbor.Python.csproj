@@ -5,6 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Tool\AddPg.py" />
+    <None Remove="Tool\ConvertAMS.py" />
+    <None Remove="Tool\ConvertUpper.py" />
+    <None Remove="Tool\GetPorts.py" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Tool\AddPg.py" />
+    <EmbeddedResource Include="Tool\ConvertAMS.py" />
+    <EmbeddedResource Include="Tool\ConvertUpper.py" />
+    <EmbeddedResource Include="Tool\GetPorts.py" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="pythonnet" Version="3.0.0-preview2021-02-17" />
   </ItemGroup>

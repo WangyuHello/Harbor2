@@ -1,17 +1,21 @@
 ﻿using Cake.Core;
 using Cake.Core.Annotations;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Cake.Common.IO;
 using Cake.Core.IO;
 using Cake.FileHelpers;
 using Harbor.Common.Project;
+using Harbor.Core.Tool.AddPG;
+using Harbor.Core.Tool.ConvertAMS;
+using Harbor.Core.Tool.ConvertUpper;
 using Harbor.Core.Tool.Ihdl;
 using Harbor.Core.Tool.Project;
+using Harbor.Core.Tool.Sed;
 using Harbor.Core.Tool.StrmIn;
 using Harbor.Core.Tool.Virtuoso;
 using Harbor.Core.Util;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable InconsistentNaming
 
 namespace Harbor.Core.Tool.Cadence
 {
@@ -41,6 +45,9 @@ namespace Harbor.Core.Tool.Cadence
             var funcvName = context.MakeAbsolute(new FilePath($"./Layout/netlist/{projectInfo.Project}_cds_functional.v"));
             var gdsName = context.MakeAbsolute(new FilePath($"./Layout/gds/{projectInfo.Project}.gds"));
 
+            RunAddPG(context, projectInfo, projectInfo.Project);
+            RunConvertUpper(context, projectInfo, projectInfo.Project);
+            RunConvertAMS(context, projectInfo, projectInfo.Project);
             //AutoImport
             context.AutoImport(cdsDir, vName, funcvName, gdsName, projectInfo.Project, projectInfo.Project);
         }
@@ -54,9 +61,8 @@ namespace Harbor.Core.Tool.Cadence
             var m2Width = library.PrimaryStdCell.m2_width;
             var m1RoutingDirection = library.PrimaryStdCell.m1_routing_direction;
 
-            var pgTemplate = "";
+            string pgTemplate;
             
-
             var addPinTemplate = libraryName switch
             {
                 { } l when l.StartsWith("TSMC") => $"auto_add_pin_tsmc(\"{libName}\" \"{topCellName}\" {m2Width})",
@@ -114,6 +120,46 @@ namespace Harbor.Core.Tool.Cadence
                 RestoreFile = ilFile,
                 CommandLogFile = $"./.harbor/{topCellName}.virtuoso.log"
             });
+        }
+
+
+        public static void RunAddPG(ICakeContext context, ProjectInfo projectInfo, string top)
+        {
+            var layoutProjectPath = context.MakeAbsolute(new DirectoryPath("./Layout"));
+            //在网表中删除wire only的单元
+            var library = AllLibrary.GetLibrary(projectInfo);
+            if (library.PrimaryStdCell.wire_only_cells != null && library.PrimaryStdCell.wire_only_cells.Length != 0)
+            {
+                foreach (var fill in library.PrimaryStdCell.wire_only_cells)
+                {
+                    context.Sed(layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds.v"), $"/{fill}/d");
+                }
+            }
+            context.AddPG(AllLibrary.GetLibrary(projectInfo), projectInfo,
+                layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds.v"),
+                layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_PG.v"),
+                layoutProjectPath.Combine("netlist"));
+            
+        }
+
+        public static void RunConvertUpper(ICakeContext context, ProjectInfo projectInfo, string top)
+        {
+            var layoutProjectPath = context.MakeAbsolute(new DirectoryPath("./Layout"));
+            var synProjectPath = context.MakeAbsolute(new DirectoryPath("./Synthesis"));
+            context.ConvertUpper(top,
+                synProjectPath.Combine("netlist").CombineWithFilePath($"{top}_combine.v"),
+                layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_PG.v"), 
+                layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_func.v"),
+                layoutProjectPath.Combine("netlist"));
+        }
+
+        public static void RunConvertAMS(ICakeContext context, ProjectInfo projectInfo, string top)
+        {
+            var layoutProjectPath = context.MakeAbsolute(new DirectoryPath("./Layout"));
+            context.ConvertAMS(top,
+                layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_func.v"), layoutProjectPath.Combine("netlist")
+                    .CombineWithFilePath($"{top}_cds_functional.v"),
+                layoutProjectPath.Combine("netlist"));
         }
     }
 }

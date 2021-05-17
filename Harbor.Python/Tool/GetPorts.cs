@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Python.Runtime;
@@ -101,6 +102,32 @@ namespace Harbor.Python.Tool
                 GetPortsInner(ast);
             });
             return topPorts;
+        }
+
+        public static List<VerilogPortDefinition> Run2(string filename, string topModuleName, string workingDirectory)
+        {
+            var names = MethodBase.GetCurrentMethod()?.DeclaringType?.Namespace;
+            var code = PythonHelper.GetCodeFromResource(names + ".GetPorts.py");
+
+            List<VerilogPortDefinition> rslt = new List<VerilogPortDefinition>();
+            PythonHelper.SetEnvironment(workingDirectory, () =>
+            {
+                using var scope = Py.CreateScope("AddPg");
+                scope.Set("filename", filename);
+                scope.Set("top", topModuleName);
+                scope.Exec(code);
+                var r = scope.Get<PyObject>("top_ports");
+                dynamic r2 = PyList.AsList(r);
+                foreach (var i in r2)
+                {
+                    rslt.Add(new VerilogPortDefinition
+                    {
+                        Name = i["Name"],
+                        Width = (i["Width"]["msb"], i["Width"]["lsb"])
+                    });
+                }
+            });
+            return rslt;
         }
     }
 }

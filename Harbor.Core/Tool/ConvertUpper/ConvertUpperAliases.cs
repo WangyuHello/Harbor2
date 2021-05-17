@@ -12,7 +12,7 @@ namespace Harbor.Core.Tool.ConvertUpper
         [CakeMethodAlias]
         public static void ConvertUpper(this ICakeContext context, string top, FilePath source, FilePath netlist, FilePath output, DirectoryPath workingDirectory)
         {
-            Harbor.Python.Tool.ConvertUpper.Run(top, source.FullPath, netlist.FullPath, output.FullPath, workingDirectory.FullPath);
+            Harbor.Python.Tool.ConvertUpper.Run2(top, source.FullPath, netlist.FullPath, output.FullPath, workingDirectory.FullPath);
         }
 
     }

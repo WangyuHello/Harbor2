@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Python.Runtime;
@@ -13,7 +14,6 @@ namespace Harbor.Python.Tool
         const string Banner = @"
 // Created by: Harbor
 // Version   : 2.0.0
-// Author    : Wang Yu
 // Time      : ";
         /// <summary>
         /// 
@@ -176,6 +176,24 @@ namespace Harbor.Python.Tool
 
                 File.WriteAllText(output, Banner + DateTime.Now + Environment.NewLine + rslt);
             });
+        }
+
+        public static void Run2(string top, string source, string netlist, string output, string workingDirectory)
+        {
+            var names = MethodBase.GetCurrentMethod()?.DeclaringType?.Namespace;
+            var code = PythonHelper.GetCodeFromResource(names + ".ConvertUpper.py");
+
+            string rslt = "";
+            PythonHelper.SetEnvironment(workingDirectory, () =>
+            {
+                using var scope = Py.CreateScope();
+                scope.Set("source", source);
+                scope.Set("netlist", netlist);
+                scope.Set("top", top);
+                scope.Exec(code);
+                rslt = scope.Get<string>("rslt");
+            });
+            File.WriteAllText(output, Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Python.Runtime;
@@ -41,6 +43,18 @@ namespace Harbor.Python
             }
 
             Environment.CurrentDirectory = curDir;
+        }
+
+        public static string GetCodeFromResource(string fullName)
+        {
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(fullName);
+            using var sr = new StreamReader(stream ?? throw new InvalidOperationException(), new UTF8Encoding(false));
+            var code = sr.ReadToEnd();
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                code = code.Replace("\r","");
+            }
+            return code;
         }
     }
 }
