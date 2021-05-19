@@ -29,16 +29,15 @@ namespace Harbor.Core.Tool.APR.Tcl
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("#自动生成的脚本\r\n#");
             
-            #line 8 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(System.DateTime.Now));
+            #line 7 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(model.Header));
             
             #line default
             #line hidden
             this.Write("\r\n#=============左侧端口====================\r\n");
             
-            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 9 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
   
 int space = (int)model.PinSpace;
 var realLeftOrders = 1; 
@@ -48,19 +47,19 @@ decimal offset = 0m;
             #line default
             #line hidden
             
-            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  foreach(var p in model.LeftPorts) { 
             
             #line default
             #line hidden
             
-            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  for(int i = p.Width.lsb; i <= p.Width.msb; i++) { 
             
             #line default
             #line hidden
             
-            #line 17 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  offset += model.PinSpace;
 var tempName = $"{p.Name}[{i}]";
 if((p.Width.msb == p.Width.lsb) && (p.Width.msb == 0))
@@ -72,98 +71,104 @@ if((p.Width.msb == p.Width.lsb) && (p.Width.msb == 0))
             #line default
             #line hidden
             
-            #line 24 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 23 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  if(model.PinPlaceMode == PinPlaceMode.Uniform ) { 
             
             #line default
             #line hidden
             this.Write("set_pin_physical_constraints -pin_name {");
             
-            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 24 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tempName));
             
             #line default
             #line hidden
             this.Write("} -layers {metal");
             
-            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 24 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.MetalLayer));
             
             #line default
             #line hidden
             this.Write("} -side ");
             
-            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 24 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((int)p.Position+1));
             
             #line default
             #line hidden
             this.Write(" -order ");
             
-            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 24 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(realLeftOrders));
             
             #line default
             #line hidden
             this.Write(" -pin_spacing ");
             
-            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 24 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(space));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 26 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } else if(model.PinPlaceMode == PinPlaceMode.ByOffset) { 
             
             #line default
             #line hidden
             this.Write("set_pin_physical_constraints -pin_name {");
             
-            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 26 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tempName));
             
             #line default
             #line hidden
             this.Write("} -layers {metal");
             
-            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 26 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.MetalLayer));
             
             #line default
             #line hidden
             this.Write("} -side ");
             
-            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 26 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((int)p.Position+1));
             
             #line default
             #line hidden
             this.Write(" -order ");
             
-            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 26 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(realLeftOrders));
             
             #line default
             #line hidden
             this.Write(" -pin_spacing 0 -offset ");
             
-            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 26 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(offset));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 29 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  realLeftOrders += 1; 
+            
+            #line default
+            #line hidden
+            
+            #line 29 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+ } 
             
             #line default
             #line hidden
@@ -173,15 +178,9 @@ if((p.Width.msb == p.Width.lsb) && (p.Width.msb == 0))
             
             #line default
             #line hidden
-            
-            #line 31 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
- } 
-            
-            #line default
-            #line hidden
             this.Write("#=============上侧端口====================\r\n");
             
-            #line 33 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 32 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  var realTopOrders = 1; 
 offset = 0m;
 
@@ -189,19 +188,19 @@ offset = 0m;
             #line default
             #line hidden
             
-            #line 36 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 35 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  foreach(var p in model.TopPorts) { 
             
             #line default
             #line hidden
             
-            #line 37 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 36 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  for(int i = p.Width.lsb; i <= p.Width.msb; i++) { 
             
             #line default
             #line hidden
             
-            #line 38 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 37 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
 
 offset += model.PinSpace;
 var tempName = $"{p.Name}[{i}]";
@@ -214,98 +213,104 @@ tempName = p.Name;
             #line default
             #line hidden
             
-            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 45 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  if(model.PinPlaceMode == PinPlaceMode.Uniform ) { 
             
             #line default
             #line hidden
             this.Write("set_pin_physical_constraints -pin_name {");
             
-            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tempName));
             
             #line default
             #line hidden
             this.Write("} -layers {metal");
             
-            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.MetalLayer));
             
             #line default
             #line hidden
             this.Write("} -side ");
             
-            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((int)p.Position+1));
             
             #line default
             #line hidden
             this.Write(" -order ");
             
-            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(realTopOrders));
             
             #line default
             #line hidden
             this.Write(" -pin_spacing ");
             
-            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(space));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } else if(model.PinPlaceMode == PinPlaceMode.ByOffset) { 
             
             #line default
             #line hidden
             this.Write("set_pin_physical_constraints -pin_name {");
             
-            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tempName));
             
             #line default
             #line hidden
             this.Write("} -layers {metal");
             
-            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.MetalLayer));
             
             #line default
             #line hidden
             this.Write("} -side ");
             
-            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((int)p.Position+1));
             
             #line default
             #line hidden
             this.Write(" -order ");
             
-            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(realTopOrders));
             
             #line default
             #line hidden
             this.Write(" -pin_spacing 0 -offset ");
             
-            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(offset));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  realTopOrders += 1; 
+            
+            #line default
+            #line hidden
+            
+            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+ } 
             
             #line default
             #line hidden
@@ -315,15 +320,9 @@ tempName = p.Name;
             
             #line default
             #line hidden
-            
-            #line 53 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
- } 
-            
-            #line default
-            #line hidden
             this.Write("#=============右侧端口====================\r\n");
             
-            #line 55 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 54 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  var realRightOrders = 1; 
 offset = 0m;
 
@@ -331,19 +330,19 @@ offset = 0m;
             #line default
             #line hidden
             
-            #line 58 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 57 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  foreach(var p in model.RightPorts) { 
             
             #line default
             #line hidden
             
-            #line 59 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 58 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  for(int i = p.Width.lsb; i <= p.Width.msb; i++) { 
             
             #line default
             #line hidden
             
-            #line 60 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 59 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
 
 offset += model.PinSpace;
 var tempName = $"{p.Name}[{i}]";
@@ -356,98 +355,104 @@ tempName = p.Name;
             #line default
             #line hidden
             
-            #line 68 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 67 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  if(model.PinPlaceMode == PinPlaceMode.Uniform ) { 
             
             #line default
             #line hidden
             this.Write("set_pin_physical_constraints -pin_name {");
             
-            #line 69 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 68 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tempName));
             
             #line default
             #line hidden
             this.Write("} -layers {metal");
             
-            #line 69 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 68 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.MetalLayer));
             
             #line default
             #line hidden
             this.Write("} -side ");
             
-            #line 69 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 68 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((int)p.Position+1));
             
             #line default
             #line hidden
             this.Write(" -order ");
             
-            #line 69 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 68 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(realRightOrders));
             
             #line default
             #line hidden
             this.Write(" -pin_spacing ");
             
-            #line 69 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 68 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(space));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 70 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 69 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } else if(model.PinPlaceMode == PinPlaceMode.ByOffset) { 
             
             #line default
             #line hidden
             this.Write("set_pin_physical_constraints -pin_name {");
             
-            #line 71 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 70 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tempName));
             
             #line default
             #line hidden
             this.Write("} -layers {metal");
             
-            #line 71 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 70 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.MetalLayer));
             
             #line default
             #line hidden
             this.Write("} -side ");
             
-            #line 71 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 70 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((int)p.Position+1));
             
             #line default
             #line hidden
             this.Write(" -order ");
             
-            #line 71 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 70 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(realRightOrders));
             
             #line default
             #line hidden
             this.Write(" -pin_spacing 0 -offset ");
             
-            #line 71 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 70 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(offset));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 72 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 71 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 73 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 72 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  realRightOrders += 1; 
+            
+            #line default
+            #line hidden
+            
+            #line 73 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+ } 
             
             #line default
             #line hidden
@@ -457,15 +462,9 @@ tempName = p.Name;
             
             #line default
             #line hidden
-            
-            #line 75 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
- } 
-            
-            #line default
-            #line hidden
             this.Write("#=============下侧端口====================\r\n");
             
-            #line 77 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 76 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  var realBottomOrders = 1; 
 offset = 0m;
 
@@ -473,19 +472,19 @@ offset = 0m;
             #line default
             #line hidden
             
-            #line 80 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 79 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  foreach(var p in model.BottomPorts) { 
             
             #line default
             #line hidden
             
-            #line 81 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 80 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  for(int i = p.Width.lsb; i <= p.Width.msb; i++) { 
             
             #line default
             #line hidden
             
-            #line 82 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 81 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
 
 offset += model.PinSpace;
 var tempName = $"{p.Name}[{i}]";
@@ -498,109 +497,109 @@ tempName = p.Name;
             #line default
             #line hidden
             
-            #line 90 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 89 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  if(model.PinPlaceMode == PinPlaceMode.Uniform ) { 
             
             #line default
             #line hidden
             this.Write("set_pin_physical_constraints -pin_name {");
             
-            #line 91 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 90 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tempName));
             
             #line default
             #line hidden
             this.Write("} -layers {metal");
             
-            #line 91 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 90 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.MetalLayer));
             
             #line default
             #line hidden
             this.Write("} -side ");
             
-            #line 91 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 90 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((int)p.Position+1));
             
             #line default
             #line hidden
             this.Write(" -order ");
             
-            #line 91 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 90 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(realBottomOrders));
             
             #line default
             #line hidden
             this.Write(" -pin_spacing ");
             
-            #line 91 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 90 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(space));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 92 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 91 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } else if(model.PinPlaceMode == PinPlaceMode.ByOffset) { 
             
             #line default
             #line hidden
             this.Write("set_pin_physical_constraints -pin_name {");
             
-            #line 93 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 92 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tempName));
             
             #line default
             #line hidden
             this.Write("} -layers {metal");
             
-            #line 93 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 92 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.MetalLayer));
             
             #line default
             #line hidden
             this.Write("} -side ");
             
-            #line 93 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 92 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((int)p.Position+1));
             
             #line default
             #line hidden
             this.Write(" -order ");
             
-            #line 93 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 92 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(realBottomOrders));
             
             #line default
             #line hidden
             this.Write(" -pin_spacing 0 -offset ");
             
-            #line 93 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 92 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(offset));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 94 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 93 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 95 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 94 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  realBottomOrders += 1; 
             
             #line default
             #line hidden
             
-            #line 96 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 95 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 97 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
+            #line 96 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\PinPadTcl.tt"
  } 
             
             #line default

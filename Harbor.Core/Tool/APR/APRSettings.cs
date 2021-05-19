@@ -427,11 +427,10 @@ namespace Harbor.Core.Tool.APR
             BuildScriptFile = "build.tcl";
             CommandLogFile = "build.log";
 
-            var tran = "";
             if (UseICC)
             {
                 var buildTcl = new ICCBuildTcl(model, pinPadTclModel);
-                tran = buildTcl.TransformText();
+                buildTcl.WriteToFile(WorkingDirectory.CombineWithFilePath(BuildScriptFile).FullPath);
             }
             else if (UseICC2)
             {
@@ -442,7 +441,6 @@ namespace Harbor.Core.Tool.APR
                 
             }
             
-            File.WriteAllText(WorkingDirectory.CombineWithFilePath(BuildScriptFile).FullPath, tran);
 
             if (pinPadTclModel.ConstraintFile == null)
             {
@@ -455,8 +453,7 @@ namespace Harbor.Core.Tool.APR
                 pinPadTclModel.BottomPorts = PinSettings.BottomPorts;
 
                 var pinPadTcl = new PinPadTcl(pinPadTclModel);
-                var tran2 = pinPadTcl.TransformText().Replace("\r\n", Environment.NewLine);
-                File.WriteAllText(WorkingDirectory.CombineWithFilePath("pin_pad.tcl").FullPath, tran2);
+                pinPadTcl.WriteToFile(WorkingDirectory.CombineWithFilePath("pin_pad.tcl").FullPath);
             }
         }
 

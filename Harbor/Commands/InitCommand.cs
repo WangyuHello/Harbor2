@@ -108,7 +108,7 @@ namespace Harbor.Commands
 
             var libString = AnsiConsole.Prompt(
                 new MultiSelectionPrompt<string>()
-                    .Title("[blue]请选择标准单元库[/]")
+                    .Title("[blue]请选择IO库[/]")
                     .NotRequired()
                     .PageSize(10)
                     //.AddChoice("<不选择>")

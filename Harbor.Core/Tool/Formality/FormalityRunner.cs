@@ -88,7 +88,7 @@ namespace Harbor.Core.Tool.Formality
                 ScriptRootPath = WorkingDirectory.FullPath
             };
 
-            if (library.Io != null && library.Io.Count > 0)
+            if (library.Io is {Count: > 0})
             {
                 model.IOTimingDbPaths = library.Io.Select(i => Path.Combine(i.timing_db_path, i.timing_db_name)).ToList();
             }
@@ -96,9 +96,7 @@ namespace Harbor.Core.Tool.Formality
             model.AdditionalTimingDbPaths = APRSettings.AdditionalTimingDb.Select(f => f.FullPath).ToList();
 
             var formality = new APR.Tcl.Formality(model);
-            var tran = formality.TransformText();
-
-            File.WriteAllText(CommandFile.FullPath, tran);
+            formality.WriteToFile(CommandFile.FullPath);
         }
 
     }

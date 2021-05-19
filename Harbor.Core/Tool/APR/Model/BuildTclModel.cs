@@ -5,7 +5,7 @@ using Harbor.Common.Project;
 
 namespace Harbor.Core.Tool.APR.Model
 {
-    public class BuildTclModel
+    public class BuildTclModel : HarborTextModel
     {
         public string Library { get; set; }
         public string TechFilePath { get; set; }

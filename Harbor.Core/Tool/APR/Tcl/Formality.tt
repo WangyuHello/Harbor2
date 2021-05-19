@@ -3,8 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-#自动生成的脚本
-#<#= System.DateTime.Now#>
+<#= model.Header #>
 
 #=====================设置变量======================
 set top_name         "<#= model.TopName #>"

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Harbor.Core.Tool.APR.Model
 {
-    public class FormalityModel
+    public class FormalityModel : HarborTextModel
     {
         public string LibPath { get; set; }
         public string LibName { get; set; }

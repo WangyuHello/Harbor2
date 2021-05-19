@@ -28,8 +28,9 @@ namespace Harbor.Core.Util.Template
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("Layout/\r\nSynthesis/\r\ntools/\r\nCadence/\r\n\r\nValidation/\r\n\r\n.harbor/\r\n.cadence\r\n*.log" +
-                    "*\r\n.nodeIdDynamicRanges\r\n\r\n.build.cake");
+            this.Write("Layout/\r\nSynthesis/\r\ntools/\r\nCadence/\r\n\r\nValidation/\r\n\r\n.harbor/\r\n.cadence/\r\n*.lo" +
+                    "g*\r\nlogs_*/\r\n.nodeIdDynamicRanges\r\n.abstract/\r\n.pcdb/\r\n.*.auCdl\r\n.tmp*\r\nihnl/\r\nm" +
+                    "ap/\r\nraw/\r\nsi.env\r\n.cgidrcdb\r\n.cgilvsdb\r\n\r\n.nfs*");
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -6,7 +6,7 @@ using Cake.Core.IO;
 
 namespace Harbor.Core.Tool.APR.Model
 {
-    public class PinPadTclModel
+    public class PinPadTclModel : HarborTextModel
     {
         public List<Port> LeftPorts { get; set; }
         public List<Port> TopPorts { get; set; }

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cake.Core;
 using Cake.Core.Diagnostics;
-using Harbor.Cli;
+using Harbor.Common.Cli;
 
 namespace Harbor.Commands
 {

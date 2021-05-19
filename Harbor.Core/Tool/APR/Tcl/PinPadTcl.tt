@@ -4,8 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Harbor.Core.Tool.APR.Model" #>
-#自动生成的脚本
-#<#= System.DateTime.Now#>
+<#= model.Header #>
 #=============左侧端口====================
 <#  
 int space = (int)model.PinSpace;

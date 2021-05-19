@@ -28,44 +28,43 @@ namespace Harbor.Core.Tool.APR.Tcl
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("#自动生成的脚本\r\n#");
             
-            #line 7 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(System.DateTime.Now));
+            #line 6 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(model.Header));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n#=====================设置变量======================\r\nset top_name         \"");
             
-            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 9 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TopName));
             
             #line default
             #line hidden
             this.Write("\"\r\nset net_path         \"");
             
-            #line 11 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.Netlist));
             
             #line default
             #line hidden
             this.Write("\"\r\nset syn_net_path     \"");
             
-            #line 12 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 11 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.SynNetlist));
             
             #line default
             #line hidden
             this.Write("\"\r\nset script_root_path \"");
             
-            #line 13 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 12 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ScriptRootPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset lib_path         \"");
             
-            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 13 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibPath));
             
             #line default
@@ -74,103 +73,103 @@ namespace Harbor.Core.Tool.APR.Tcl
                     "                \"\r\n\r\n#=====================设置工艺库======================\r\n\r\nset li" +
                     "b_name       \"");
             
-            #line 22 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 21 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibName));
             
             #line default
             #line hidden
             this.Write("\"\r\nset target_library \"");
             
-            #line 23 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 22 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibFullName));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 24 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 23 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
  foreach(var io_lib in model.IOTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 24 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(io_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 26 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 26 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
  foreach(var addi_lib in model.AdditionalTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(addi_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 29 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
  } 
             
             #line default
             #line hidden
             this.Write("                   \"\r\nset link_library   \"");
             
-            #line 31 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 30 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibFullName));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 32 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 31 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
  foreach(var io_lib in model.IOTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 33 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 32 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(io_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 34 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 33 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 35 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 34 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
  foreach(var addi_lib in model.AdditionalTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 36 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 35 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(addi_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 37 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
+            #line 36 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
  } 
             
             #line default

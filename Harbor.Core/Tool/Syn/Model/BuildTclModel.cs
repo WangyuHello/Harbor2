@@ -5,7 +5,7 @@ using Harbor.Common.Project;
 
 namespace Harbor.Core.Tool.Syn.Model
 {
-    public class BuildTclModel
+    public class BuildTclModel : HarborTextModel
     {
         public string ScriptRootPath { get; set; }
         public string WorkPath { get; set; }

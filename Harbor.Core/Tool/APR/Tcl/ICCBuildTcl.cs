@@ -29,155 +29,154 @@ namespace Harbor.Core.Tool.APR.Tcl
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n#自动生成的脚本\r\n#");
             
-            #line 9 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(System.DateTime.Now));
+            #line 7 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(model.Header));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n#=====================设置变量======================\r\nset top_name         \"");
             
-            #line 12 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TopName));
             
             #line default
             #line hidden
             this.Write("\"\r\nset net_path         \"");
             
-            #line 13 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 11 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.Netlist));
             
             #line default
             #line hidden
             this.Write("\"\r\nset syn_net_path     \"");
             
-            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 12 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.SynNetlist));
             
             #line default
             #line hidden
             this.Write("\"\r\nset gds_path         \"");
             
-            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 13 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.GDSPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset rpt_path         \"");
             
-            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.RptPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset script_root_path \"");
             
-            #line 17 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ScriptRootPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset lib_path         \"");
             
-            #line 18 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibPath));
             
             #line default
             #line hidden
             this.Write("\"\r\n\r\n");
             
-            #line 20 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 18 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(string.IsNullOrEmpty(model.Power)) { 
             
             #line default
             #line hidden
             this.Write("set power_name       \"VDD\"\r\n");
             
-            #line 22 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 20 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("set power_name       \"");
             
-            #line 23 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 21 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.Power));
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
-            #line 24 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 22 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 23 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(string.IsNullOrEmpty(model.Ground)) { 
             
             #line default
             #line hidden
             this.Write("set ground_name      \"VSS\"\r\n");
             
-            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 25 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("set ground_name      \"");
             
-            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 26 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.Ground));
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
-            #line 29 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("set MnTXTs           [dict create 1 ");
             
-            #line 30 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MnTXT1));
             
             #line default
             #line hidden
             this.Write(" 2 ");
             
-            #line 30 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MnTXT2));
             
             #line default
             #line hidden
             this.Write(" 3 ");
             
-            #line 30 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MnTXT3));
             
             #line default
             #line hidden
             this.Write(" 4 ");
             
-            #line 30 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MnTXT4));
             
             #line default
             #line hidden
             this.Write(" 5 ");
             
-            #line 30 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MnTXT5));
             
             #line default
             #line hidden
             this.Write(" 6 ");
             
-            #line 30 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MnTXT6));
             
             #line default
@@ -186,124 +185,124 @@ namespace Harbor.Core.Tool.APR.Tcl
                     "                \"\r\n\r\n#=====================设置工艺库======================\r\n\r\nset li" +
                     "b_name       \"");
             
-            #line 38 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 36 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibName));
             
             #line default
             #line hidden
             this.Write("\"\r\nset target_library \"");
             
-            #line 39 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 37 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibFullName));
+            
+            #line default
+            #line hidden
+            this.Write(" \\\r\n");
+            
+            #line 38 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+ foreach(var io_lib in model.IOTimingDbPaths) { 
+            
+            #line default
+            #line hidden
+            this.Write("                    ");
+            
+            #line 39 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(io_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
             #line 40 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
- foreach(var io_lib in model.IOTimingDbPaths) { 
-            
-            #line default
-            #line hidden
-            this.Write("                    ");
-            
-            #line 41 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(io_lib));
-            
-            #line default
-            #line hidden
-            this.Write(" \\\r\n");
-            
-            #line 42 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 43 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 41 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var addi_lib in model.AdditionalTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 44 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 42 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(addi_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 45 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 43 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("                   \"\r\nset link_library   \"");
             
-            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 45 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibFullName));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var io_lib in model.IOTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(io_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var addi_lib in model.AdditionalTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 52 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(addi_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 53 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("                   \"\r\n");
             
-            #line 55 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 53 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(!string.IsNullOrEmpty(model.StdCell.symbol_full_name)) { 
             
             #line default
             #line hidden
             this.Write("set symbol_library \"");
             
-            #line 56 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 54 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.StdCell.symbol_full_name));
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
-            #line 57 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 55 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -328,14 +327,14 @@ set_app_var rc_receiver_model_mode advanced
 
 create_mw_lib -technology ");
             
-            #line 76 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 74 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TechFilePath));
             
             #line default
             #line hidden
             this.Write(" -mw_reference_library { ");
             
-            #line 76 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 74 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(" ", model.RefLibPath)));
             
             #line default
@@ -344,35 +343,35 @@ create_mw_lib -technology ");
                     "op_name -cel $top_name { $syn_net_path/$top_name\\.ddc }\r\nread_verilog $syn_net_p" +
                     "ath/$top_name\\.v -dirty_netlist -top $top_name -cel $top_name\r\n");
             
-            #line 79 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 77 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(!string.IsNullOrEmpty(model.TLUPMax)) { 
             
             #line default
             #line hidden
             this.Write("set_tlu_plus_files -max_tluplus ");
             
-            #line 80 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 78 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TLUPMax));
             
             #line default
             #line hidden
             this.Write(" -min_tluplus ");
             
-            #line 80 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 78 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TLUPMin));
             
             #line default
             #line hidden
             this.Write(" -tech2itf_map ");
             
-            #line 80 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 78 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.Tech2itfMap));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 81 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 79 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -397,7 +396,7 @@ remove_propagated_clock [all_clocks]
 
 ");
             
-            #line 100 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 98 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var pin_pad_tcl = "$script_root_path/pin_pad.tcl";
 if(pinModel.ConstraintFile != null) {
@@ -408,7 +407,7 @@ if(pinModel.ConstraintFile != null) {
             #line hidden
             this.Write("read_pin_pad_physical_constraints \"");
             
-            #line 105 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 103 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pin_pad_tcl));
             
             #line default
@@ -416,7 +415,7 @@ if(pinModel.ConstraintFile != null) {
             this.Write("\"\r\n\r\nderive_pg_connection -power_net \"VDD\" -power_pin $power_name -ground_net \"VS" +
                     "S\" -ground_pin $ground_name\r\n# derive_pg_connection -verbose\r\n\r\n");
             
-            #line 110 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 108 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
 
 switch (model.FloorPlanSettings.FloorPlanType)
 {
@@ -427,49 +426,49 @@ switch (model.FloorPlanSettings.FloorPlanType)
             #line hidden
             this.Write("create_floorplan \\\r\n    -control_type aspect_ratio \\\r\n    -left_io2core      ");
             
-            #line 117 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 115 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.LeftIO2Core));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -bottom_io2core    ");
             
-            #line 118 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 116 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.BottomIO2Core));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -right_io2core     ");
             
-            #line 119 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 117 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.RightIO2Core));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -top_io2core       ");
             
-            #line 120 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 118 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.TopIO2Core));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -core_aspect_ratio ");
             
-            #line 121 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 119 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.AspectRatio));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -core_utilization  ");
             
-            #line 122 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 120 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.CoreUtilization));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -start_first_row\r\n");
             
-            #line 124 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 122 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
 
         break;
     case FloorPlanType.WidthHeightAuto:
@@ -481,56 +480,56 @@ switch (model.FloorPlanSettings.FloorPlanType)
             this.Write("create_floorplan \\\r\n    -control_type width_and_height \\\r\n    -left_io2core      " +
                     "");
             
-            #line 131 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 129 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.LeftIO2Core));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -bottom_io2core    ");
             
-            #line 132 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 130 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.BottomIO2Core));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -right_io2core     ");
             
-            #line 133 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 131 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.RightIO2Core));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -top_io2core       ");
             
-            #line 134 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 132 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.TopIO2Core));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -core_width        ");
             
-            #line 135 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 133 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.CoreWidth));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -core_height       ");
             
-            #line 136 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 134 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.CoreHeight));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -core_utilization  ");
             
-            #line 137 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 135 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.FloorPlanSettings.CoreUtilization));
             
             #line default
             #line hidden
             this.Write(" \\\r\n    -start_first_row\r\n");
             
-            #line 139 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 137 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
 
         break;
     default:
@@ -542,13 +541,13 @@ switch (model.FloorPlanSettings.FloorPlanType)
             #line hidden
             this.Write("\r\n");
             
-            #line 146 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 144 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 147 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 145 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var macroPlace in model.MacroPlaceSettings) { 
 var x1 = macroPlace.X;
 var y1 = macroPlace.Y;
@@ -562,42 +561,42 @@ var y2_ = macroPlace.Y + (double)macroPlace.Width;
             #line hidden
             this.Write("# 设置Macro摆放\r\nset_undoable_attribute [get_cells \"");
             
-            #line 156 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 154 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(macroPlace.Name.ToUpper()));
             
             #line default
             #line hidden
             this.Write("\"] orientation {");
             
-            #line 156 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 154 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(macroPlace.Orientation.ToString()));
             
             #line default
             #line hidden
             this.Write("}\r\nmove_objects -x ");
             
-            #line 157 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 155 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(x1));
             
             #line default
             #line hidden
             this.Write(" -y ");
             
-            #line 157 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 155 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(y1));
             
             #line default
             #line hidden
             this.Write(" [get_cells \"");
             
-            #line 157 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 155 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(macroPlace.Name.ToUpper()));
             
             #line default
             #line hidden
             this.Write("\"]\r\n");
             
-            #line 158 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 156 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 double p_x1 = 0;
 double p_y1 = 0;
@@ -619,96 +618,96 @@ if(macroPlace.Orientation == Orientation.E || macroPlace.Orientation == Orientat
             #line hidden
             this.Write("create_placement_blockage -bbox {");
             
-            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 172 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p_x1));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 172 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p_y1));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 172 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p_x2));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 172 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p_y2));
             
             #line default
             #line hidden
             this.Write("} -type hard\r\n");
             
-            #line 175 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 173 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(macroPlace.ReverseRoutingDirection) { 
             
             #line default
             #line hidden
             this.Write("create_route_guide -name route_guide_");
             
-            #line 176 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(macroPlace.Name.ToUpper().Replace("/", "_")));
             
             #line default
             #line hidden
             this.Write(" -coordinate {{");
             
-            #line 176 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p_x1));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 176 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p_y1));
             
             #line default
             #line hidden
             this.Write("} {");
             
-            #line 176 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p_x2));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 176 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p_y2));
             
             #line default
             #line hidden
             this.Write("}} -switch_preferred_direction_layers \"");
             
-            #line 176 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 174 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(" ", Enumerable.Range(3,model.MaxRoutingLayer-2).Select(s => "M"+s))));
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
+            #line 175 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
+            #line 176 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+ } 
+            
+            #line default
+            #line hidden
+            
             #line 177 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 178 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
- } 
-            
-            #line default
-            #line hidden
-            
-            #line 179 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -718,75 +717,75 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 184 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 182 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 185 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 183 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 186 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 184 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 187 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 185 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 188 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 186 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 189 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 187 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\nset_dont_touch_placement [all_macro_cells]\r\n");
             
-            #line 192 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 190 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 194 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 192 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.CapCells != null && model.CapCells.Length != 0) { 
             
             #line default
             #line hidden
             
-            #line 195 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 193 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  var cap_lib_cells = model.CapCells.Select(c => "$lib_name/" + c).ToList(); 
             
             #line default
             #line hidden
             this.Write("# 使用最小号CapCell\r\nadd_end_cap -respect_blockage -lib_cell \"");
             
-            #line 197 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 195 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(cap_lib_cells[0]));
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
-            #line 198 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 196 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -802,7 +801,7 @@ gui_execute_events
 set_delay_calculation_options -arnoldi_effort high
 set_host_options -max_core ");
             
-            #line 208 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 206 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.Cores));
             
             #line default
@@ -819,7 +818,7 @@ set_auto_disable_drc_nets -constant false
 set MIN_ROUTING_LAYER ""[get_layer_attribute -layer metal2 name]""
 set MAX_ROUTING_LAYER ""[get_layer_attribute -layer metal");
             
-            #line 218 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 216 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MaxRoutingLayer));
             
             #line default
@@ -836,14 +835,14 @@ set_buffer_opt_strategy -effort high
 
 ");
             
-            #line 228 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 226 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.StdCell.cdk_name.StartsWith("scc")) { 
             
             #line default
             #line hidden
             this.Write("set TIE_CELLS \"");
             
-            #line 229 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 227 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture($"$lib_name/{model.TieHighCell} $lib_name/{model.TieLowCell}"));
             
             #line default
@@ -852,7 +851,7 @@ set_buffer_opt_strategy -effort high
                     "e 0.2 -type float\r\nremove_attribute $TIE_CELLS dont_use\r\nremove_attribute $TIE_C" +
                     "ELLS dont_touch\r\n");
             
-            #line 234 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 232 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -877,7 +876,7 @@ set_clock_tree_options -routing_rule iccrm_clock_double_spacing -use_default_rou
 
 set_clock_tree_options -layer_list """);
             
-            #line 253 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 251 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(" ", Enumerable.Range(3, model.MaxRoutingLayer - 2).Select(i => "M"+i))));
             
             #line default
@@ -885,7 +884,7 @@ set_clock_tree_options -layer_list """);
             this.Write("\" ;# typically route clocks on metal3 and above\r\n\r\n#====================post_cts_" +
                     "settings============\r\n");
             
-            #line 256 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 254 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.DelayCells != null && model.DelayCells.Length != 0) {
     var delay_cells_str = string.Join(" ", model.DelayCells.Select(c => "$lib_name/" + c));
 
@@ -894,7 +893,7 @@ set_clock_tree_options -layer_list """);
             #line hidden
             this.Write("set ICC_FIX_HOLD_PREFER_CELLS \"");
             
-            #line 259 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 257 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(delay_cells_str));
             
             #line default
@@ -903,7 +902,7 @@ set_clock_tree_options -layer_list """);
                     "efer -min [get_lib_cells $ICC_FIX_HOLD_PREFER_CELLS]\r\nset_fix_hold_options -pref" +
                     "erred_buffer\r\n");
             
-            #line 263 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 261 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -927,7 +926,7 @@ set_route_zrt_detail_options -antenna true
 
 ");
             
-            #line 281 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 279 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.Library.StartsWith("HL")) { 
             
             #line default
@@ -943,7 +942,7 @@ set_route_zrt_detail_options -antenna true
 set_route_zrt_common_options -connect_within_pins {{M1 via_wire_standard_cell_pins}}
 ");
             
-            #line 291 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 289 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -958,13 +957,13 @@ create_fp_placement -timing_driven -no_hierarchy_gravity
 derive_pg_connection -power_net ""VDD"" -power_pin $power_name -ground_net ""VSS"" -ground_pin $ground_name
 ");
             
-            #line 300 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 298 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 301 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 299 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -974,47 +973,47 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 306 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 304 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 307 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 305 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 308 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 306 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 309 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 307 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 310 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 308 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 311 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 309 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 312 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 310 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1022,61 +1021,61 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             this.Write("#derive_pg_connection -power_net \"VDD\" -ground_net \"VSS\" -tie\r\n\r\ncreate_rectiline" +
                     "ar_rings -nets { \"VDD\" \"VSS\" } -offset { ");
             
-            #line 315 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 313 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.HorizontalOffset));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 315 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 313 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.VerticalOffset));
             
             #line default
             #line hidden
             this.Write(" } -width { ");
             
-            #line 315 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 313 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.PowerWidth));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 315 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 313 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.GroundWidth));
             
             #line default
             #line hidden
             this.Write(" } -space { ");
             
-            #line 315 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 313 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.VerticalSpace));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 315 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 313 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.HorizontalSpace));
             
             #line default
             #line hidden
             this.Write(" }\r\n\r\n");
             
-            #line 317 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 315 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 318 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 316 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var macroPlace in model.MacroPlaceSettings) { 
             
             #line default
             #line hidden
             
-            #line 319 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 317 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(macroPlace.CreateRing) { 
 var hoffset = macroPlace.MarginLeft - 5.4;
 var voffset = macroPlace.MarginTop - 5.4;
@@ -1086,35 +1085,35 @@ var voffset = macroPlace.MarginTop - 5.4;
             #line hidden
             this.Write("create_rectilinear_rings -around macro -macro_cells {");
             
-            #line 323 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 321 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(macroPlace.Name.ToUpper()));
             
             #line default
             #line hidden
             this.Write("} -nets { \"VDD\" \"VSS\" } -width { 2 2 } -space { 0.4 0.4 } -offset { ");
             
-            #line 323 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 321 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(hoffset));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 323 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 321 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(voffset));
             
             #line default
             #line hidden
             this.Write(" }\r\n");
             
-            #line 324 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 322 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } } } 
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 326 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 324 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.FloorPlanSettings.FloorPlanType == FloorPlanType.WidthHeight || model.FloorPlanSettings.FloorPlanType == FloorPlanType.WidthHeightAuto) { 
 var width = model.FloorPlanSettings.CoreWidth;
 var height = model.FloorPlanSettings.CoreHeight;
@@ -1140,110 +1139,110 @@ if(model.MaxPreRouteLayer % 2 == 0) { //最高层为偶数
             #line default
             #line hidden
             
-            #line 347 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 345 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.CreatePowerStrap) { 
             
             #line default
             #line hidden
             this.Write("# 纵向电源网格\r\ncreate_power_straps -direction vertical -start_at ");
             
-            #line 349 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 347 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.PowerStrapStart));
             
             #line default
             #line hidden
             this.Write(" -nets {VDD VSS} -layer M");
             
-            #line 349 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 347 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(layer));
             
             #line default
             #line hidden
             this.Write(" -width ");
             
-            #line 349 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 347 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.PowerStrapWidth));
             
             #line default
             #line hidden
             this.Write(" -configure step_and_stop -step ");
             
-            #line 349 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 347 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.PowerStrapStep));
             
             #line default
             #line hidden
             this.Write(" -stop ");
             
-            #line 349 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 347 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(width));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 350 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 348 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 351 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 349 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.CreateHorizontalPowerStrap) { 
             
             #line default
             #line hidden
             this.Write("# 横向电源网格\r\ncreate_power_straps -direction horizontal -start_at ");
             
-            #line 353 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 351 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.HorizontalPowerStrapStart));
             
             #line default
             #line hidden
             this.Write(" -nets {VDD VSS} -layer M");
             
-            #line 353 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 351 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(hlayer));
             
             #line default
             #line hidden
             this.Write(" -width ");
             
-            #line 353 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 351 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.HorizontalPowerStrapWidth));
             
             #line default
             #line hidden
             this.Write(" -configure step_and_stop -step ");
             
-            #line 353 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 351 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.HorizontalPowerStrapStep));
             
             #line default
             #line hidden
             this.Write(" -stop ");
             
-            #line 353 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 351 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(height));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 354 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 352 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 355 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 353 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\nadd_tap_cell_array -master_cell_name ");
             
-            #line 357 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 355 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TapCell));
             
             #line default
@@ -1252,13 +1251,13 @@ if(model.MaxPreRouteLayer % 2 == 0) { //最高层为偶数
                     "\"\r\nderive_pg_connection -power_net \"VDD\" -power_pin $power_name -ground_net \"VSS" +
                     "\" -ground_pin $ground_name\r\n");
             
-            #line 359 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 357 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 360 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 358 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -1268,47 +1267,47 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 365 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 363 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 366 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 364 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 367 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 365 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 368 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 366 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 369 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 367 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 370 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 368 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 371 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 369 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1318,7 +1317,7 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
                     "w_cel -design $top_name -as \"$top_name\\_power_ring\"\r\n\r\nset_preroute_drc_strategy" +
                     " -max_layer M");
             
-            #line 379 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 377 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MaxPreRouteLayer));
             
             #line default
@@ -1326,14 +1325,14 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             this.Write("\r\npreroute_instances -primary_routing_layer preferred -preferred_routing_layer lo" +
                     "w\r\n\r\n");
             
-            #line 382 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 380 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.PowerRailLayer == 2) { 
             
             #line default
             #line hidden
             this.Write("# 避免电源网格通孔经过M1\r\n");
             
-            #line 384 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 382 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.Library.StartsWith("HL")) { 
             
             #line default
@@ -1341,7 +1340,7 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             this.Write("preroute_standard_cells -fill_empty_rows -do_not_route_over_macros -route_pins_on" +
                     "_layer M2 -skip_macro_pins\r\n");
             
-            #line 386 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 384 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } else { 
             
             #line default
@@ -1349,19 +1348,19 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             this.Write("preroute_standard_cells -fill_empty_rows -do_not_route_over_macros -route_pins_on" +
                     "_layer M2 -remove_floating_pieces -skip_macro_pins -cut_out_empty_spans\r\n");
             
-            #line 388 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 386 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 389 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 387 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } else { 
             
             #line default
             #line hidden
             
-            #line 390 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 388 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.Library.StartsWith("HL")) { 
             
             #line default
@@ -1369,7 +1368,7 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             this.Write("preroute_standard_cells -fill_empty_rows -do_not_route_over_macros -skip_macro_pi" +
                     "ns\r\n");
             
-            #line 392 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 390 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } else { 
             
             #line default
@@ -1377,13 +1376,13 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             this.Write("preroute_standard_cells -fill_empty_rows -do_not_route_over_macros -remove_floati" +
                     "ng_pieces -skip_macro_pins -cut_out_empty_spans\r\n");
             
-            #line 394 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 392 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 395 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 393 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1391,28 +1390,28 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             this.Write("\r\nset r [place_opt -area_recovery -effort medium -congestion -power -continue_on_" +
                     "missing_scandef]\r\nif { $r == 0 } {\r\n    exit 3\r\n}\r\n\r\n");
             
-            #line 402 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 400 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.Library.StartsWith("SMIC40LL")) { 
             
             #line default
             #line hidden
             this.Write("# connect_tie_cells -max_wirelength 50 -tie_high_lib_cell ");
             
-            #line 403 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 401 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TieHighCell));
             
             #line default
             #line hidden
             this.Write(" -tie_low_lib_cell ");
             
-            #line 403 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 401 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TieLowCell));
             
             #line default
             #line hidden
             this.Write(" -max_fanout 5 -obj_type cell_inst -objects [get_cells -hier *]\r\n");
             
-            #line 404 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 402 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1420,13 +1419,13 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             this.Write("\r\nderive_pg_connection -power_net \"VDD\" -power_pin $power_name -ground_net \"VSS\" " +
                     "-ground_pin $ground_name\r\n");
             
-            #line 407 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 405 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 408 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 406 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -1436,47 +1435,47 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 413 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 411 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 414 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 412 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 415 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 413 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 416 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 414 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 417 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 415 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 418 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 416 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 419 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 417 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1499,13 +1498,13 @@ clock_opt -only_cts -no_clock_route -continue_on_missing_scandef -update_clock_l
 derive_pg_connection -power_net ""VDD"" -power_pin $power_name -ground_net ""VSS"" -ground_pin $ground_name
 ");
             
-            #line 436 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 434 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 437 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 435 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -1515,47 +1514,47 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 442 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 440 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 443 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 441 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 444 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 442 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 445 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 443 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 446 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 444 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 447 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 445 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 448 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 446 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1584,7 +1583,7 @@ route_zrt_group -all_clock_nets -reuse_existing_global_route true -stop_after_gl
 # Antenna prevention
 ");
             
-            #line 471 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 469 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.AntennaCells != null && model.AntennaCells.Length != 0) {
     var diode_cells_str = string.Join(" ", model.AntennaCells.Select(c => "$lib_name/" + c));
 
@@ -1593,7 +1592,7 @@ route_zrt_group -all_clock_nets -reuse_existing_global_route true -stop_after_gl
             #line hidden
             this.Write("set ICC_PORT_PROTECTION_DIODE \"");
             
-            #line 474 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 472 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(diode_cells_str));
             
             #line default
@@ -1604,7 +1603,7 @@ set ports [get_ports * -filter ""direction==in""]
 # insert_port_protection_diodes -prefix port_protection_diode -diode_cell [get_lib_cells $ICC_PORT_PROTECTION_DIODE] -port $ports -ignore_dont_touch
 ");
             
-            #line 478 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 476 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1612,13 +1611,13 @@ set ports [get_ports * -filter ""direction==in""]
             this.Write("legalize_placement\r\n\r\nderive_pg_connection -power_net \"VDD\" -power_pin $power_nam" +
                     "e -ground_net \"VSS\" -ground_pin $ground_name\r\n");
             
-            #line 482 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 480 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 483 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 481 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -1628,47 +1627,47 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 488 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 486 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 489 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 487 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 490 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 488 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 491 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 489 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 492 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 490 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 493 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 491 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 494 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 492 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1685,7 +1684,7 @@ gui_execute_events
 
 source -echo ");
             
-            #line 505 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 503 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.Antenna));
             
             #line default
@@ -1700,13 +1699,13 @@ optimize_clock_tree -routed_clock_stage detail
 derive_pg_connection -power_net ""VDD"" -power_pin $power_name -ground_net ""VSS"" -ground_pin $ground_name
 ");
             
-            #line 513 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 511 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 514 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 512 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -1716,47 +1715,47 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 519 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 517 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 520 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 518 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 521 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 519 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 522 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 520 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 523 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 521 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 524 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 522 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 525 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 523 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1795,13 +1794,13 @@ update_clock_latency
 derive_pg_connection -power_net ""VDD"" -power_pin $power_name -ground_net ""VSS"" -ground_pin $ground_name
 ");
             
-            #line 558 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 556 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 559 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 557 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -1811,47 +1810,47 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 564 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 562 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 565 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 563 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 566 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 564 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 567 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 565 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 568 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 566 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 569 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 567 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 570 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 568 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1877,13 +1876,13 @@ route_opt -incremental -size_only
 derive_pg_connection -power_net ""VDD"" -power_pin $power_name -ground_net ""VSS"" -ground_pin $ground_name
 ");
             
-            #line 590 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 588 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 591 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 589 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -1893,47 +1892,47 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 596 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 594 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 597 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 595 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 598 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 596 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 599 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 597 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 600 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 598 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 601 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 599 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 602 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 600 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -1956,7 +1955,7 @@ set_route_zrt_detail_options -eco_route_use_soft_spacing_for_timing_optimization
 
 set_route_zrt_detail_options -antenna true -diode_libcell_names """);
             
-            #line 619 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 617 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(" ", model.AntennaCells)));
             
             #line default
@@ -1964,7 +1963,7 @@ set_route_zrt_detail_options -antenna true -diode_libcell_names """);
             this.Write("\" -insert_diodes_during_routing true\r\nroute_zrt_detail -incremental true\r\n\r\ninser" +
                     "t_stdcell_filler -cell_without_metal \"");
             
-            #line 622 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 620 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(" ", model.Filler)));
             
             #line default
@@ -1972,13 +1971,13 @@ set_route_zrt_detail_options -antenna true -diode_libcell_names """);
             this.Write("\"\r\n\r\nderive_pg_connection -power_net \"VDD\" -power_pin $power_name -ground_net \"VS" +
                     "S\" -ground_pin $ground_name\r\n");
             
-            #line 625 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 623 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.MacroPlaceSettings.Count != 0) { 
             
             #line default
             #line hidden
             
-            #line 626 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 624 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  
 var macroPowerPins = model.MacroPlaceSettings.SelectMany(x => x.PowerPins).Distinct();
 var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Distinct();
@@ -1988,47 +1987,47 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
             #line hidden
             this.Write("# 连接Macro电源\r\n");
             
-            #line 631 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 629 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var pPin in macroPowerPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -power_net \"VDD\" -power_pin ");
             
-            #line 632 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 630 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 633 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 631 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 634 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 632 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  foreach(var gPin in macroGroundPins) { 
             
             #line default
             #line hidden
             this.Write("derive_pg_connection -ground_net \"VSS\" -ground_pin ");
             
-            #line 635 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 633 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(gPin));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 636 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 634 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 637 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 635 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -2060,28 +2059,28 @@ var macroGroundPins = model.MacroPlaceSettings.SelectMany(x => x.GroundPins).Dis
                     "h/$top_name\\_timing\\_dfm_max.rpt\r\nreport_timing -delay_type min -max_path 20 > $" +
                     "rpt_path/$top_name\\_timing\\_dfm_min.rpt\r\n\r\n");
             
-            #line 691 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 689 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(string.IsNullOrEmpty(model.GDSLayerMap)) { 
             
             #line default
             #line hidden
             this.Write("set_write_stream_options -output_pin  { geometry }\r\n");
             
-            #line 693 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 691 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("set_write_stream_options -output_pin  { geometry } -map_layer ");
             
-            #line 694 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 692 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.GDSLayerMap));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 695 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 693 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default
@@ -2095,7 +2094,7 @@ write_verilog -no_core_filler_cells                           $net_path/$top_nam
 write_verilog                                                 $net_path/$top_name\_all.v
 ");
             
-            #line 703 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 701 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  if(model.Library.StartsWith("SMIC")) { 
             
             #line default
@@ -2103,7 +2102,7 @@ write_verilog                                                 $net_path/$top_nam
             this.Write("write_verilog -no_tap_cells                                   $net_path/$top_name" +
                     "\\_cds.v\r\n");
             
-            #line 705 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 703 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } else if(model.Library.StartsWith("TSMC")) { 
             
             #line default
@@ -2111,7 +2110,7 @@ write_verilog                                                 $net_path/$top_nam
             this.Write("write_verilog -no_tap_cells                                   $net_path/$top_name" +
                     "\\_cds.v\r\n");
             
-            #line 707 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 705 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } else if(model.Library.StartsWith("HL")) { 
             
             #line default
@@ -2119,7 +2118,7 @@ write_verilog                                                 $net_path/$top_nam
             this.Write("write_verilog                                                 $net_path/$top_name" +
                     "\\_cds.v\r\n");
             
-            #line 709 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 707 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } else { 
             
             #line default
@@ -2127,7 +2126,7 @@ write_verilog                                                 $net_path/$top_nam
             this.Write("write_verilog -no_tap_cells                                   $net_path/$top_name" +
                     "\\_cds.v\r\n");
             
-            #line 711 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
+            #line 709 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
  } 
             
             #line default

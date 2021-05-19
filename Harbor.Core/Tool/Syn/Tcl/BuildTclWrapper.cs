@@ -17,7 +17,11 @@ namespace Harbor.Core.Tool.Syn.Tcl
         public void WriteToFile(string file)
         {
             var tran = TransformText();
-            File.WriteAllText(file, tran);
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                tran = tran.Replace("\r", "");
+            }
+            File.WriteAllText(file, tran, new UTF8Encoding(false));
         }
     }
 }

@@ -14,17 +14,17 @@ namespace Harbor.Commands
     public sealed class DefaultCommandSettings : CommandSettings
     {
         [CommandOption("--verbosity|-v <VERBOSITY>")]
-        [Description("Specifies the amount of information to be displayed.\n(Quiet, Minimal, Normal, Verbose, Diagnostic)")]
+        [Description("设置日志等级\n(Quiet, Minimal, Normal, Verbose, Diagnostic)")]
         [TypeConverter(typeof(VerbosityConverter))]
         [DefaultValue(Verbosity.Normal)]
         public Verbosity Verbosity { get; set; }
 
         [CommandOption("--version|--ver")]
-        [Description("Displays version information.")]
+        [Description("显示版本")]
         public bool ShowVersion { get; set; }
 
         [CommandOption("--info")]
-        [Description("Displays additional information about Cake.")]
+        [Description("显示更多信息")]
         public bool ShowInfo { get; set; }
     }
 }

@@ -29,58 +29,57 @@ namespace Harbor.Core.Tool.Syn.Tcl
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("#自动生成的脚本\r\n#");
             
-            #line 8 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(System.DateTime.Now));
+            #line 7 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(model.Header));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n#=====================设置变量======================\r\nset script_root_path \"");
             
-            #line 11 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ScriptRootPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset wrk_path         \"");
             
-            #line 12 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 11 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.WorkPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset rpt_path         \"");
             
-            #line 13 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 12 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.RptPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset net_path         \"");
             
-            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 13 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.NetPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset svf_path         \"");
             
-            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.SvfPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset obj_path         \"");
             
-            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ObjPath));
             
             #line default
             #line hidden
             this.Write("\"\r\nset lib_path         \"");
             
-            #line 17 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibPath));
             
             #line default
@@ -89,131 +88,131 @@ namespace Harbor.Core.Tool.Syn.Tcl
                     "                \"\r\n\r\nset cache_write       \"/tmp\"\r\nset cache_read        \"/tmp\"\r" +
                     "\n\r\nhistory keep 500\r\n\r\nset_host_options -max_core ");
             
-            #line 28 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 27 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.Cores));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n#=====================设置工艺库======================\r\n\r\nset lib_name       \"");
             
-            #line 32 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 31 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibName));
             
             #line default
             #line hidden
             this.Write("\"\r\nset target_library \"");
             
-            #line 33 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 32 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibFullName));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 34 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 33 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  foreach(var io_lib in model.IOTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 35 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 34 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(io_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 36 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 35 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 37 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 36 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  foreach(var addi_lib in model.AdditionalTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 38 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 37 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(addi_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 39 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 38 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("                   \"\r\nset link_library   \"");
             
-            #line 41 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 40 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LibFullName));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 42 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 41 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  foreach(var io_lib in model.IOTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 43 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 42 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(io_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 44 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 43 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 45 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 44 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  foreach(var addi_lib in model.AdditionalTimingDbPaths) { 
             
             #line default
             #line hidden
             this.Write("                    ");
             
-            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 45 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(addi_lib));
             
             #line default
             #line hidden
             this.Write(" \\\r\n");
             
-            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("                   \"\r\n");
             
-            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  if(!string.IsNullOrEmpty(model.StdCell.symbol_full_name)) { 
             
             #line default
             #line hidden
             this.Write("set symbol_library \"");
             
-            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.StdCell.symbol_full_name));
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
-            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
@@ -235,42 +234,42 @@ define_name_rules ""IS_rule"" -max_length ""255"" -allowed ""A-Z0-9_$[]""  -repl
 
 ");
             
-            #line 67 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 66 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  if(!model.AllowTriState) {
             
             #line default
             #line hidden
             this.Write("#消除三态门\r\nset verilogout_no_tri true\r\n");
             
-            #line 70 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 69 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n#=================导入Verilog源代码===================\r\n\r\nset top_name \"");
             
-            #line 74 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 73 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TopName));
             
             #line default
             #line hidden
             this.Write("\"\r\n\r\nset_svf      \"${svf_path}/${top_name}.svf\"\r\n\r\n");
             
-            #line 78 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 77 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  foreach(var v in model?.SourceFullPaths) { 
             
             #line default
             #line hidden
             this.Write("set r [analyze -format verilog -lib work ");
             
-            #line 79 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 78 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(v));
             
             #line default
             #line hidden
             this.Write("]\r\nif { $r == 0 } {\r\n    exit 1\r\n}\r\n");
             
-            #line 83 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 82 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
@@ -302,42 +301,42 @@ change_names -rules ""IS_rule"" -hierarchy
 
 set clk_name """);
             
-            #line 109 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 108 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ClkName));
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
-            #line 110 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 109 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  if(!string.IsNullOrEmpty(model.RstName)) {
             
             #line default
             #line hidden
             this.Write("set rst_name \"");
             
-            #line 111 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 110 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.RstName));
             
             #line default
             #line hidden
             this.Write("\"\r\n");
             
-            #line 112 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 111 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\ncreate_clock -name $clk_name -period ");
             
-            #line 114 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 113 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ClkPeriod));
             
             #line default
             #line hidden
             this.Write(" -waveform {0 ");
             
-            #line 114 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 113 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ClkPeriod / 2));
             
             #line default
@@ -345,21 +344,21 @@ set clk_name """);
             this.Write(" } [get_ports $clk_name]\r\n\r\nset_dont_touch_network [get_clocks $clk_name]\r\n\r\nset_" +
                     "clock_latency ");
             
-            #line 118 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 117 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ClkLatency));
             
             #line default
             #line hidden
             this.Write(" [get_clocks $clk_name]\r\nset_clock_uncertainty  ");
             
-            #line 119 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 118 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ClkUncertainty));
             
             #line default
             #line hidden
             this.Write(" [get_clocks $clk_name]\r\n\r\n");
             
-            #line 121 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 120 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  
 var removePorts = "$clk_name";
 if(!string.IsNullOrEmpty(model.RstName)) {
@@ -371,49 +370,49 @@ if(!string.IsNullOrEmpty(model.RstName)) {
             #line hidden
             this.Write("\r\nset_input_delay -max ");
             
-            #line 128 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 127 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MaxInputDelay));
             
             #line default
             #line hidden
             this.Write(" -clock $clk_name [remove_from_collection [all_inputs] [get_ports \"");
             
-            #line 128 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 127 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(removePorts));
             
             #line default
             #line hidden
             this.Write("\"]]\r\nset_input_delay -min ");
             
-            #line 129 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 128 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MinInputDelay));
             
             #line default
             #line hidden
             this.Write(" -clock $clk_name [remove_from_collection [all_inputs] [get_ports \"");
             
-            #line 129 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 128 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(removePorts));
             
             #line default
             #line hidden
             this.Write("\"]]\r\nset_output_delay -max ");
             
-            #line 130 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 129 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MaxOutputDelay));
             
             #line default
             #line hidden
             this.Write(" -clock $clk_name [all_outputs]\r\nset_output_delay -min ");
             
-            #line 131 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 130 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MinOutputDelay));
             
             #line default
             #line hidden
             this.Write(" -clock $clk_name [all_outputs]\r\n\r\nset_fix_hold [get_clocks $clk_name]\r\n\r\n");
             
-            #line 135 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 134 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  if(!string.IsNullOrEmpty(model.RstName)) {
             
             #line default
@@ -421,7 +420,7 @@ if(!string.IsNullOrEmpty(model.RstName)) {
             this.Write("set_ideal_network [get_ports \"$rst_name\"]\r\nset_false_path -from [get_ports \"$rst_" +
                     "name\"]\r\nset_dont_touch_network [get_ports \"$rst_name\"]\r\n");
             
-            #line 139 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 138 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
@@ -429,14 +428,14 @@ if(!string.IsNullOrEmpty(model.RstName)) {
             this.Write("\r\n#======================驱动和负载===================\r\n\r\n# 工艺库相关\r\nset inv_name       " +
                     "\"");
             
-            #line 144 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 143 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.InvName));
             
             #line default
             #line hidden
             this.Write("\"\r\nset inv_port_name  \"");
             
-            #line 145 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 144 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.InvPortName));
             
             #line default
@@ -444,21 +443,21 @@ if(!string.IsNullOrEmpty(model.RstName)) {
             this.Write("\"\r\n\r\nset unit_load [load_of $lib_name/$inv_name/$inv_port_name]\r\n\r\n# 无限驱动\r\nset_dr" +
                     "ive 0 $clk_name\r\n");
             
-            #line 151 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 150 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  if(!string.IsNullOrEmpty(model.RstName)) {
             
             #line default
             #line hidden
             this.Write("set_drive 0 $rst_name\r\n");
             
-            #line 153 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 152 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n# 单位反相器的驱动\r\n");
             
-            #line 156 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 155 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  if(!string.IsNullOrEmpty(model.RstName)) {
             
             #line default
@@ -466,7 +465,7 @@ if(!string.IsNullOrEmpty(model.RstName)) {
             this.Write("set_driving_cell -lib_cell $inv_name  [remove_from_collection [all_inputs] [get_p" +
                     "orts \"$clk_name $rst_name\"]]\r\n");
             
-            #line 158 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 157 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } else {
             
             #line default
@@ -474,90 +473,90 @@ if(!string.IsNullOrEmpty(model.RstName)) {
             this.Write("set_driving_cell -lib_cell $inv_name  [remove_from_collection [all_inputs] [get_p" +
                     "orts \"$clk_name\" ]]\r\n");
             
-            #line 160 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 159 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n# set_max_capacitance [expr $unit_load*");
             
-            #line 162 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 161 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.CapFactor));
             
             #line default
             #line hidden
             this.Write("] [all_designs]\r\nset_load [expr $unit_load*");
             
-            #line 163 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 162 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.LoadFactor));
             
             #line default
             #line hidden
             this.Write("] [all_outputs]\r\n");
             
-            #line 164 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 163 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  foreach(var p in model.PortSettings) { 
             
             #line default
             #line hidden
             
-            #line 165 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 164 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  if(string.IsNullOrEmpty(p.LoadOf)) { 
             
             #line default
             #line hidden
             this.Write("set_load [expr $unit_load*");
             
-            #line 166 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 165 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.LoadFactor));
             
             #line default
             #line hidden
             this.Write("] {\"");
             
-            #line 166 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 165 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Name.ToUpper()));
             
             #line default
             #line hidden
             this.Write("\"}\r\n");
             
-            #line 167 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 166 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("set_load [load_of \"");
             
-            #line 168 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 167 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.LoadOf));
             
             #line default
             #line hidden
             this.Write("\"] {\"");
             
-            #line 168 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 167 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(p.Name.ToUpper()));
             
             #line default
             #line hidden
             this.Write("\"}\r\n");
             
-            #line 169 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 168 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } } 
             
             #line default
             #line hidden
             this.Write("\r\nset_max_fanout ");
             
-            #line 171 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 170 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MaxFanout));
             
             #line default
             #line hidden
             this.Write(" [current_design]\r\nset_max_transition ");
             
-            #line 172 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 171 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MaxTransition));
             
             #line default
@@ -572,35 +571,35 @@ report_constraint -max_fanout      -significant_digits 13
 
 set_max_area ");
             
-            #line 180 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 179 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.MaxArea));
             
             #line default
             #line hidden
             this.Write("\r\nset_critical_range ");
             
-            #line 181 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 180 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.CriticalRange));
             
             #line default
             #line hidden
             this.Write(" [get_designs *]\r\n\r\n#=====================综合=====================\r\n\r\n");
             
-            #line 185 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 184 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  if(model.UseCompileUltra) {
             
             #line default
             #line hidden
             this.Write("set r [compile_ultra]\r\nif { $r == 0 } {\r\n    exit 5\r\n}\r\n");
             
-            #line 190 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 189 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } else {
             
             #line default
             #line hidden
             this.Write("set r [compile]\r\nif { $r == 0 } {\r\n    exit 5\r\n}\r\n");
             
-            #line 195 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 194 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
  } 
             
             #line default
@@ -623,7 +622,7 @@ write_sdf                                $net_path/$top_name\.sdf
 report_constraint -all_violators -verbose -significant_digits 13  > $rpt_path/$top_name\_vio.rpt
 report_timing -max ");
             
-            #line 212 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
+            #line 211 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.TimingRptNum));
             
             #line default

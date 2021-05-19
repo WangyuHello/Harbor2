@@ -10,7 +10,7 @@ using Cake.Features.Building;
 using Cake.Infrastructure;
 using Cake.Infrastructure.Composition;
 using Harbor.Commands;
-using Harbor.Cli;
+using Harbor.Common.Cli;
 
 namespace Harbor
 {
@@ -21,7 +21,7 @@ namespace Harbor
 
         public Program(
             Action<ContainerBuilder> overrides = null,
-            bool propagateExceptions = true)
+            bool propagateExceptions = false)
         {
             _overrides = overrides;
             _propagateExceptions = propagateExceptions;
@@ -40,12 +40,19 @@ namespace Harbor
 
             app.Configure(config =>
             {
-                config.AddCommand<InitCommand>("init");
-                config.AddCommand<AddRefCommand>("addref");
-                config.AddCommand<BuildCommand>("build");
+                config.AddCommand<InitCommand>("init")
+                    .WithAlias("i");
+                config.AddCommand<AddRefCommand>("addref")
+                    .WithAlias("ar");
+                config.AddCommand<BuildCommand>("build")
+                    .WithAlias("b")
+                    .WithExample(new[] { "build --target", "build" })
+                    .WithExample(new[] { "build --target", "synthesis" })
+                    .WithExample(new[] { "build --target", "layout" })
+                    .WithExample(new[] { "build --target", "cadence" });
 
                 config.SetApplicationName("harhor");
-                config.ValidateExamples();
+                //config.ValidateExamples();
 
                 if (_propagateExceptions)
                 {
@@ -54,6 +61,9 @@ namespace Harbor
 
                 // Top level examples.
                 config.AddExample(new[] { string.Empty });
+                config.AddExample(new[] {"init/i"});
+                config.AddExample(new[] {"build/b"});
+                config.AddExample(new[] {"addref/ar"});
             });
             return await app.RunAsync(args);
         }

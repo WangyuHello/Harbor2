@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cake.Core;
 
-namespace Harbor.Cli
+namespace Harbor.Common.Cli
 {
     public interface IHarborInfoFeature
     {

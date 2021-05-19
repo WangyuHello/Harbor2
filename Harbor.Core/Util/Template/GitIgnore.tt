@@ -11,8 +11,19 @@ Cadence/
 Validation/
 
 .harbor/
-.cadence
+.cadence/
 *.log*
+logs_*/
 .nodeIdDynamicRanges
+.abstract/
+.pcdb/
+.*.auCdl
+.tmp*
+ihnl/
+map/
+raw/
+si.env
+.cgidrcdb
+.cgilvsdb
 
-.build.cake
+.nfs*

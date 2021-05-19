@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Harbor.Common.Project;
+using Harbor.Core.Util;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -19,26 +21,30 @@ namespace Harbor.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, AddRefCommandSettings settings)
         {
-            AnsiConsole.Markup($"[underline red]添加引用[/] {settings.Reference}!");
-            
             var info = await ProjectInfo.ReadFromCurrentDirectoryAsync();
 
             if (string.IsNullOrEmpty(settings.Reference))
             {
-                AnsiConsole.Markup("[red]引用项目不能为空[/]");
+                AnsiConsole.MarkupLine("[red]引用项目不能为空[/]");
                 return -1;
             }
 
-            FileInfo fi = new FileInfo(settings.Reference);
-            if (!fi.Exists)
+            if (Directory.Exists(settings.Reference))
             {
-                AnsiConsole.Markup("[red]引用项目不存在[/]");
-                return -1;
+                //是文件夹
+                DirectoryInfo di = new DirectoryInfo(settings.Reference);
+                settings.Reference = di.FullName;
             }
-
-            if (!IsDirectory(fi))
+            else if(File.Exists(settings.Reference))
             {
+                //是文件
+                FileInfo fi = new(settings.Reference);
                 settings.Reference = fi.DirectoryName;
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[red]引用项目不存在[/]");
+                return -1;
             }
 
             var refInfo = await ProjectInfo.ReadFromDirectoryAsync(settings.Reference);
@@ -50,13 +56,15 @@ namespace Harbor.Commands
                     switch (refInfo.Type)
                     {
                         case ProjectType.Digital:
+                            AnsiConsole.MarkupLine($"[underline green]添加数字工程引用[/] {settings.Reference}");
                             newPjInfo = AddRefToProjectInfo(info, refInfo, settings.Reference);
-                            //Refresh Cds
                             break;
                         default:
-                            AnsiConsole.Markup("[red]暂不支持[/]");
+                            AnsiConsole.MarkupLine("[red]暂不支持[/]");
                             break;
                     }
+                    AnsiConsole.MarkupLine($"[underline yellow]刷新cds.lib[/]");
+                    await CdsUtil.RefreshCdsLibAsync(Environment.CurrentDirectory, newPjInfo);
                     break;
                 case ProjectType.Digital:
                     switch (refInfo.Type)
@@ -64,14 +72,15 @@ namespace Harbor.Commands
                         case ProjectType.Memory:
                         case ProjectType.Ip:
                             newPjInfo = AddRefToProjectInfo(info, refInfo, settings.Reference);
+                            AnsiConsole.MarkupLine($"[underline green]添加引用[/] {settings.Reference}");
                             break;
                         default:
-                            AnsiConsole.Markup("[red]暂不支持[/]");
+                            AnsiConsole.MarkupLine("[red]暂不支持[/]");
                             break;
                     }
                     break;
                 default:
-                    AnsiConsole.Markup("[red]暂不支持[/]");
+                    AnsiConsole.MarkupLine("[red]暂不支持[/]");
                     break;
             }
 
@@ -87,7 +96,7 @@ namespace Harbor.Commands
 
                 if (projectInfo.Reference.FirstOrDefault(r => r.Name == refPjName) != null)
                 {
-                    AnsiConsole.Markup("[red]已经添加过同名的项目[/]");
+                    AnsiConsole.MarkupLine("[red]已经添加过同名的项目[/]");
                     return projectInfo;
                 }
 

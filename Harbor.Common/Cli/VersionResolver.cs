@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Harbor.Cli
+namespace Harbor.Common.Cli
 {
     /// <summary>
     /// Represents a version resolver.
@@ -43,6 +43,12 @@ namespace Harbor.Cli
             }
 
             return version;
+        }
+
+        public static string GetVersion2()
+        {
+            var res = new VersionResolver();
+            return res.GetVersion();
         }
 
         /// <inheritdoc/>

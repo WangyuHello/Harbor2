@@ -2,8 +2,8 @@
   "profiles": {
     "Harbor": {
       "commandName": "Project",
-      "commandLineArgs": "init",
-      "workingDirectory": "C:\\Users\\wangyu\\Desktop\\Temp\\HarborTest"
+      "commandLineArgs": "--version",
+      "workingDirectory": "C:\\Users\\wangyu\\Desktop\\Temp\\HarborTest\\Test"
     }
   }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Harbor.Cli
+namespace Harbor.Common.Cli
 {
     /// <summary>
     /// Represents a feature that writes the Cake version to the console.

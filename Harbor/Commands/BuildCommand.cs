@@ -7,7 +7,6 @@ using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Features.Bootstrapping;
 using Cake.Features.Building;
-using Harbor.Cli;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
