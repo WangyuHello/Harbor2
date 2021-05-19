@@ -12,7 +12,7 @@ namespace Harbor.Core.Tool.APR.Tcl
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
-    using Harbor.Core.Tool.APR.Model;
+    using Harbor.Common.Model;
     using System;
     
     /// <summary>

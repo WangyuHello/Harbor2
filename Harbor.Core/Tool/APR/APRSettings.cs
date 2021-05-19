@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cake.Common.IO;
+using Harbor.Common.Model;
 using Harbor.Common.Project;
 using Harbor.Common.Util;
 using Harbor.Core.Tool.APR.Model;
 using Harbor.Core.Tool.APR.Tcl;
-using Harbor.Core;
 using Harbor.Core.Tool.ICC;
 using Harbor.Core.Util;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
 
 namespace Harbor.Core.Tool.APR
 {
@@ -22,7 +23,7 @@ namespace Harbor.Core.Tool.APR
 
     public class PlaceSettings
     {
-        public List<MacroPlaceSettings> MacroPlaceSettings { get; set; } = new List<MacroPlaceSettings>();
+        public List<MacroPlaceSettings> MacroPlaceSettings { get; set; } = new();
     }
 
     public class PinGroupSettings
@@ -30,7 +31,7 @@ namespace Harbor.Core.Tool.APR
         /// <summary>
         /// 如果order为-1则按List中的顺序
         /// </summary>
-        public List<(string name, int order)> Ports { get; set; } = new List<(string name, int order)>();
+        public List<(string name, int order)> Ports { get; set; } = new();
         public PortPosition Position { get; set; }
         public decimal Offset { get; set; }
         public int Order { get; set; }
@@ -40,10 +41,10 @@ namespace Harbor.Core.Tool.APR
     public class PinSettings
     {
 
-        public List<Port> LeftPorts { get; set; } = new List<Port>();
-        public List<Port> TopPorts { get; set; } = new List<Port>();
-        public List<Port> RightPorts { get; set; } = new List<Port>();
-        public List<Port> BottomPorts { get; set; } = new List<Port>();
+        public List<Port> LeftPorts { get; set; } = new();
+        public List<Port> TopPorts { get; set; } = new();
+        public List<Port> RightPorts { get; set; } = new();
+        public List<Port> BottomPorts { get; set; } = new();
         public decimal PinSpace { get; set; }
         public PinPlaceMode PinPlaceMode { get; set; } = PinPlaceMode.Uniform;
         /// <summary>
@@ -55,8 +56,8 @@ namespace Harbor.Core.Tool.APR
         /// 所有的用户设置的Pin信息
         /// 如果order为-1则用户未指定顺序
         /// </summary>
-        public List<(string name, PortPosition position, int order)> PinPair { get; set; } = new List<(string name, PortPosition position, int order)>();
-        public List<PinGroupSettings> Groups = new List<PinGroupSettings>();
+        public List<(string name, PortPosition position, int order)> PinPair { get; set; } = new();
+        public List<PinGroupSettings> Groups = new();
 
         /// <summary>
         /// 从 Verilog 源文件中读取所有的Port，然后根据用户设置好的PinPair变量，将Ports数组填充
@@ -201,12 +202,6 @@ namespace Harbor.Core.Tool.APR
         }
     }
 
-    public enum PinPlaceMode
-    {
-        Uniform,
-        ByOffset
-    }
-
     public class FloorPlanSettings
     {
         public double LeftIO2Core { get; set; } = 4;
@@ -223,14 +218,6 @@ namespace Harbor.Core.Tool.APR
         public double CoreHeight { get; set; }
     }
 
-    public enum FloorPlanType
-    {
-        AspectRatio,
-        WidthHeight,
-        WidthHeightAuto,
-        Boundary
-    }
-
     public class MacroPlaceSettings
     {
         public string Name { get; set; }
@@ -240,28 +227,14 @@ namespace Harbor.Core.Tool.APR
         public Orientation Orientation { get; set; }
         public double? Width { get; set; } //无需用户指定,自动从LEF文件读取
         public double? Height { get; set; } //无需用户指定,自动从LEF文件读取
-        public List<string> PowerPins { get; set; } = new List<string>(); //无需用户指定,自动从LEF文件读取
-        public List<string> GroundPins { get; set; } = new List<string>(); //无需用户指定,自动从LEF文件读取
+        public List<string> PowerPins { get; set; } = new(); //无需用户指定,自动从LEF文件读取
+        public List<string> GroundPins { get; set; } = new(); //无需用户指定,自动从LEF文件读取
         public double MarginLeft { get; set; } = 8;
         public double MarginTop { get; set; } = 8;
         public double MarginRight { get; set; } = 8;
         public double MarginBottom { get; set; } = 8;
         public bool CreateRing { get; set; } = false;
         public bool ReverseRoutingDirection { get; set; } = false;
-    }
-
-    public enum Orientation
-    {
-        N,E,S,W,FN,FE,FS,FW
-    }
-
-    internal class MacroInfo
-    {
-        public string Name { get; set; }
-        public double? Width { get; set; }
-        public double? Height { get; set; }
-        public List<string> PowerPins { get; set; }
-        public List<string> GroundPins { get; set; }
     }
 
     public class APRRunnerSettings : HarborToolSettings
@@ -286,20 +259,20 @@ namespace Harbor.Core.Tool.APR
         public double HorizontalPowerStrapStep { get; set; } = 20;
         public double HorizontalPowerStrapWidth { get; set; } = 2;
         public bool CreateHorizontalPowerStrap { get; set; } = false;
-        public RouteSettings RouteSettings { get; set; } = new RouteSettings();
-        public PlaceSettings PlaceSettings { get; set; } = new PlaceSettings();
-        public FloorPlanSettings FloorPlanSettings { get; set; } = new FloorPlanSettings();
-        public PinSettings PinSettings { get; set; } = new PinSettings();
+        public RouteSettings RouteSettings { get; set; } = new();
+        public PlaceSettings PlaceSettings { get; set; } = new();
+        public FloorPlanSettings FloorPlanSettings { get; set; } = new();
+        public PinSettings PinSettings { get; set; } = new();
         public DirectoryPath ProjectPath { get; set; }
         public DirectoryPath SynProjectPath { get; set; }
         public FilePathCollection Verilog { get; set; }
-        public FilePathCollection AdditionalTimingDb { get; set; } = new FilePathCollection();
-        public DirectoryPathCollection AdditionalRefLib { get; set; } = new DirectoryPathCollection();
+        public FilePathCollection AdditionalTimingDb { get; set; } = new();
+        public DirectoryPathCollection AdditionalRefLib { get; set; } = new();
         public bool AddPG { get; set; }
         public bool OpenGUI { get; set; }
         public bool FormalVerify { get; set; }
 
-        private List<MacroInfo> MacroInfos { get; set; } = new List<MacroInfo>();
+        private List<MacroInfo> MacroInfos { get; } = new();
 
         public FilePath BuildScriptFile { get; set; }
 
@@ -337,7 +310,7 @@ namespace Harbor.Core.Tool.APR
                 FloorPlanSettings.CoreWidth = width;
             }
             
-            BuildTclModel model = new BuildTclModel
+            var model = new BuildTclModel
             {
                 Library = ProjectInfo.Library,
                 ScriptRootPath = WorkingDirectory.FullPath,
@@ -395,15 +368,15 @@ namespace Harbor.Core.Tool.APR
                 MnTXT6 = library.Pdk.GetLayerNumber("MnTXT6"),
             };
 
-            if (library.Io != null && library.Io.Count > 0)
+            if (library.Io is {Count: > 0})
             {
                 model.IOTimingDbPaths = library.Io.Select(i => System.IO.Path.Combine(i.timing_db_path, i.timing_db_name)).ToList();
                 model.RefLibPath.AddRange(library.Io.Select(i => i.icc_ref_path));
             }
 
-            AdditionalRefLib = GetReferenceRefPath(AdditionalRefLib);
+            AdditionalRefLib = ProjectUtil.GetReferenceRefPath(AdditionalRefLib, MacroInfos, ProjectInfo);
             model.RefLibPath.AddRange(AdditionalRefLib.Select(d => d.FullPath));
-            AdditionalTimingDb = GetReferenceDb(AdditionalTimingDb);
+            AdditionalTimingDb = ProjectUtil.GetReferenceDb(AdditionalTimingDb, ProjectInfo);
             model.AdditionalTimingDbPaths = AdditionalTimingDb.Select(f => f.FullPath).ToList();
 
             InflateMacroPlaceSettings();
@@ -418,18 +391,50 @@ namespace Harbor.Core.Tool.APR
             IOHelper.DeleteDirectory(WorkingDirectory);
             IOHelper.CreateDirectory(WorkingDirectory);
 
-
-            var pinPadTclModel = new PinPadTclModel
+            if (PinSettings.ConstraintFile == null)
             {
-                ConstraintFile = PinSettings.ConstraintFile,
-            };
+                PinSettings.InflatePorts(SynProjectPath, library.PrimaryStdCell.m1_routing_direction, Top);
+                var pinPadTclModel = new PinPadTclModel
+                {
+                    PinSpace = PinSettings.PinSpace,
+                    PinPlaceMode = PinSettings.PinPlaceMode,
+                    LeftPorts = PinSettings.LeftPorts,
+                    TopPorts = PinSettings.TopPorts,
+                    RightPorts = PinSettings.RightPorts,
+                    BottomPorts = PinSettings.BottomPorts
+                };
+
+                var pinPadTcl = new PinPadTcl(pinPadTclModel);
+                pinPadTcl.WriteToFile(WorkingDirectory.CombineWithFilePath("pin_pad.tcl").FullPath);
+            }
+            else
+            {
+                if (!Context.FileExists(PinSettings.ConstraintFile))
+                {
+                    throw new ArgumentException("ConstraintFile不存在");
+                }
+
+                var ext = PinSettings.ConstraintFile.GetExtension();
+                switch (ext)
+                {
+                    case "tcl": //指定了tcl文件
+                        model.PinConstrainFilePath = Context.MakeAbsolute(PinSettings.ConstraintFile).FullPath;
+                        break;
+                    case "xlsx":
+                    case "xls":
+                    case "csv": //指定了表格文件
+                        GeneratePinConstraintFromExcel(PinSettings.ConstraintFile);
+                        break;
+                }
+                
+            }
 
             BuildScriptFile = "build.tcl";
             CommandLogFile = "build.log";
 
             if (UseICC)
             {
-                var buildTcl = new ICCBuildTcl(model, pinPadTclModel);
+                var buildTcl = new ICCBuildTcl(model);
                 buildTcl.WriteToFile(WorkingDirectory.CombineWithFilePath(BuildScriptFile).FullPath);
             }
             else if (UseICC2)
@@ -440,140 +445,25 @@ namespace Harbor.Core.Tool.APR
             {
                 
             }
-            
 
-            if (pinPadTclModel.ConstraintFile == null)
-            {
-                PinSettings.InflatePorts(SynProjectPath, library.PrimaryStdCell.m1_routing_direction, Top);
-                pinPadTclModel.PinSpace = PinSettings.PinSpace;
-                pinPadTclModel.PinPlaceMode = PinSettings.PinPlaceMode;
-                pinPadTclModel.LeftPorts = PinSettings.LeftPorts;
-                pinPadTclModel.TopPorts = PinSettings.TopPorts;
-                pinPadTclModel.RightPorts = PinSettings.RightPorts;
-                pinPadTclModel.BottomPorts = PinSettings.BottomPorts;
-
-                var pinPadTcl = new PinPadTcl(pinPadTclModel);
-                pinPadTcl.WriteToFile(WorkingDirectory.CombineWithFilePath("pin_pad.tcl").FullPath);
-            }
         }
 
-        internal FilePathCollection GetReferenceDb(FilePathCollection additionalDb)
+        private void GeneratePinConstraintFromExcel(FilePath excelFile)
         {
-            if (ProjectInfo.Reference == null)
-            {
-                return additionalDb;
-            }
-            var refs = ProjectInfo.Reference;
-            foreach (var ref_ in refs)
-            {
-                var name = ref_.Name;
-                var path = ref_.Path;
-
-                var refProjectInfo = ProjectInfo.ReadFromDirectory(path);
-                var refProjectType = refProjectInfo.Type;
-                switch (refProjectType)
-                {
-                    case ProjectType.Analog:
-                        break;
-                    case ProjectType.Memory: //当前只支持Memory
-                        var refLibertyPath = System.IO.Path.Combine(path, "liberty");
-                        var dbs = Directory.GetFiles(refLibertyPath, "*.db", SearchOption.TopDirectoryOnly).Select(p => new FileInfo(p));
-                        var ttDb = dbs.FirstOrDefault(db => db.Name.Contains("tt"));
-                        if (ttDb != null)
-                        {
-                            additionalDb.Add(ttDb.FullName);
-                        }
-                        break;
-                    case ProjectType.Digital:
-                        break;
-                    case ProjectType.Ip:
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-
-            return additionalDb;
+            var data = ExcelHelper.ExcelToDataTable(excelFile.FullPath, null, true);
         }
 
-        internal DirectoryPathCollection GetReferenceRefPath(DirectoryPathCollection additionalRefPath)
+        private void InflateMacroPlaceSettings()
         {
-            if (ProjectInfo.Reference == null)
+            foreach (var macroPlace in PlaceSettings.MacroPlaceSettings)
             {
-                return additionalRefPath;
-            }
-            var refs = ProjectInfo.Reference;
-            foreach (var ref_ in refs)
-            {
-                var name = ref_.Name;
-                var path = ref_.Path;
-
-                var refProjectInfo = ProjectInfo.ReadFromDirectory(path);
-                var refProjectType = refProjectInfo.Type;
-                switch (refProjectType)
-                {
-                    case ProjectType.Analog:
-                        break;
-                    case ProjectType.Memory: //当前只支持Memory
-                        var refLibertyPath = new DirectoryInfo(System.IO.Path.Combine(path, "astro"));
-                        var refLibPaths = refLibertyPath.GetDirectories();
-                        var refLibPath = refLibPaths.FirstOrDefault(db => db.Name.ToLower().Contains(name.ToLower()));
-                        if (refLibPath != null)
-                        {
-                            additionalRefPath.Add(refLibPath.FullName);
-                        }
-                        var refLefPath = new DirectoryInfo(System.IO.Path.Combine(path, "lef"));
-                        var lefFile = refLefPath.GetFiles("*.lef").FirstOrDefault();
-                        if (lefFile != null)
-                        {
-                            var lef = LefObject.Parse(lefFile.FullName);
-                            var macro = lef.Macros[name];
-                            var macroSize = macro.Size;
-
-                            var pins = macro.Pins;
-                            var powerPins = pins.Where(p => p.Use == "POWER")
-                                .Select(p => p.Name).ToList();
-                            var groundPins = pins.Where(p => p.Use == "GROUND")
-                                .Select(p => p.Name).ToList();
-
-                            MacroInfos.Add(new MacroInfo
-                            {
-                                Name = name,
-                                Width = macroSize?.w,
-                                Height = macroSize?.h,
-                                PowerPins = powerPins,
-                                GroundPins = groundPins
-                            });
-
-                        }
-                        break;
-                    case ProjectType.Digital:
-                        break;
-                    case ProjectType.Ip:
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-
-            return additionalRefPath;
-        }
-
-        void InflateMacroPlaceSettings()
-        {
-            for (int i = 0; i < PlaceSettings.MacroPlaceSettings.Count; i++)
-            {
-                var macroPlace = PlaceSettings.MacroPlaceSettings[i];
-                var macro = MacroInfos.FirstOrDefault(m => m.Name == macroPlace.Type);
-                if (macro != null)
-                {
-                    macroPlace.Width = macro.Width;
-                    macroPlace.Height = macro.Height;
-                    macroPlace.PowerPins.AddRange(macro.PowerPins);
-                    macroPlace.GroundPins.AddRange(macro.GroundPins);
-                }
+                var place = macroPlace;
+                var macro = MacroInfos.FirstOrDefault(m => m.Name == place.Type);
+                if (macro == null) continue;
+                macroPlace.Width = macro.Width;
+                macroPlace.Height = macro.Height;
+                macroPlace.PowerPins.AddRange(macro.PowerPins);
+                macroPlace.GroundPins.AddRange(macro.GroundPins);
             }
         }
 

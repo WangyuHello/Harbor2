@@ -101,7 +101,7 @@ namespace Harbor.Core.Tool.Syn
             model.LibName = library.PrimaryStdCell.timing_db_name_abbr;
             model.LibFullName = library.PrimaryStdCell.timing_db_name;
 
-            if (library.Io != null && library.Io.Count > 0)
+            if (library.Io is {Count: > 0})
             {
                 model.IOTimingDbPaths = library.Io.Select(i => Path.Combine(i.timing_db_path, i.timing_db_name)).ToList();
             }
@@ -112,7 +112,7 @@ namespace Harbor.Core.Tool.Syn
             model.TopName = Top;
             model.SourceFullPaths = Verilog?.Select(f => f.FullPath).ToList();
 
-            AdditionalTimingDb = GetReferenceDb(AdditionalTimingDb);
+            AdditionalTimingDb = ProjectUtil.GetReferenceDb(AdditionalTimingDb, ProjectInfo);
             model.AdditionalTimingDbPaths = AdditionalTimingDb?.Select(f => f.FullPath).ToList();
 
             model.ClkName = Clock.ToUpper();
@@ -153,46 +153,6 @@ namespace Harbor.Core.Tool.Syn
 
             var buildTcl = new BuildTcl(model);
             buildTcl.WriteToFile(scriptRootPath.CombineWithFilePath(BuildScriptFile).FullPath);
-        }
-
-        internal FilePathCollection GetReferenceDb(FilePathCollection additionalDb)
-        {
-            if (ProjectInfo.Reference == null)
-            {
-                return additionalDb;
-            }
-            var refs = ProjectInfo.Reference;
-            foreach (var ref_ in refs)
-            {
-                var name = ref_.Name;
-                var path = ref_.Path;
-
-                var refProjectInfo = ProjectInfo.ReadFromDirectory(path);
-                var refProjectType = refProjectInfo.Type;
-                switch (refProjectType)
-                {
-                    case ProjectType.Analog:
-                        break;
-                    case ProjectType.Memory: //当前只支持Memory
-                        var refLibertyPath = Path.Combine(path, "liberty");
-                        var dbs = Directory.GetFiles(refLibertyPath, "*.db", SearchOption.TopDirectoryOnly).Select(p => new FileInfo(p));
-                        var ttDb = dbs.FirstOrDefault(db => db.Name.Contains("tt"));
-                        if (ttDb != null)
-                        {
-                            additionalDb.Add(ttDb.FullName);
-                        }
-                        break;
-                    case ProjectType.Digital:
-                        break;
-                    case ProjectType.Ip:
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-
-            return additionalDb;
         }
     }
 }

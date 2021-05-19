@@ -4,6 +4,7 @@
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Harbor.Common.Model" #>
 <#= model.Header #>
 
 #=====================设置变量======================
@@ -97,8 +98,8 @@ remove_propagated_clock [all_clocks]
 
 <# 
 var pin_pad_tcl = "$script_root_path/pin_pad.tcl";
-if(pinModel.ConstraintFile != null) {
-    pin_pad_tcl = pinModel.ConstraintFile.FullPath;
+if(!string.IsNullOrEmpty(model.PinConstrainFilePath)) {
+    pin_pad_tcl = model.PinConstrainFilePath;
 } #>
 read_pin_pad_physical_constraints "<#= pin_pad_tcl #>"
 

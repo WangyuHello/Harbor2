@@ -8,13 +8,11 @@ namespace Harbor.Core.Tool.APR.Tcl
 {
     public partial class ICCBuildTcl
     {
-        private BuildTclModel model;
-        private PinPadTclModel pinModel;
+        private readonly BuildTclModel model;
 
-        public ICCBuildTcl(BuildTclModel model, PinPadTclModel pinModel)
+        public ICCBuildTcl(BuildTclModel model)
         {
             this.model = model;
-            this.pinModel = pinModel;
         }
 
         public void WriteToFile(string file)

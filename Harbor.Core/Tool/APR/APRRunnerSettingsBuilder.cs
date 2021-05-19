@@ -4,6 +4,7 @@ using System.Text;
 using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.IO;
+using Harbor.Common.Model;
 using Harbor.Common.Project;
 using Harbor.Core.Tool.APR.Model;
 using Newtonsoft.Json.Linq;

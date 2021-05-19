@@ -54,7 +54,7 @@ namespace Harbor.Core.Tool.APR.Model
         public double HorizontalPowerStrapStep { get; set; }
         public double HorizontalPowerStrapWidth { get; set; }
         public bool CreateHorizontalPowerStrap { get; set; }
-
+        public string PinConstrainFilePath { get; set; }
         public FloorPlanSettings FloorPlanSettings { get; set; }
 
         public int MnTXT1 { get; set; }
