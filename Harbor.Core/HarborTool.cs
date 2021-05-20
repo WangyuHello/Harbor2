@@ -33,7 +33,7 @@ namespace Harbor.Core
         public void Run(TSettings settings, ICakeContext context)
         {
             settings.Context = context;
-            settings.GenerateTclScripts();
+            settings.GenerateRunScripts();
             var args = GetSettingsArguments(settings);
 
             PrintBanner(settings, args);

@@ -32,7 +32,7 @@ namespace Harbor.Core.Tool.APR.Tcl
         {
             
             #line 8 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\ICCBuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.Header));
+            this.Write(this.ToStringHelper.ToStringWithCulture(HarborTextModel.Header()));
             
             #line default
             #line hidden

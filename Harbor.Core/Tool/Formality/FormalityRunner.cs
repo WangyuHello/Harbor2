@@ -68,7 +68,7 @@ namespace Harbor.Core.Tool.Formality
                 args.Append("-gui");
         }
 
-        internal override void GenerateTclScripts()
+        internal override void GenerateRunScripts()
         {
             WorkingDirectory = APRSettings.ProjectPath.Combine("formality");
             var library = AllLibrary.GetLibrary(ProjectInfo);

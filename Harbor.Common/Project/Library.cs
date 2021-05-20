@@ -5,10 +5,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+// ReSharper disable InconsistentNaming
+// ReSharper disable ClassNeverInstantiated.Local
+// ReSharper disable UnusedMember.Global
 
 namespace Harbor.Common.Project
 {
@@ -18,8 +19,6 @@ namespace Harbor.Common.Project
         public string path { get; set; }
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class AllLibrary
     {
         public static string HarborHome => Environment.GetEnvironmentVariable("HARBOR_HOME");
@@ -34,15 +33,6 @@ namespace Harbor.Common.Project
                 .Build();
             var libInfo = deserializer.Deserialize<LibraryInfo>(File.OpenText(libInfoYmlFile));
             Libraries = libInfo.libraries.Select(p => new Library(p)).ToList();
-        }
-
-        public static bool CheckValidLibrary(string lib)
-        {
-            if (string.IsNullOrEmpty(lib))
-            {
-                return false;
-            }
-            return Libraries.FirstOrDefault(l => l.Name == lib) != null;
         }
 
         public static Library GetLibrary(string name)
@@ -61,14 +51,12 @@ namespace Harbor.Common.Project
             return lib;
         }
 
-        class LibraryInfo
+        private class LibraryInfo
         {
             public NamePathPair[] libraries { get; set; }
         }
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public sealed class Library
     {
         public string Name { get; set; }
@@ -96,7 +84,7 @@ namespace Harbor.Common.Project
 
             // 读取StdCell
             var stdCellPath = Path.Combine(AllLibrary.HarborHome, "template", "library", pair.path, "library.stdcell.yml");
-            FileInfo stdCellFi = new FileInfo(stdCellPath);
+            var stdCellFi = new FileInfo(stdCellPath);
 
             if (stdCellFi.Exists)
             {
@@ -105,7 +93,7 @@ namespace Harbor.Common.Project
                 {
                     stdCell.Name = stdCell.cdk_name;
                     // 只有一个StdCell
-                    StdCell = new List<LibraryStdCell>()
+                    StdCell = new List<LibraryStdCell>
                     {
                         stdCell
                     };
@@ -114,7 +102,7 @@ namespace Harbor.Common.Project
                 {
                     StdCell = stdCell.refs.Select(r =>
                     {
-                        var stdCellPath2 = Path.Combine(stdCellFi.DirectoryName, r.path);
+                        var stdCellPath2 = Path.Combine(stdCellFi.DirectoryName!, r.path);
                         FileInfo stdCellFi2 = new FileInfo(stdCellPath2);
 
                         var stdCell2 = deserializer2.Deserialize<LibraryStdCell>(File.OpenText(stdCellFi2.FullName));
@@ -126,7 +114,7 @@ namespace Harbor.Common.Project
 
             // 读取Io
             var ioPath = Path.Combine(AllLibrary.HarborHome, "template", "library", pair.path, "library.io.yml");
-            FileInfo ioFi = new FileInfo(ioPath);
+            var ioFi = new FileInfo(ioPath);
 
             if (ioFi.Exists)
             {
@@ -144,7 +132,7 @@ namespace Harbor.Common.Project
                 {
                     Io = io.refs.Select(r =>
                     {
-                        var ioPath2 = Path.Combine(ioFi.DirectoryName, r.path);
+                        var ioPath2 = Path.Combine(ioFi.DirectoryName!, r.path);
                         FileInfo ioFi2 = new FileInfo(ioPath2);
 
                         var io2 = deserializer2.Deserialize<LibraryIo>(File.OpenText(ioFi2.FullName));
@@ -184,11 +172,19 @@ namespace Harbor.Common.Project
             public string layer_map_in_full_name { get; set; }
             public string layer_map_out_full_name { get; set; }
             public string cds_init_addition { get; set; }
+            public string drc_full_name { get; set; }
+            public string lvs_full_name { get; set; }
+            public string empty_circuit_full_name { get; set; }
             public LayerPair[] layer_map { get; set; }
 
             public int GetLayerNumber(string layer_name)
             {
-                return layer_map.FirstOrDefault(l => l.layer_name == layer_name).layer_number;
+                var pair = layer_map.FirstOrDefault(l => l.layer_name == layer_name);
+                if (pair == null)
+                {
+                    return -1;
+                }
+                return pair.layer_number;
             }
         }
 
@@ -234,6 +230,7 @@ namespace Harbor.Common.Project
             public string ground_pin { get; set; }
             public string gds_layer_map { get; set; }
             public double m2_width { get; set; }
+            public string cdl_full_name { get; set; }
 
             public string[] GetCellList()
             {

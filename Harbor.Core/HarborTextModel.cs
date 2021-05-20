@@ -9,11 +9,14 @@ namespace Harbor.Core
 {
     public class HarborTextModel
     {
-        public string Header =>
-            "#------------------------------------------------" + Environment.NewLine +
-            "# 自动生成的脚本" + Environment.NewLine +
-            "# Harbor " + VersionResolver.GetVersion2() + Environment.NewLine +
-            "# " + DateTime.Now + Environment.NewLine +
-            "#------------------------------------------------";
+        public static string Header(string comment = "#")
+        {
+            return comment + "------------------------------------------------" + Environment.NewLine +
+                   comment + " 自动生成的脚本" + Environment.NewLine +
+                   comment + " Harbor " + VersionResolver.GetVersion2() + Environment.NewLine +
+                   comment + " " + DateTime.Now + Environment.NewLine +
+                   comment + "------------------------------------------------";
+        }
+
     }
 }

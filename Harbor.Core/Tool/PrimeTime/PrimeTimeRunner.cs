@@ -70,7 +70,7 @@ namespace Harbor.Core.Tool.PrimeTime
                 args.Append("-gui");
         }
 
-        internal override void GenerateTclScripts()
+        internal override void GenerateRunScripts()
         {
             if (SynSettings == null) return;
 

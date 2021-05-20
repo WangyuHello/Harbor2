@@ -51,7 +51,7 @@ namespace Harbor.Core.Tool.Syn
 
         private static void RunDC(ICakeContext context, SynRunnerSettings settings)
         {
-            settings.GenerateTclScripts();
+            settings.GenerateRunScripts();
             context.DC(settings.GetDcRunnerSettings(), SynExitHandler.Handle);
         }
 

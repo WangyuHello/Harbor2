@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Harbor.Core.Util" #>
-<#= model.Header #>
+<#= HarborTextModel.Header() #>
 
 #=====================设置变量======================
 set script_root_path "<#= model.ScriptRootPath #>"

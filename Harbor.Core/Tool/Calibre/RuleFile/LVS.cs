@@ -7,7 +7,7 @@
 //     重新生成代码，这些更改将会丢失。
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace Harbor.Core.Tool.Milkyway.Tcl
+namespace Harbor.Core.Tool.Calibre.RuleFile
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace Harbor.Core.Tool.Milkyway.Tcl
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
+    #line 1 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class BuildTcl : BuildTclBase
+    public partial class LVS : LVSBase
     {
 #line hidden
         /// <summary>
@@ -28,72 +28,89 @@ namespace Harbor.Core.Tool.Milkyway.Tcl
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("#!tvf\r\ntvf::VERBATIM {\r\n");
             
-            #line 6 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(HarborTextModel.Header()));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n\r\nset libname ");
-            
-            #line 8 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectName));
+            #line 8 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(HarborTextModel.Header("//")));
             
             #line default
             #line hidden
-            this.Write("\r\n\r\nset techfile ");
+            this.Write("\r\n\r\nLAYOUT PATH  \"");
             
-            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.TechFilePath));
-            
-            #line default
-            #line hidden
-            this.Write("\r\nset tech_lef ");
-            
-            #line 11 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.TechLefFilePath));
+            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(GDSFullPath));
             
             #line default
             #line hidden
-            this.Write("\r\nset cell_lef ");
+            this.Write("\"\r\nLAYOUT PRIMARY \"");
             
-            #line 12 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectLefFilePath));
+            #line 11 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryCell));
             
             #line default
             #line hidden
-            this.Write(@"
+            this.Write("\"\r\nLAYOUT SYSTEM GDSII\r\n\r\nSOURCE PATH \"");
+            
+            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(NetlistFullPath));
+            
+            #line default
+            #line hidden
+            this.Write("\"\r\nSOURCE PRIMARY \"");
+            
+            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryCell));
+            
+            #line default
+            #line hidden
+            this.Write("\"\r\nSOURCE SYSTEM SPICE\r\n\r\nMASK SVDB DIRECTORY \"svdb\" QUERY\r\n\r\nLVS REPORT \"");
+            
+            #line 20 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryCell));
+            
+            #line default
+            #line hidden
+            this.Write(@".lvs.report""
 
-cmCreateLib
-setFormField ""Create Library"" ""Library Name"" ""$libname""
-setFormField ""Create Library"" ""Technology File Name"" ""$techfile""
-setFormField ""Create Library"" ""Set Case Sensitive"" ""1""
-formOK ""Create Library""
+LVS REPORT OPTION NONE
+LVS FILTER UNUSED OPTION NONE SOURCE
+LVS FILTER UNUSED OPTION NONE LAYOUT
+LVS REPORT MAXIMUM 100
+LVS RECOGNIZE GATES ALL
+LVS ABORT ON SOFTCHK NO
+LVS ABORT ON SUPPLY ERROR YES
+LVS IGNORE PORTS NO
+LVS SHOW SEED PROMOTIONS NO
+LVS SHOW SEED PROMOTIONS MAXIMUM 50
+LVS ISOLATE SHORTS NO
+VIRTUAL CONNECT COLON YES
+VIRTUAL CONNECT REPORT NO
+VIRTUAL CONNECT NAME ?
 
-read_lef
-setFormField ""Read LEF"" ""Library Name"" ""$libname""
-setFormField ""Read LEF"" ""Cell LEF Files"" ""$cell_lef""
-setFormField ""Read LEF"" ""Manual Library Prep Mode"" ""1""
-formOK ""Read LEF""
-
-cmSmash
-setFormField ""Smash"" ""Library Name"" ""$libname""
-setFormField ""Smash"" ""Cell Name"" ""$libname""
-formOK ""Smash""
-
-auExtractBlockagePinVia
-setFormField ""Extract Blockage"" ""Library Name"" ""$libname""
-formOK ""Extract Blockage""
-
-gePrepLibs
-setFormField ""Library Preparation"" ""Library Name"" ""$libname""
-formButton ""Library Preparation"" ""dumpPlib""
-setFormField ""Library Preparation"" ""Dump to Plib"" ""mw.plib""
-setFormField ""Library Preparation"" ""Tech info"" ""1""
-setFormField ""Library Preparation"" ""Cell info"" ""1""
-formOK ""Library Preparation""
-
-exit");
+LVS EXECUTE ERC YES
+ERC RESULTS DATABASE """);
+            
+            #line 38 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryCell));
+            
+            #line default
+            #line hidden
+            this.Write(".erc.results\"\r\nERC SUMMARY REPORT \"");
+            
+            #line 39 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryCell));
+            
+            #line default
+            #line hidden
+            this.Write(".erc.summary\" REPLACE HIER\r\nERC CELL NAME YES CELL SPACE XFORM\r\nERC MAXIMUM RESUL" +
+                    "TS 5000\r\nERC MAXIMUM VERTEX 4096\r\nDRC ICSTATION YES\r\n}\r\n\r\nsource \"");
+            
+            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\LVS.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(LVSRuleFullPath));
+            
+            #line default
+            #line hidden
+            this.Write("\"");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -105,7 +122,7 @@ exit");
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class BuildTclBase
+    public class LVSBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

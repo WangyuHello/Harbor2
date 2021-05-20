@@ -7,7 +7,7 @@
 //     重新生成代码，这些更改将会丢失。
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace Harbor.Core.Tool.Milkyway.Tcl
+namespace Harbor.Core.Tool.Calibre.RuleFile
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace Harbor.Core.Tool.Milkyway.Tcl
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
+    #line 1 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Calibre\RuleFile\DRC.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class BuildTcl : BuildTclBase
+    public partial class DRC : DRCBase
     {
 #line hidden
         /// <summary>
@@ -28,72 +28,6 @@ namespace Harbor.Core.Tool.Milkyway.Tcl
         /// </summary>
         public virtual string TransformText()
         {
-            
-            #line 6 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(HarborTextModel.Header()));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n\r\nset libname ");
-            
-            #line 8 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectName));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n\r\nset techfile ");
-            
-            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.TechFilePath));
-            
-            #line default
-            #line hidden
-            this.Write("\r\nset tech_lef ");
-            
-            #line 11 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.TechLefFilePath));
-            
-            #line default
-            #line hidden
-            this.Write("\r\nset cell_lef ");
-            
-            #line 12 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Milkyway\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectLefFilePath));
-            
-            #line default
-            #line hidden
-            this.Write(@"
-
-cmCreateLib
-setFormField ""Create Library"" ""Library Name"" ""$libname""
-setFormField ""Create Library"" ""Technology File Name"" ""$techfile""
-setFormField ""Create Library"" ""Set Case Sensitive"" ""1""
-formOK ""Create Library""
-
-read_lef
-setFormField ""Read LEF"" ""Library Name"" ""$libname""
-setFormField ""Read LEF"" ""Cell LEF Files"" ""$cell_lef""
-setFormField ""Read LEF"" ""Manual Library Prep Mode"" ""1""
-formOK ""Read LEF""
-
-cmSmash
-setFormField ""Smash"" ""Library Name"" ""$libname""
-setFormField ""Smash"" ""Cell Name"" ""$libname""
-formOK ""Smash""
-
-auExtractBlockagePinVia
-setFormField ""Extract Blockage"" ""Library Name"" ""$libname""
-formOK ""Extract Blockage""
-
-gePrepLibs
-setFormField ""Library Preparation"" ""Library Name"" ""$libname""
-formButton ""Library Preparation"" ""dumpPlib""
-setFormField ""Library Preparation"" ""Dump to Plib"" ""mw.plib""
-setFormField ""Library Preparation"" ""Tech info"" ""1""
-setFormField ""Library Preparation"" ""Cell info"" ""1""
-formOK ""Library Preparation""
-
-exit");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -105,7 +39,7 @@ exit");
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class BuildTclBase
+    public class DRCBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

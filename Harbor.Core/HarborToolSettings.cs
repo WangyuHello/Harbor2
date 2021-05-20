@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
 using Harbor.Common.Project;
-using Newtonsoft.Json.Linq;
 
 namespace Harbor.Core
 {
-    public class HarborToolSettings : ToolSettings
+    public abstract class HarborToolSettings : ToolSettings
     {
         public FilePath CommandLogFile { get; set; }
         public ICakeContext Context { get; set; }
@@ -17,12 +14,19 @@ namespace Harbor.Core
 
         public ProjectInfo ProjectInfo => _projectInfo ??= ProjectInfo.ReadFromContext(Context);
 
+        protected HarborToolSettings(){}
+
+        protected HarborToolSettings(ICakeContext context)
+        {
+            Context = context;
+        }
+
         internal virtual void Evaluate(ProcessArgumentBuilder args)
         {
             
         }
 
-        internal virtual void GenerateTclScripts() { }
+        internal virtual void GenerateRunScripts() { }
     }
 
     public static class ProcessArgumentBuilderExtensions
@@ -38,6 +42,15 @@ namespace Harbor.Core
         public static void Append(this ProcessArgumentBuilder arg, string option, FilePath file)
         {
             if (file != null)
+            {
+                arg.Append($"-{option} {file.FullPath}");
+            }
+        }
+
+        public static void Append(this ProcessArgumentBuilder arg, string option, FilePathCollection files)
+        {
+            if (files == null) return;
+            foreach (var file in files)
             {
                 arg.Append($"-{option} {file.FullPath}");
             }

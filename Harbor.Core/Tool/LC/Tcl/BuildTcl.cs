@@ -28,30 +28,29 @@ namespace Harbor.Core.Tool.LC.Tcl
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("#自动生成的脚本\r\n#");
             
-            #line 7 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\LC\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(System.DateTime.Now));
+            #line 6 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\LC\Tcl\BuildTcl.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(HarborTextModel.Header()));
             
             #line default
             #line hidden
             this.Write("\r\n\r\nread_lib ");
             
-            #line 9 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\LC\Tcl\BuildTcl.tt"
+            #line 8 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\LC\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectLibFilePath));
             
             #line default
             #line hidden
             this.Write("\r\nwrite_lib ");
             
-            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\LC\Tcl\BuildTcl.tt"
+            #line 9 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\LC\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectName));
             
             #line default
             #line hidden
             this.Write(" -format db -output ");
             
-            #line 10 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\LC\Tcl\BuildTcl.tt"
+            #line 9 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\LC\Tcl\BuildTcl.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectName));
             
             #line default

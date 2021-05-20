@@ -30,7 +30,7 @@ namespace Harbor.Core.Tool.APR.Tcl
         {
             
             #line 6 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\APR\Tcl\Formality.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.Header));
+            this.Write(this.ToStringHelper.ToStringWithCulture(HarborTextModel.Header()));
             
             #line default
             #line hidden

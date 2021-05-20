@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Cake.Core.IO;
@@ -28,24 +29,25 @@ namespace Harbor.Common.Project
                         break;
                     case ProjectType.Memory: //当前只支持Memory
                         var refLibertyPath = System.IO.Path.Combine(path, "liberty");
-                        var dbs = Directory.GetFiles(refLibertyPath, "*.db", SearchOption.TopDirectoryOnly).Select(p => new FileInfo(p)).ToArray();
+                        var dbs = Directory.GetFiles(refLibertyPath, "*.db", SearchOption.TopDirectoryOnly)
+                            .Select(p => new FileInfo(p)).ToArray();
                         var ssDb = dbs.FirstOrDefault(db => db.Name.Contains("ss"));
                         var ttDb = dbs.FirstOrDefault(db => db.Name.Contains("tt"));
                         if (ssDb is {Length: > 0})
                         {
                             additionalDb.Add(ssDb.FullName);
                         }
-                        else if(ttDb is { Length: > 0 })
+                        else if (ttDb is {Length: > 0})
                         {
                             additionalDb.Add(ttDb.FullName);
                         }
+
                         break;
                     case ProjectType.Digital:
                         break;
                     case ProjectType.Ip:
                         break;
                 }
-
             }
 
             return additionalDb;

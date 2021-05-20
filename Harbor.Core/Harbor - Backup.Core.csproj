@@ -124,7 +124,7 @@
       <LastGenOutput>DRC.cs</LastGenOutput>
     </None>
     <None Update="Tool\Calibre\RuleFile\LVS.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>LVS.cs</LastGenOutput>
     </None>
     <None Update="Tool\Ihdl\IhdlFile\IhdlFile.tt">

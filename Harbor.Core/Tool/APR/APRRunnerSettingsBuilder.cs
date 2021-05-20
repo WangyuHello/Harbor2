@@ -8,6 +8,7 @@ using Harbor.Common.Model;
 using Harbor.Common.Project;
 using Harbor.Core.Tool.APR.Model;
 using Newtonsoft.Json.Linq;
+// ReSharper disable InconsistentNaming
 
 namespace Harbor.Core.Tool.APR
 {
@@ -193,6 +194,12 @@ namespace Harbor.Core.Tool.APR
         public APRRunnerSettingsBuilder FormalVerify()
         {
             Settings.FormalVerify = true;
+            return this;
+        }
+
+        public APRRunnerSettingsBuilder LVS()
+        {
+            Settings.LVS = true;
             return this;
         }
 

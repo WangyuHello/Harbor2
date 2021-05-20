@@ -271,6 +271,7 @@ namespace Harbor.Core.Tool.APR
         public bool AddPG { get; set; }
         public bool OpenGUI { get; set; }
         public bool FormalVerify { get; set; }
+        public bool LVS { get; set; }
 
         private List<MacroInfo> MacroInfos { get; } = new();
 
@@ -288,7 +289,7 @@ namespace Harbor.Core.Tool.APR
             return settings;
         }
 
-        internal override void GenerateTclScripts()
+        internal override void GenerateRunScripts()
         {
             WorkingDirectory = ProjectPath.Combine("build");
             var library = AllLibrary.GetLibrary(ProjectInfo);

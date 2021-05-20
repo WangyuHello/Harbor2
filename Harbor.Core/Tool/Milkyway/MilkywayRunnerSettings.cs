@@ -32,7 +32,7 @@ namespace Harbor.Core.Tool.Milkyway
             return args;
         }
 
-        internal override void GenerateTclScripts()
+        internal override void GenerateRunScripts()
         {
             var library = AllLibrary.GetLibrary(ProjectInfo);
             BuildTclModel model = new BuildTclModel

@@ -5,9 +5,12 @@ using Cake.Core.Annotations;
 using Cake.Core.IO;
 using Harbor.Common.Project;
 using Harbor.Core.Tool.AddPG;
+using Harbor.Core.Tool.Calibre;
 using Harbor.Core.Tool.Formality;
 using Harbor.Core.Tool.ICC;
 using Harbor.Core.Tool.Sed;
+using Harbor.Core.Tool.V2LVS;
+
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 
@@ -28,6 +31,7 @@ namespace Harbor.Core.Tool.APR
             RunAPR(context, configure);
             RunAddPG(context, configure);
             RunFormality(context, configure);
+            RunLVS(context, configure);
         }
 
         [CakeMethodAlias]
@@ -58,32 +62,27 @@ namespace Harbor.Core.Tool.APR
             APR(context, builder.Settings);
         }
 
-        public static void RunAddPG(ICakeContext context, APRRunnerSettings settings)
+        private static void RunAddPG(ICakeContext context, APRRunnerSettings settings)
         {
-            if (settings.AddPG)
+            if (!settings.AddPG) return;
+            //在网表中删除wire only的单元
+            var library = AllLibrary.GetLibrary(settings.ProjectInfo);
+            if (library.PrimaryStdCell.wire_only_cells != null && library.PrimaryStdCell.wire_only_cells.Length != 0)
             {
-                //在网表中删除wire only的单元
-                var library = AllLibrary.GetLibrary(settings.ProjectInfo);
-                if (library.PrimaryStdCell.wire_only_cells != null && library.PrimaryStdCell.wire_only_cells.Length != 0)
+                foreach (var fill in library.PrimaryStdCell.wire_only_cells)
                 {
-                    foreach (var fill in library.PrimaryStdCell.wire_only_cells)
-                    {
-                        context.Sed(settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"), $"/{fill}/d");
-                    }
+                    context.Sed(settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"), $"/{fill}/d");
                 }
-                context.AddPG(AllLibrary.GetLibrary(settings.ProjectInfo), settings.ProjectInfo,
-                    settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"),
-                    settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_PG.v"),
-                    settings.ProjectPath.Combine("netlist"));
             }
+            context.AddPG(AllLibrary.GetLibrary(settings.ProjectInfo), settings.ProjectInfo,
+                settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v"),
+                settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds_PG.v"),
+                settings.ProjectPath.Combine("netlist"));
         }
 
-
-
-
-        public static void RunAPR(ICakeContext context, APRRunnerSettings settings)
+        private static void RunAPR(ICakeContext context, APRRunnerSettings settings)
         {
-            settings.GenerateTclScripts();
+            settings.GenerateRunScripts();
             if (settings.UseICC)
             {
                 context.ICC(settings.GetIccRunnerSettings(), APRExitHandler.HandleExit);
@@ -98,7 +97,7 @@ namespace Harbor.Core.Tool.APR
             }
         }
 
-        public static void RunFormality(ICakeContext context, APRRunnerSettings settings)
+        private static void RunFormality(ICakeContext context, APRRunnerSettings settings)
         {
             if (!settings.FormalVerify) return;
             var configure = new FormalityRunnerSettings
@@ -106,6 +105,23 @@ namespace Harbor.Core.Tool.APR
                 APRSettings = settings
             };
             context.Formality(configure);
+        }
+
+        private static void RunLVS(ICakeContext context, APRRunnerSettings settings)
+        {
+            if(!settings.LVS) return;
+            var verilog = settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_cds.v");
+            var outputSpice = settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}.sp");
+            var gds = settings.ProjectPath.Combine("gds").CombineWithFilePath($"{settings.Top}.gds");
+            var library = AllLibrary.GetLibrary(settings.ProjectInfo);
+            var libCdl = library.PrimaryStdCell.cdl_full_name;
+            context.V2LVS(new V2LVSRunnerSettings
+            {
+                VerilogFile = verilog,
+                OutputSpiceFile = outputSpice,
+                SpiceLibraryFiles = new FilePathCollection{ libCdl }
+            });
+            context.CalibreLVS(gds, settings.Top, outputSpice);
         }
 
     }

@@ -4,7 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Harbor.Common.Model" #>
-<#= model.Header #>
+<#= HarborTextModel.Header() #>
 #=============左侧端口====================
 <#  
 int space = (int)model.PinSpace;

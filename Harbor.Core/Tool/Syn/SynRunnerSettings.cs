@@ -71,7 +71,7 @@ namespace Harbor.Core.Tool.Syn
 
         private Library library;
 
-        internal override void GenerateTclScripts()
+        internal override void GenerateRunScripts()
         {
             var model = new BuildTclModel();
 

@@ -22,7 +22,7 @@ namespace Harbor.Core.Tool.LC
                 args.Append($"-f {CommandFile.FullPath}");
         }
 
-        internal override void GenerateTclScripts()
+        internal override void GenerateRunScripts()
         {
             BuildTclModel model = new BuildTclModel
             {

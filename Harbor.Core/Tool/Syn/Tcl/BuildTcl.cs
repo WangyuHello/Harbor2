@@ -31,7 +31,7 @@ namespace Harbor.Core.Tool.Syn.Tcl
         {
             
             #line 7 "E:\Documents\Repo\Harbor2\Harbor.Core\Tool\Syn\Tcl\BuildTcl.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(model.Header));
+            this.Write(this.ToStringHelper.ToStringWithCulture(HarborTextModel.Header()));
             
             #line default
             #line hidden

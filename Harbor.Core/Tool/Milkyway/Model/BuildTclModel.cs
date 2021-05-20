@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Harbor.Core.Tool.Milkyway.Model
 {
-    public class BuildTclModel
+    public class BuildTclModel : HarborTextModel
     {
         public string ProjectName { get; set; }
         public string TechFilePath { get; set; }

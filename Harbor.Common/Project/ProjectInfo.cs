@@ -11,6 +11,7 @@ using Harbor.Common.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Path = System.IO.Path;
+// ReSharper disable UnusedMember.Global
 
 namespace Harbor.Common.Project
 {

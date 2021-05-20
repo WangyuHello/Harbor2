@@ -3,8 +3,3 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#= HarborTextModel.Header() #>
-
-read_lib <#= model.ProjectLibFilePath #>
-write_lib <#= model.ProjectName #> -format db -output <#= model.ProjectName #>.db
-exit
