@@ -12,10 +12,10 @@ namespace Harbor.Core.Tool.AddPG
     public static class AddPGAliases
     {
         [CakeMethodAlias]
-        public static void AddPG(this ICakeContext context, Library library, ProjectInfo projectInfo, FilePath filename, FilePath output, DirectoryPath workingDirectory)
+        public static void AddPG(this ICakeContext context, Library library, ProjectInfo projectInfo, FilePath filename, FilePath output, string[] wireOnlyCells, DirectoryPath workingDirectory)
         {
             context.Log.Verbose("运行AddPg");
-            Harbor.Python.Tool.AddPg.Run2(library, projectInfo, filename.FullPath, output.FullPath, workingDirectory.FullPath);
+            Python.Tool.AddPg.Run2(library, projectInfo, filename.FullPath, output.FullPath, wireOnlyCells, workingDirectory.FullPath);
         }
     }
 }

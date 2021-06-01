@@ -11,10 +11,6 @@ namespace Harbor.Python.Tool
 {
     public static class ConvertUpper
     {
-        const string Banner = @"
-// Created by: Harbor
-// Version   : 2.0.0
-// Time      : ";
         /// <summary>
         /// 
         /// </summary>
@@ -174,14 +170,14 @@ namespace Harbor.Python.Tool
                 dynamic codegenI = codegen.ASTCodeGenerator();
                 string rslt = codegenI.visit(srcAst).As<string>();
 
-                File.WriteAllText(output, Banner + DateTime.Now + Environment.NewLine + rslt);
+                File.WriteAllText(output, PythonHelper.Banner + DateTime.Now + Environment.NewLine + rslt);
             });
         }
 
         public static void Run2(string top, string source, string netlist, string output, string workingDirectory)
         {
-            var names = MethodBase.GetCurrentMethod()?.DeclaringType?.Namespace;
-            var code = PythonHelper.GetCodeFromResource(names + ".ConvertUpper.py");
+            var className = MethodBase.GetCurrentMethod()?.DeclaringType?.FullName;
+            var code = PythonHelper.GetCodeFromResource($"{className}.py");
 
             string rslt = "";
             PythonHelper.SetEnvironment(workingDirectory, () =>
@@ -193,7 +189,7 @@ namespace Harbor.Python.Tool
                 scope.Exec(code);
                 rslt = scope.Get<string>("rslt");
             });
-            File.WriteAllText(output, Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
+            File.WriteAllText(output, PythonHelper.Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
         }
     }
 }

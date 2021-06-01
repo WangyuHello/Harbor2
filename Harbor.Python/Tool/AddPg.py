@@ -1,6 +1,7 @@
 from pyverilog.vparser.parser import parse
 import pyverilog.vparser.ast as vast
 from pyverilog.ast_code_generator.codegen import ASTCodeGenerator
+from fnmatch import fnmatch, fnmatchcase
 
 zero_counter = 0
 
@@ -85,6 +86,25 @@ def convert_1b0_to_wire(i):
                 l1[ind] = vast.Identifier("HARBOR_ZERO_" + str(zero_counter))
         c1.list = tuple(l1)
 
+def is_wire_only_cell(ins_module_name):
+    for c in wire_only_cells:
+        if fnmatch(ins_module_name, c):
+            return True
+    return False
+
+def remove_wire_only_cells(module_def):
+    items = list(module_def.items)
+    new_items= []
+    for i in items:
+        i_name = i.__class__.__name__
+        if i_name == "InstanceList":
+            if not is_wire_only_cell(i.module):
+                new_items.append(i)
+        else:
+            new_items.append(i)
+
+    module_def.items = tuple(new_items)
+
 def add_power(node):
     for i in node.children():
         i_name = i.__class__.__name__
@@ -92,14 +112,15 @@ def add_power(node):
             # 在 ModuleDef 中添加DVDD,DVSS 
             add_power_for_port(i.portlist)
             add_power_for_decl(i)
+            remove_wire_only_cells(i) # 删除 Wire Only 单元            
         elif i_name == "Instance":
             # 在 InstanceList 中添加DVDD, 
             ins_module_name = i.module
-            if(ins_module_name in lib_ins_list):
+            if(ins_module_name in lib_ins_list): # 库单元
                 add_power_for_lib_instance(i)
-            elif(ins_module_name in macro_power_pins):
+            elif(ins_module_name in macro_power_pins): # Macro单元
                 add_power_for_macro_instance(i)
-            else:
+            else: # 普通单元
                 add_power_for_user_instance(i)
         elif i_name == "PortArg":
             convert_1b0_to_wire(i)

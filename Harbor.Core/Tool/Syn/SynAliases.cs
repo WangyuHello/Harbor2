@@ -57,14 +57,13 @@ namespace Harbor.Core.Tool.Syn
 
         private static void RunAddPG(ICakeContext context, SynRunnerSettings settings)
         {
-            if (settings.AddPG)
-            {
-                //TODO WorkingDirectory = settings.ProjectPath.Combine("netlist")
-                context.AddPG(AllLibrary.GetLibrary(settings.ProjectInfo), settings.ProjectInfo,
-                    settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}.v"),
-                    settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_PG.v"),
-                    settings.ProjectPath.Combine("netlist"));
-            }
+            if (!settings.AddPG) return;
+            var library = AllLibrary.GetLibrary(settings.ProjectInfo);
+            context.AddPG(AllLibrary.GetLibrary(settings.ProjectInfo), settings.ProjectInfo,
+                settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}.v"),
+                settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_PG.v"),
+                library.PrimaryStdCell.wire_only_cells,
+                settings.ProjectPath.Combine("netlist"));
         }
 
         private static void RunSTA(ICakeContext context, SynRunnerSettings settings)

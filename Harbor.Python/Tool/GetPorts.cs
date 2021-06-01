@@ -106,10 +106,10 @@ namespace Harbor.Python.Tool
 
         public static List<VerilogPortDefinition> Run2(string filename, string topModuleName, string workingDirectory)
         {
-            var names = MethodBase.GetCurrentMethod()?.DeclaringType?.Namespace;
-            var code = PythonHelper.GetCodeFromResource(names + ".GetPorts.py");
+            var className = MethodBase.GetCurrentMethod()?.DeclaringType?.FullName;
+            var code = PythonHelper.GetCodeFromResource($"{className}.py");
 
-            List<VerilogPortDefinition> rslt = new List<VerilogPortDefinition>();
+            var rslt = new List<VerilogPortDefinition>();
             PythonHelper.SetEnvironment(workingDirectory, () =>
             {
                 using var scope = Py.CreateScope("AddPg");

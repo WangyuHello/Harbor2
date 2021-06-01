@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,6 +12,24 @@ namespace Harbor.Python
 {
     public static class PythonHelper
     {
+        private static string _banner;
+
+        public static string Banner
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_banner)) return _banner;
+                var assembly = Assembly.GetEntryAssembly();
+                var version = FileVersionInfo.GetVersionInfo(assembly!.Location).Comments;
+
+                _banner = "// Created by: Harbor" + Environment.NewLine +
+                          "// Version   : " + version + Environment.NewLine +
+                          "// Time      : ";
+
+                return _banner;
+            }
+        }
+
         public static void SetEnvironment(string workingDirectory, Action code)
         {
             var curDir = Environment.CurrentDirectory;

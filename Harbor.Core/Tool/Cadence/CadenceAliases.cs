@@ -1,6 +1,7 @@
 ﻿using Cake.Core;
 using Cake.Core.Annotations;
 using System;
+using System.Linq;
 using Cake.Common.IO;
 using Cake.Core.IO;
 using Cake.FileHelpers;
@@ -126,18 +127,11 @@ namespace Harbor.Core.Tool.Cadence
         public static void RunAddPG(ICakeContext context, ProjectInfo projectInfo, string top)
         {
             var layoutProjectPath = context.MakeAbsolute(new DirectoryPath("./Layout"));
-            //在网表中删除wire only的单元
             var library = AllLibrary.GetLibrary(projectInfo);
-            if (library.PrimaryStdCell.wire_only_cells != null && library.PrimaryStdCell.wire_only_cells.Length != 0)
-            {
-                foreach (var fill in library.PrimaryStdCell.wire_only_cells)
-                {
-                    context.Sed(layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds.v"), $"/{fill}/d");
-                }
-            }
             context.AddPG(AllLibrary.GetLibrary(projectInfo), projectInfo,
                 layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds.v"),
                 layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_PG.v"),
+                library.StdCell.SelectMany(std => std.wire_only_cells).ToArray(),
                 layoutProjectPath.Combine("netlist"));
             
         }

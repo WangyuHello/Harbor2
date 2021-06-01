@@ -35,7 +35,7 @@ namespace Harbor.Common.Cli
         public string GetVersion()
         {
             var assembly = Assembly.GetEntryAssembly();
-            var version = FileVersionInfo.GetVersionInfo(assembly.Location).Comments;
+            var version = FileVersionInfo.GetVersionInfo(assembly!.Location).Comments;
 
             if (string.IsNullOrWhiteSpace(version))
             {
@@ -55,7 +55,7 @@ namespace Harbor.Common.Cli
         public string GetProductVersion()
         {
             var assembly = Assembly.GetEntryAssembly();
-            var version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
+            var version = FileVersionInfo.GetVersionInfo(assembly!.Location).ProductVersion;
 
             if (string.IsNullOrWhiteSpace(version))
             {

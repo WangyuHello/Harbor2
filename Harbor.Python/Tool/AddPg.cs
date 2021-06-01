@@ -14,11 +14,6 @@ namespace Harbor.Python.Tool
 {
     public static class AddPg
     {
-        const string Banner = @"
-// Created by: Harbor
-// Version   : 2.0.0
-// Time      : ";
-
         public static void Run(Library library, ProjectInfo projectInfo, string filename, string output, string workingDirectory)
         {
             PythonHelper.SetEnvironment(workingDirectory, () =>
@@ -206,15 +201,15 @@ namespace Harbor.Python.Tool
 
                 dynamic codegenI = codegen.ASTCodeGenerator();
                 string rslt = codegenI.visit(srcAst).As<string>();
-                File.WriteAllText(output, Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
+                File.WriteAllText(output, PythonHelper.Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
             });
         }
 
-        public static void Run2(Library library, ProjectInfo projectInfo, string filename, string output,
+        public static void Run2(Library library, ProjectInfo projectInfo, string filename, string output, string[] wireOnlyCells, 
             string workingDirectory)
         {
-            var names = MethodBase.GetCurrentMethod()?.DeclaringType?.Namespace;
-            var code = PythonHelper.GetCodeFromResource(names+".AddPg.py");
+            var className = MethodBase.GetCurrentMethod()?.DeclaringType?.FullName;
+            var code = PythonHelper.GetCodeFromResource($"{className}.py");
 
             var libInsPowerPin = "VDD";
             var libInsGroundPin = "VSS";
@@ -229,10 +224,11 @@ namespace Harbor.Python.Tool
                 libInsGroundPin = library.PrimaryStdCell.ground_pin;
             }
 
+            wireOnlyCells ??= Array.Empty<string>();
             var macroPowerPins = GetMacroPowerPins(projectInfo);
             var libCellList = library.PrimaryStdCell.GetCellList();
             var primaryStdcellName = library.PrimaryStdCell.Name;
-            string rslt = "";
+            var rslt = "";
             PythonHelper.SetEnvironment(workingDirectory, () =>
             {
                 using var scope = Py.CreateScope("AddPg");
@@ -242,10 +238,11 @@ namespace Harbor.Python.Tool
                 scope.Set("macro_power_pins", macroPowerPins);
                 scope.Set("lib_ins_list", libCellList);
                 scope.Set("primary_stdcell_name", primaryStdcellName);
+                scope.Set("wire_only_cells", wireOnlyCells);
                 scope.Exec(code);
                 rslt = scope.Get<string>("rslt");
             });
-            File.WriteAllText(output, Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
+            File.WriteAllText(output, PythonHelper.Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
         }
 
         private static Dictionary<string, (List<string> powerPins, List<string> groundPins)> GetMacroPowerPins(
