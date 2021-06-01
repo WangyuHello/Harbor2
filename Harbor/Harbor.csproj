@@ -5,7 +5,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>harbor2</AssemblyName>
     <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
-    <Version>2.0.0-Test</Version>
+    <Version>2.0.0</Version>
     <Description>2.0.0</Description>
     <Copyright>Copyright (c) Wang Yu</Copyright>
   </PropertyGroup>

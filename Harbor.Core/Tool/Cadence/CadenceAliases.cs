@@ -11,7 +11,6 @@ using Harbor.Core.Tool.ConvertAMS;
 using Harbor.Core.Tool.ConvertUpper;
 using Harbor.Core.Tool.Ihdl;
 using Harbor.Core.Tool.Project;
-using Harbor.Core.Tool.Sed;
 using Harbor.Core.Tool.StrmIn;
 using Harbor.Core.Tool.Virtuoso;
 using Harbor.Core.Util;

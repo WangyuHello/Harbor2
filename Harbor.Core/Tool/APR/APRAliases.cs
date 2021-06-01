@@ -9,7 +9,6 @@ using Harbor.Core.Tool.AddPG;
 using Harbor.Core.Tool.Calibre;
 using Harbor.Core.Tool.Formality;
 using Harbor.Core.Tool.ICC;
-using Harbor.Core.Tool.Sed;
 using Harbor.Core.Tool.V2LVS;
 
 // ReSharper disable InconsistentNaming
