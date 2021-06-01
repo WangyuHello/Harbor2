@@ -246,10 +246,6 @@ namespace Harbor.Commands
                         settings.ClockName = AnsiConsole.Prompt(
                             new TextPrompt<string>("[grey][[可选]][/] 请输入时钟名称")
                                 .AllowEmpty());
-                        if (string.IsNullOrEmpty(settings.ClockName))
-                        {
-                            settings.ClockName = "vclk";
-                        }
                     }
 
                     if (!string.IsNullOrEmpty(settings.ClockName))
@@ -262,14 +258,14 @@ namespace Harbor.Commands
                         }
 
                         settings.ClockPeriod ??= AnsiConsole.Prompt(
-                            new TextPrompt<double?>("[grey][[可选]][/] 请输入时钟周期(ns)")
-                                .AllowEmpty()) ?? 10;
+                            new TextPrompt<double>("[grey][[可选]][/] 请输入时钟周期(ns)")
+                                .AllowEmpty().DefaultValue(10));
                     }
                     else
                     {
                         settings.ClockPeriod ??= AnsiConsole.Prompt(
-                            new TextPrompt<double?>("[grey][[可选]][/] 请输入虚拟时钟周期(ns)")
-                                .AllowEmpty()) ?? 10;
+                            new TextPrompt<double>("[grey][[可选]][/] 请输入虚拟时钟周期(ns)")
+                                .AllowEmpty().DefaultValue(10));
                     }
 
                     var projectDir2 = Path.Combine(Environment.CurrentDirectory, settings.Name);

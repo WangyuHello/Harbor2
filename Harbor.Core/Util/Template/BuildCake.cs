@@ -86,7 +86,6 @@ Task(""Layout"")
     .Does(() =>
 {
     APR(_ => _
-        .SynProjectPath(""./Synthesis"")
         .UseICC()
         .MaxRoutingLayer(4)
         .MaxPreRouteLayer(6)
@@ -109,21 +108,21 @@ Task(""Layout"")
             .PinSpace(0)
 ");
             
-            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  if(!string.IsNullOrEmpty(ClockName)) { 
             
             #line default
             #line hidden
             this.Write("            .Pin(\"");
             
-            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClockName));
             
             #line default
             #line hidden
             this.Write("\", PortPosition.Top, 1)\r\n");
             
-            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  } 
             
             #line default
