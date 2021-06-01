@@ -7,6 +7,7 @@ using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
 using Cake.FileHelpers;
+using Spectre.Console;
 
 namespace Harbor.Core
 {
@@ -58,11 +59,14 @@ namespace Harbor.Core
 
         protected void PrintBanner(TSettings settings, ProcessArgumentBuilder args)
         {
-            var dash = string.Join("", Enumerable.Range(0, Console.WindowWidth).Select(_ => "-"));
-            Console.WriteLine(dash);
-            Console.WriteLine($"{GetToolName()} 运行目录: {GetWorkingDirectory(settings)}");
-            Console.WriteLine($"{GetToolName()} 运行参数: {args.RenderSafe()}");
-            Console.WriteLine(dash);
+            AnsiConsole.Render(new Rule($"{GetToolName()}") {Alignment = Justify.Center, Style = Style.Parse("blue dim") });
+            var table = new Table();
+            table.AddColumn("运行目录");
+            table.AddColumn(new TableColumn(GetWorkingDirectory(settings).ToString()));
+            table.AddRow("运行参数", args.RenderSafe());
+            table.Expand();
+            AnsiConsole.Render(table);
+            AnsiConsole.Render(new Rule(){ Style = Style.Parse("blue dim") });
         }
 
         private Action<int> _exitCodeHandler;

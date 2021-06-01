@@ -26,6 +26,7 @@ namespace Harbor.Commands
             table.AddRow("[red]digital[/]", "数字工程", "Synopsys DC | ICC | ModelSim");
             table.AddRow("[red]memory[/]", "存储器工程", "Memory Compiler");
             table.AddRow("[red]ip[/]", "IP工程", "PLL | Serdes 等");
+            table.Expand();
             AnsiConsole.Render(table);
 
             var typeString = AnsiConsole.Prompt(
@@ -52,7 +53,7 @@ namespace Harbor.Commands
             {
                 table.AddRow("[red]" + lib.Name + "[/]", "");
             }
-
+            table.Expand();
             AnsiConsole.Render(table);
 
             var libString = AnsiConsole.Prompt(
@@ -74,7 +75,7 @@ namespace Harbor.Commands
             {
                 table.AddRow("[red]" + lib.Name + "[/]", lib.description ?? "");
             }
-
+            table.Expand();
             AnsiConsole.Render(table);
 
             var libString = AnsiConsole.Prompt(
@@ -85,7 +86,7 @@ namespace Harbor.Commands
                     //.AddChoice("<不选择>")
                     .AddChoices(libr.StdCell.Select(lib => lib.Name)));
 
-            if (libString != null && libString.Count != 0)
+            if (libString.Count != 0)
             {
                 return libString.Select(libr.GetStdCell).ToList();
             }
@@ -103,7 +104,7 @@ namespace Harbor.Commands
             {
                 table.AddRow("[red]" + lib.Name + "[/]", "");
             }
-
+            table.Expand();
             AnsiConsole.Render(table);
 
             var libString = AnsiConsole.Prompt(
@@ -114,7 +115,7 @@ namespace Harbor.Commands
                     //.AddChoice("<不选择>")
                     .AddChoices(libr.Io.Select(lib => lib.Name)));
 
-            if (libString != null && libString.Count != 0)
+            if (libString.Count != 0)
             {
                 return libString.Select(libr.GetIo).ToList();
             }
@@ -341,11 +342,11 @@ namespace Harbor.Commands
             return 0;
         }
 
-        async Task CreateGitRepo(string directory)
+        private static async Task CreateGitRepo(string directory)
         {
-            DirectoryInfo d = new(directory);
-            DirectoryInfo? p = d;
-            bool parentHasGit = false;
+            var d = new DirectoryInfo(directory);
+            var p = d;
+            var parentHasGit = false;
             while (p != null)
             {
                 var gd = p.GetDirectories(".git");
