@@ -418,12 +418,12 @@ namespace Harbor.Core.Tool.APR
                 var ext = PinSettings.ConstraintFile.GetExtension();
                 switch (ext)
                 {
-                    case "tcl": //指定了tcl文件
+                    case ".tcl": //指定了tcl文件
                         model.PinConstrainFilePath = Context.MakeAbsolute(PinSettings.ConstraintFile).FullPath;
                         break;
-                    case "xlsx":
-                    case "xls":
-                    case "csv": //指定了表格文件
+                    case ".xlsx":
+                    case ".xls":
+                    case ".csv": //指定了表格文件
                         GeneratePinConstraintFromExcel(PinSettings.ConstraintFile);
                         break;
                 }
