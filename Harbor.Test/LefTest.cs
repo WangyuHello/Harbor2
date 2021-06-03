@@ -11,7 +11,7 @@ namespace Harbor.Test
     public class LefTest
     {
         [Theory]
-        [InlineData(@"C:\Users\wangyu\Desktop\Temp\systolic_buffer_half.lef")]
+        [InlineData(@"C:\Users\wangyu\Desktop\Temp\CFPMAC2.lef")]
         public void TestParse(string filename)
         {
             LefObject lef = LefObject.Parse(filename);

@@ -341,7 +341,7 @@ namespace Harbor.Core.Tool.APR
 
     public class PinGroupBuilder
     {
-        public PinGroupSettings Settings = new PinGroupSettings();
+        public PinGroupSettings Settings = new();
 
         public PinGroupBuilder PinSpace(decimal pinSpace)
         {

@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Harbor.Test
@@ -8,7 +9,23 @@ namespace Harbor.Test
         [Fact]
         public void TestInit()
         {
+            var actions = new Action[]
+            {
+                () =>
+                {
 
+                },
+                () =>
+                {
+
+                },
+                () =>
+                {
+
+                }
+            };
+
+            Parallel.Invoke(actions);
         }
     }
 }

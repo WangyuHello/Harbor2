@@ -506,7 +506,7 @@ namespace Harbor.Common.Util
             public void AddPolygon(string[] data)
             {
                 List<(double x, double y)> points = new List<(double x, double y)>();
-                for (int idx = 0; idx < data.Length - 2; idx+=2)
+                for (int idx = 1; idx < data.Length - 2; idx+=2)
                 {
                     var x_cor = double.Parse(data[idx]);
                     var y_cor = double.Parse(data[idx + 1]);
