@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+// ReSharper disable UnusedMember.Global
 
 namespace Harbor.Common.Util
 {
@@ -131,6 +132,11 @@ namespace Harbor.Common.Util
                         var newState = new Via(name);
                         return (999, newState);
                     }
+                    case "PROPERTYDEFINITIONS":
+                    {
+                        var newState = new PropertyDefinitions();
+                        return (999, newState);
+                    }
                     case "END":
                         return (1, null);
                     default:
@@ -197,6 +203,9 @@ namespace Harbor.Common.Util
                         var newObs = new Obs();
                         _info["OBS"] = newObs;
                         return (999, newObs);
+                    case "PROPERTY":
+                        _info[data[1]] = data[2];
+                        break;
                     case "END":
                         if (data[1] == Name)
                         {
@@ -543,6 +552,29 @@ namespace Harbor.Common.Util
             
         }
 
+        public class PropertyDefinitions : Statement
+        {
+            private readonly Dictionary<string, object> _info = new();
 
+            internal override (int code, Statement s) ParseNext(string[] data)
+            {
+                switch (data[0])
+                {
+                    case "MACRO":
+                        _info["MACRO"] = data[1..];
+                        break;
+                    case "END":
+                        if (data[1] == "PROPERTYDEFINITIONS")
+                        {
+                            return (1, null);
+                        }
+                        else
+                        {
+                            return (-1, null);
+                        }
+                }
+                return (0, null);
+            }
+        }
     }
 }
