@@ -173,7 +173,7 @@ namespace Harbor.Common.Util
                         _info["ORIGIN"] = (xCor, yCor);
                         break;
                     case "FOREIGN":
-                        _info["FOREIGN"] = data[1..];
+                        _info["FOREIGN"] = string.Join(' ', data[1..]);
                         break;
                     case "SIZE":
                         var width = double.Parse(data[1]);
@@ -181,7 +181,7 @@ namespace Harbor.Common.Util
                         _info["SIZE"] = (width, height);
                         break;
                     case "SYMMETRY":
-                        _info["SYMMETRY"] = data[1..];
+                        _info["SYMMETRY"] = string.Join(' ', data[1..]);
                         break;
                     case "SITE":
                         _info["SITE"] = data[1];
@@ -561,7 +561,7 @@ namespace Harbor.Common.Util
                 switch (data[0])
                 {
                     case "MACRO":
-                        _info["MACRO"] = data[1..];
+                        _info["MACRO"] = string.Join(' ', data[1..]);
                         break;
                     case "END":
                         if (data[1] == "PROPERTYDEFINITIONS")
