@@ -119,6 +119,7 @@ def add_power(node):
             if(ins_module_name in lib_ins_list): # 库单元
                 add_power_for_lib_instance(i)
             elif(ins_module_name in macro_power_pins): # Macro单元
+                print("found macro: " + ins_module_name)
                 add_power_for_macro_instance(i)
             else: # 普通单元
                 add_power_for_user_instance(i)
@@ -127,6 +128,14 @@ def add_power(node):
 
         add_power(i)
 
+# debug
+#print(macro_power_pins)
+#print(lib_ins_list)
+#print(wire_only_cells)
+#print(filename)
+#print(lib_ins_power_pin)
+#print(lib_ins_ground_pin)
+#print(primary_stdcell_name)
 
 ast, directives = parse([filename], preprocess_include=[], preprocess_define=[])
 

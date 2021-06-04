@@ -4,10 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Harbor.Common.Project;
 using Harbor.Common.Util;
-using Newtonsoft.Json.Linq;
 using Python.Runtime;
 
 namespace Harbor.Python.Tool
@@ -100,8 +98,8 @@ namespace Harbor.Python.Tool
                 void AddPowerForMacroInstance(dynamic instance)
                 {
                     string moduleName = instance.module.As<string>();
-                    var powerPins = macroPowerPins[moduleName].powerPins;
-                    var groundPins = macroPowerPins[moduleName].groundPins;
+                    var powerPins = macroPowerPins[moduleName]["power_pins"];
+                    var groundPins = macroPowerPins[moduleName]["ground_pins"];
 
                     dynamic ports = PyList.AsList(instance.portlist);
                     dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
@@ -175,7 +173,7 @@ namespace Harbor.Python.Tool
                                 {
                                     AddPowerForLibInstance(i);
                                 }
-                                else if (macroPowerPins.ContainsKey(insModuleName))
+                                else if (macroPowerPins.HasKey(insModuleName))
                                 {
                                     AddPowerForMacroInstance(i);
                                 }
@@ -225,30 +223,31 @@ namespace Harbor.Python.Tool
             }
 
             wireOnlyCells ??= Array.Empty<string>();
-            var macroPowerPins = GetMacroPowerPins(projectInfo);
             var libCellList = library.PrimaryStdCell.GetCellList();
             var primaryStdcellName = library.PrimaryStdCell.Name;
             var rslt = "";
             PythonHelper.SetEnvironment(workingDirectory, () =>
             {
                 using var scope = Py.CreateScope("AddPg");
+                var macroPowerPins = GetMacroPowerPins(projectInfo);
+
                 scope.Set("filename", filename);
                 scope.Set("lib_ins_power_pin", libInsPowerPin);
                 scope.Set("lib_ins_ground_pin", libInsGroundPin);
                 scope.Set("macro_power_pins", macroPowerPins);
-                scope.Set("lib_ins_list", libCellList);
+                scope.Set("lib_ins_list", PyList.AsList(libCellList.ToPython()));
                 scope.Set("primary_stdcell_name", primaryStdcellName);
-                scope.Set("wire_only_cells", wireOnlyCells);
+                scope.Set("wire_only_cells", PyList.AsList(wireOnlyCells.ToPython()));
                 scope.Exec(code);
                 rslt = scope.Get<string>("rslt");
             });
             File.WriteAllText(output, PythonHelper.Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
         }
 
-        private static Dictionary<string, (List<string> powerPins, List<string> groundPins)> GetMacroPowerPins(
+        private static PyDict GetMacroPowerPins(
             ProjectInfo projectInfo)
         {
-            var macroPowerPins = new Dictionary<string, (List<string> powerPins, List<string> groundPins)>();
+            var macroPowerPins = new PyDict();
             if (projectInfo.Reference == null)
             {
                 return macroPowerPins;
@@ -277,16 +276,21 @@ namespace Harbor.Python.Tool
                         var groundPins = new List<string>();
                         foreach (var p in pins)
                         {
-                            if (p.Use == "POWER")
+                            switch (p.Use)
                             {
-                                powerPins.Add(p.Name);
-                            }
-                            else if (p.Use == "GROUND")
-                            {
-                                groundPins.Add(p.Name);
+                                case "POWER":
+                                    powerPins.Add(p.Name);
+                                    break;
+                                case "GROUND":
+                                    groundPins.Add(p.Name);
+                                    break;
                             }
                         }
-                        macroPowerPins.Add(name, (powerPins, groundPins));
+
+                        var pinDict = new PyDict();
+                        pinDict["power_pins"] = powerPins.ToPython();
+                        pinDict["ground_pins"] = groundPins.ToPython();
+                        macroPowerPins[name] = pinDict;
                         break;
                 }
             }
