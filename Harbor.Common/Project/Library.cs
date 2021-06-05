@@ -27,7 +27,7 @@ namespace Harbor.Common.Project
 
         static AllLibrary()
         {
-            var libInfoYmlFile = Path.Combine(HarborHome, "template", "library", "library.info.yml");
+            var libInfoYmlFile = Path.Combine(HarborHome, "Library", "library.info.yml");
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
@@ -73,7 +73,7 @@ namespace Harbor.Common.Project
             Name = pair.name;
 
             // 读取PDK
-            var pdkPath = Path.Combine(AllLibrary.HarborHome, "template", "library", pair.path, "library.pdk.yml");
+            var pdkPath = Path.Combine(AllLibrary.HarborHome, "Library", pair.path, "library.pdk.yml");
             FileInfo pdkFi = new FileInfo(pdkPath);
 
             var deserializer2 = new DeserializerBuilder()
@@ -83,7 +83,7 @@ namespace Harbor.Common.Project
             Pdk = deserializer2.Deserialize<LibraryPdk>(File.OpenText(pdkFi.FullName));
 
             // 读取StdCell
-            var stdCellPath = Path.Combine(AllLibrary.HarborHome, "template", "library", pair.path, "library.stdcell.yml");
+            var stdCellPath = Path.Combine(AllLibrary.HarborHome, "Library", pair.path, "library.stdcell.yml");
             var stdCellFi = new FileInfo(stdCellPath);
 
             if (stdCellFi.Exists)
@@ -113,7 +113,7 @@ namespace Harbor.Common.Project
             }
 
             // 读取Io
-            var ioPath = Path.Combine(AllLibrary.HarborHome, "template", "library", pair.path, "library.io.yml");
+            var ioPath = Path.Combine(AllLibrary.HarborHome, "Library", pair.path, "library.io.yml");
             var ioFi = new FileInfo(ioPath);
 
             if (ioFi.Exists)
