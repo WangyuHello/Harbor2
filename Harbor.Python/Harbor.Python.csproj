@@ -21,6 +21,7 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="pythonnet" Version="3.0.0-preview2021-02-17" />
+    <PackageReference Include="Spectre.Console" Version="0.37.0" />
   </ItemGroup>
 
   <ItemGroup>

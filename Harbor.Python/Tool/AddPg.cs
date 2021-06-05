@@ -4,13 +4,23 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Cake.Core.Tooling;
 using Harbor.Common.Project;
 using Harbor.Common.Util;
 using Python.Runtime;
 
 namespace Harbor.Python.Tool
 {
-    public static class AddPg
+    public class AddPgSettings : ToolSettings
+    {
+        public Library Library { get; set; }
+        public ProjectInfo ProjectInfo { get; set; }
+        public string FileName { get; set; }
+        public string Output { get; set; }
+        public string[] WireOnlyCells { get; set; }
+    }
+
+    public class AddPg : PythonTool<AddPgSettings>
     {
         public static void Run(Library library, ProjectInfo projectInfo, string filename, string output, string workingDirectory)
         {
@@ -206,42 +216,16 @@ namespace Harbor.Python.Tool
         public static void Run2(Library library, ProjectInfo projectInfo, string filename, string output, string[] wireOnlyCells, 
             string workingDirectory)
         {
-            var className = MethodBase.GetCurrentMethod()?.DeclaringType?.FullName;
-            var code = PythonHelper.GetCodeFromResource($"{className}.py");
-
-            var libInsPowerPin = "VDD";
-            var libInsGroundPin = "VSS";
-
-            if (!string.IsNullOrEmpty(library.PrimaryStdCell.power_pin))
+            var c = new AddPg();
+            c.Run(new AddPgSettings
             {
-                libInsPowerPin = library.PrimaryStdCell.power_pin;
-            }
-
-            if (!string.IsNullOrEmpty(library.PrimaryStdCell.ground_pin))
-            {
-                libInsGroundPin = library.PrimaryStdCell.ground_pin;
-            }
-
-            wireOnlyCells ??= Array.Empty<string>();
-            var libCellList = library.PrimaryStdCell.GetCellList();
-            var primaryStdcellName = library.PrimaryStdCell.Name;
-            var rslt = "";
-            PythonHelper.SetEnvironment(workingDirectory, () =>
-            {
-                using var scope = Py.CreateScope("AddPg");
-                var macroPowerPins = GetMacroPowerPins(projectInfo);
-
-                scope.Set("filename", filename);
-                scope.Set("lib_ins_power_pin", libInsPowerPin);
-                scope.Set("lib_ins_ground_pin", libInsGroundPin);
-                scope.Set("macro_power_pins", macroPowerPins);
-                scope.Set("lib_ins_list", PyList.AsList(libCellList.ToPython()));
-                scope.Set("primary_stdcell_name", primaryStdcellName);
-                scope.Set("wire_only_cells", PyList.AsList(wireOnlyCells.ToPython()));
-                scope.Exec(code);
-                rslt = scope.Get<string>("rslt");
+                Library = library,
+                ProjectInfo = projectInfo,
+                FileName = filename,
+                Output = output,
+                WireOnlyCells = wireOnlyCells,
+                WorkingDirectory = workingDirectory
             });
-            File.WriteAllText(output, PythonHelper.Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
         }
 
         private static PyDict GetMacroPowerPins(
@@ -295,6 +279,41 @@ namespace Harbor.Python.Tool
                 }
             }
             return macroPowerPins;
+        }
+
+        protected override int RunCore(AddPgSettings settings)
+        {
+            var libInsPowerPin = "VDD";
+            var libInsGroundPin = "VSS";
+
+            if (!string.IsNullOrEmpty(settings.Library.PrimaryStdCell.power_pin))
+            {
+                libInsPowerPin = settings.Library.PrimaryStdCell.power_pin;
+            }
+
+            if (!string.IsNullOrEmpty(settings.Library.PrimaryStdCell.ground_pin))
+            {
+                libInsGroundPin = settings.Library.PrimaryStdCell.ground_pin;
+            }
+
+            settings.WireOnlyCells ??= Array.Empty<string>();
+            var libCellList = settings.Library.PrimaryStdCell.GetCellList();
+            var primaryStdcellName = settings.Library.PrimaryStdCell.Name;
+
+            using var scope = Py.CreateScope(GetType().FullName);
+            var macroPowerPins = GetMacroPowerPins(settings.ProjectInfo);
+
+            scope.Set("filename", settings.FileName);
+            scope.Set("lib_ins_power_pin", libInsPowerPin);
+            scope.Set("lib_ins_ground_pin", libInsGroundPin);
+            scope.Set("macro_power_pins", macroPowerPins);
+            scope.Set("lib_ins_list", PyList.AsList(libCellList.ToPython()));
+            scope.Set("primary_stdcell_name", primaryStdcellName);
+            scope.Set("wire_only_cells", PyList.AsList(settings.WireOnlyCells.ToPython()));
+            scope.Exec(Code);
+            var rslt = scope.Get<string>("rslt");
+            File.WriteAllText(settings.Output, Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
+            return 0;
         }
     }
 }

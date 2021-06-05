@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Cake.Core.Tooling;
 using Python.Runtime;
 
 namespace Harbor.Python.Tool
@@ -14,7 +15,13 @@ namespace Harbor.Python.Tool
         public (int msb, int lsb) Width { get; set; }
     }
 
-    public static class GetPorts
+    public class GetPortsSettings : ToolSettings
+    {
+        public string FileName { get; set; }
+        public string TopModuleName { get; set; }
+    }
+
+    public class GetPorts : PythonTool<GetPortsSettings, List<VerilogPortDefinition>>
     {
         public static List<VerilogPortDefinition> Run(string filename, string topModuleName, string workingDirectory)
         {
@@ -106,27 +113,32 @@ namespace Harbor.Python.Tool
 
         public static List<VerilogPortDefinition> Run2(string filename, string topModuleName, string workingDirectory)
         {
-            var className = MethodBase.GetCurrentMethod()?.DeclaringType?.FullName;
-            var code = PythonHelper.GetCodeFromResource($"{className}.py");
-
-            var rslt = new List<VerilogPortDefinition>();
-            PythonHelper.SetEnvironment(workingDirectory, () =>
+            var c = new GetPorts();
+            return c.Run(new GetPortsSettings
             {
-                using var scope = Py.CreateScope("AddPg");
-                scope.Set("filename", filename);
-                scope.Set("top", topModuleName);
-                scope.Exec(code);
-                var r = scope.Get<PyObject>("top_ports");
-                dynamic r2 = PyList.AsList(r);
-                foreach (var i in r2)
-                {
-                    rslt.Add(new VerilogPortDefinition
-                    {
-                        Name = i["Name"],
-                        Width = (i["Width"]["msb"], i["Width"]["lsb"])
-                    });
-                }
+                FileName = filename,
+                TopModuleName = topModuleName,
+                WorkingDirectory = workingDirectory
             });
+        }
+
+        protected override List<VerilogPortDefinition> RunCore(GetPortsSettings settings)
+        {
+            var rslt = new List<VerilogPortDefinition>();
+            using var scope = Py.CreateScope(GetType().FullName);
+            scope.Set("filename", settings.FileName);
+            scope.Set("top", settings.TopModuleName);
+            scope.Exec(Code);
+            var r = scope.Get<PyObject>("top_ports");
+            dynamic r2 = PyList.AsList(r);
+            foreach (var i in r2)
+            {
+                rslt.Add(new VerilogPortDefinition
+                {
+                    Name = i["Name"],
+                    Width = (i["Width"]["msb"], i["Width"]["lsb"])
+                });
+            }
             return rslt;
         }
     }

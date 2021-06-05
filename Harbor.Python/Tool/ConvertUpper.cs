@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+using Cake.Core.Tooling;
 using Python.Runtime;
 
 namespace Harbor.Python.Tool
 {
-    public static class ConvertUpper
+    public class ConvertUpperSettings : ToolSettings
+    {
+        public string Top { get; set; }
+        public string Source { get; set; }
+        public string Netlist { get; set; }
+        public string Output { get; set; }
+    }
+
+    public class ConvertUpper : PythonTool<ConvertUpperSettings>
     {
         /// <summary>
         /// 
@@ -176,20 +182,27 @@ namespace Harbor.Python.Tool
 
         public static void Run2(string top, string source, string netlist, string output, string workingDirectory)
         {
-            var className = MethodBase.GetCurrentMethod()?.DeclaringType?.FullName;
-            var code = PythonHelper.GetCodeFromResource($"{className}.py");
-
-            string rslt = "";
-            PythonHelper.SetEnvironment(workingDirectory, () =>
+            var c = new ConvertUpper();
+            c.Run(new ConvertUpperSettings
             {
-                using var scope = Py.CreateScope();
-                scope.Set("source", source);
-                scope.Set("netlist", netlist);
-                scope.Set("top", top);
-                scope.Exec(code);
-                rslt = scope.Get<string>("rslt");
+                WorkingDirectory = workingDirectory,
+                Top = top,
+                Source = source,
+                Netlist = netlist,
+                Output = output
             });
-            File.WriteAllText(output, PythonHelper.Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
+        }
+
+        protected override int RunCore(ConvertUpperSettings settings)
+        {
+            using var scope = Py.CreateScope(GetType().FullName);
+            scope.Set("source", settings.Source);
+            scope.Set("netlist", settings.Netlist);
+            scope.Set("top", settings.Top);
+            scope.Exec(Code);
+            var rslt = scope.Get<string>("rslt");
+            File.WriteAllText(settings.Output, Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
+            return 0;
         }
     }
 }
