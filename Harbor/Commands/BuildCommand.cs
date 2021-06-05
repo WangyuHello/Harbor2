@@ -56,7 +56,7 @@ namespace Harbor.Commands
                     Script = settings.Script,
                     Verbosity = settings.Verbosity,
                     Exclusive = false,
-                    Debug = false,
+                    Debug = settings.Debug,
                     NoBootstrapping = settings.SkipBootstrap,
                 });
             }

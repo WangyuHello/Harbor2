@@ -36,5 +36,9 @@ namespace Harbor.Commands
         [TypeConverter(typeof(VerbosityConverter))]
         [DefaultValue(Verbosity.Normal)]
         public Verbosity Verbosity { get; set; }
+
+        [CommandOption("--debug|-d")]
+        [Description("Launches script in debug mode.")]
+        public bool Debug { get; set; }
     }
 }
