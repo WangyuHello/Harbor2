@@ -22,8 +22,11 @@ namespace Harbor.Python
             var className = GetType().FullName;
             //className = MethodBase.GetCurrentMethod()?.DeclaringType?.FullName;
             Code = GetCodeFromResource($"{className}.py");
-            PrintBanner(settings);
-            SetEnvironment(settings.WorkingDirectory.FullPath, () => r = RunCore(settings));
+            SetEnvironment(settings.WorkingDirectory.FullPath, () =>
+            {
+                PrintBanner(settings);
+                r = RunCore(settings);
+            });
             return r;
         }
 
