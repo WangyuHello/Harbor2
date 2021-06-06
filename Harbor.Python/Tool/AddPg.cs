@@ -22,196 +22,196 @@ namespace Harbor.Python.Tool
 
     public class AddPg : PythonTool<AddPgSettings>
     {
-        public static void Run(Library library, ProjectInfo projectInfo, string filename, string output, string workingDirectory)
-        {
-            PythonHelper.SetEnvironment(workingDirectory, () =>
-            {
-                dynamic pyverilog = Py.Import("pyverilog");
-                dynamic parser = Py.Import("pyverilog.vparser.parser");
-                dynamic vast = pyverilog.vparser.ast;
-                dynamic codegen = Py.Import("pyverilog.ast_code_generator.codegen");
+        //public static void Run(Library library, ProjectInfo projectInfo, string filename, string output, string workingDirectory)
+        //{
+        //    PythonHelper.SetEnvironment(workingDirectory, () =>
+        //    {
+        //        dynamic pyverilog = Py.Import("pyverilog");
+        //        dynamic parser = Py.Import("pyverilog.vparser.parser");
+        //        dynamic vast = pyverilog.vparser.ast;
+        //        dynamic codegen = Py.Import("pyverilog.ast_code_generator.codegen");
 
-                var libInsPowerPin = "VDD";
-                var libInsGroundPin = "VSS";
+        //        var libInsPowerPin = "VDD";
+        //        var libInsGroundPin = "VSS";
 
-                if (!string.IsNullOrEmpty(library.PrimaryStdCell.power_pin))
-                {
-                    libInsPowerPin = library.PrimaryStdCell.power_pin;
-                }
+        //        if (!string.IsNullOrEmpty(library.PrimaryStdCell.power_pin))
+        //        {
+        //            libInsPowerPin = library.PrimaryStdCell.power_pin;
+        //        }
 
-                if (!string.IsNullOrEmpty(library.PrimaryStdCell.ground_pin))
-                {
-                    libInsGroundPin = library.PrimaryStdCell.ground_pin;
-                }
+        //        if (!string.IsNullOrEmpty(library.PrimaryStdCell.ground_pin))
+        //        {
+        //            libInsGroundPin = library.PrimaryStdCell.ground_pin;
+        //        }
 
-                var macroPowerPins = GetMacroPowerPins(projectInfo);
+        //        var macroPowerPins = GetMacroPowerPins(projectInfo);
 
-                void AddPowerForPort(dynamic portlist)
-                {
-                    dynamic dvdd = vast.Port(name: "DVDD", width: null, dimensions: 1, type: null, lineno: -1);
-                    dynamic dvss = vast.Port(name: "DVSS", width: null, dimensions: 1, type: null, lineno: -1);
-                    dynamic ports = PyList.AsList(portlist.ports);
-                    ports.Append(dvdd);
-                    ports.Append(dvss);
-                    portlist.ports = PyTuple.AsTuple(ports);
-                }
+        //        void AddPowerForPort(dynamic portlist)
+        //        {
+        //            dynamic dvdd = vast.Port(name: "DVDD", width: null, dimensions: 1, type: null, lineno: -1);
+        //            dynamic dvss = vast.Port(name: "DVSS", width: null, dimensions: 1, type: null, lineno: -1);
+        //            dynamic ports = PyList.AsList(portlist.ports);
+        //            ports.Append(dvdd);
+        //            ports.Append(dvss);
+        //            portlist.ports = PyTuple.AsTuple(ports);
+        //        }
 
-                void AddPowerForDecl(dynamic i)
-                {
-                    dynamic dvdd = vast.Input("DVDD");
-                    dynamic dvss = vast.Input("DVSS");
-                    var inputs = new List<PyObject> {dvdd, dvss};
-                    dynamic decl = vast.Decl(inputs, lineno: -1);
-                    dynamic items = PyList.AsList(i.items);
-                    items.Insert(0, decl);
-                    i.items = PyTuple.AsTuple(items);
-                }
+        //        void AddPowerForDecl(dynamic i)
+        //        {
+        //            dynamic dvdd = vast.Input("DVDD");
+        //            dynamic dvss = vast.Input("DVSS");
+        //            var inputs = new List<PyObject> {dvdd, dvss};
+        //            dynamic decl = vast.Decl(inputs, lineno: -1);
+        //            dynamic items = PyList.AsList(i.items);
+        //            items.Insert(0, decl);
+        //            i.items = PyTuple.AsTuple(items);
+        //        }
 
-                void AddPowerForLibInstance(dynamic instance)
-                {
-                    dynamic ports = PyList.AsList(instance.portlist);
-                    dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
-                    dynamic dvss = vast.Identifier(name: "DVSS", lineno: -1);
-                    PyObject vdd = vast.PortArg(libInsPowerPin, dvdd, lineno: -1);
-                    PyObject vnw = vast.PortArg("VNW", dvdd, lineno: -1);
-                    PyObject vss = vast.PortArg(libInsGroundPin, dvss, lineno: -1);
-                    PyObject vpw = vast.PortArg("VPW", dvss, lineno: -1);
+        //        void AddPowerForLibInstance(dynamic instance)
+        //        {
+        //            dynamic ports = PyList.AsList(instance.portlist);
+        //            dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
+        //            dynamic dvss = vast.Identifier(name: "DVSS", lineno: -1);
+        //            PyObject vdd = vast.PortArg(libInsPowerPin, dvdd, lineno: -1);
+        //            PyObject vnw = vast.PortArg("VNW", dvdd, lineno: -1);
+        //            PyObject vss = vast.PortArg(libInsGroundPin, dvss, lineno: -1);
+        //            PyObject vpw = vast.PortArg("VPW", dvss, lineno: -1);
 
-                    if (library.PrimaryStdCell.Name.StartsWith("scc"))
-                    {
-                        ports.Append(vdd); //SMIC Std Cell 含有VNW/VPW接口
-                        ports.Append(vnw);
-                        ports.Append(vss);
-                        ports.Append(vpw);
-                    }
-                    else
-                    {
-                        ports.Append(vdd);
-                        ports.Append(vss);
-                    }
+        //            if (library.PrimaryStdCell.Name.StartsWith("scc"))
+        //            {
+        //                ports.Append(vdd); //SMIC Std Cell 含有VNW/VPW接口
+        //                ports.Append(vnw);
+        //                ports.Append(vss);
+        //                ports.Append(vpw);
+        //            }
+        //            else
+        //            {
+        //                ports.Append(vdd);
+        //                ports.Append(vss);
+        //            }
 
-                    instance.portlist = PyTuple.AsTuple(ports);
-                }
+        //            instance.portlist = PyTuple.AsTuple(ports);
+        //        }
 
-                void AddPowerForUserInstance(dynamic instance)
-                {
-                    dynamic ports = PyList.AsList(instance.portlist);
-                    dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
-                    dynamic dvss = vast.Identifier(name: "DVSS", lineno: -1);
-                    PyObject vdd = vast.PortArg("DVDD", dvdd, lineno: -1);
-                    PyObject vss = vast.PortArg("DVSS", dvss, lineno: -1);
-                    ports.Append(vdd);
-                    ports.Append(vss);
-                    instance.portlist = PyTuple.AsTuple(ports);
-                }
+        //        void AddPowerForUserInstance(dynamic instance)
+        //        {
+        //            dynamic ports = PyList.AsList(instance.portlist);
+        //            dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
+        //            dynamic dvss = vast.Identifier(name: "DVSS", lineno: -1);
+        //            PyObject vdd = vast.PortArg("DVDD", dvdd, lineno: -1);
+        //            PyObject vss = vast.PortArg("DVSS", dvss, lineno: -1);
+        //            ports.Append(vdd);
+        //            ports.Append(vss);
+        //            instance.portlist = PyTuple.AsTuple(ports);
+        //        }
 
-                void AddPowerForMacroInstance(dynamic instance)
-                {
-                    string moduleName = instance.module.As<string>();
-                    var powerPins = macroPowerPins[moduleName]["power_pins"];
-                    var groundPins = macroPowerPins[moduleName]["ground_pins"];
+        //        void AddPowerForMacroInstance(dynamic instance)
+        //        {
+        //            string moduleName = instance.module.As<string>();
+        //            var powerPins = macroPowerPins[moduleName]["power_pins"];
+        //            var groundPins = macroPowerPins[moduleName]["ground_pins"];
 
-                    dynamic ports = PyList.AsList(instance.portlist);
-                    dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
-                    dynamic dvss = vast.Identifier(name: "DVSS", lineno: -1);
+        //            dynamic ports = PyList.AsList(instance.portlist);
+        //            dynamic dvdd = vast.Identifier(name: "DVDD", lineno: -1);
+        //            dynamic dvss = vast.Identifier(name: "DVSS", lineno: -1);
 
-                    foreach (var p in powerPins)
-                    {
-                        dynamic p2 = vast.PortArg(p, dvdd, lineno: -1);
-                        ports.Append(p2);
-                    }
+        //            foreach (var p in powerPins)
+        //            {
+        //                dynamic p2 = vast.PortArg(p, dvdd, lineno: -1);
+        //                ports.Append(p2);
+        //            }
 
-                    foreach (var g in groundPins)
-                    {
-                        dynamic g2 = vast.PortArg(g, dvss, lineno: -1);
-                        ports.Append(g2);
-                    }
+        //            foreach (var g in groundPins)
+        //            {
+        //                dynamic g2 = vast.PortArg(g, dvss, lineno: -1);
+        //                ports.Append(g2);
+        //            }
 
-                    instance.portlist = PyTuple.AsTuple(ports);
-                }
+        //            instance.portlist = PyTuple.AsTuple(ports);
+        //        }
 
-                int zeroCounter = 0;
+        //        int zeroCounter = 0;
 
-                void Convert1b0ToWire(dynamic i)
-                {
-                    dynamic c1 = i.argname;
-                    string c1Name = c1.__class__.__name__.As<string>();
-                    if (c1Name == "IntConst")
-                    {
-                        if (c1.value.As<string>() == "1'b0")
-                        {
-                            zeroCounter += 1;
-                            dynamic hbZero = vast.Identifier("HARBOR_ZERO_" + zeroCounter);
-                            i.argname = hbZero;
-                        }
-                    }
-                    else if (c1Name == "Concat")
-                    {
-                        PyList l1 = PyList.AsList(c1.list);
-                        for (int j = 0; j < l1.Length(); j++)
-                        {
-                            dynamic c2 = l1[j];
-                            string c2Name = c2.__class__.__name__.As<string>();
-                            if (c2Name == "IntConst" && c2.value.As<string>() == "1'b0")
-                            {
-                                zeroCounter += 1;
-                                dynamic hbZero = vast.Identifier("HARBOR_ZERO_" + zeroCounter);
-                                l1[j] = hbZero;
-                            }
-                        }
+        //        void Convert1b0ToWire(dynamic i)
+        //        {
+        //            dynamic c1 = i.argname;
+        //            string c1Name = c1.__class__.__name__.As<string>();
+        //            if (c1Name == "IntConst")
+        //            {
+        //                if (c1.value.As<string>() == "1'b0")
+        //                {
+        //                    zeroCounter += 1;
+        //                    dynamic hbZero = vast.Identifier("HARBOR_ZERO_" + zeroCounter);
+        //                    i.argname = hbZero;
+        //                }
+        //            }
+        //            else if (c1Name == "Concat")
+        //            {
+        //                PyList l1 = PyList.AsList(c1.list);
+        //                for (int j = 0; j < l1.Length(); j++)
+        //                {
+        //                    dynamic c2 = l1[j];
+        //                    string c2Name = c2.__class__.__name__.As<string>();
+        //                    if (c2Name == "IntConst" && c2.value.As<string>() == "1'b0")
+        //                    {
+        //                        zeroCounter += 1;
+        //                        dynamic hbZero = vast.Identifier("HARBOR_ZERO_" + zeroCounter);
+        //                        l1[j] = hbZero;
+        //                    }
+        //                }
 
-                        c1.list = PyTuple.AsTuple(l1);
-                    }
-                }
+        //                c1.list = PyTuple.AsTuple(l1);
+        //            }
+        //        }
 
-                var libCellList = library.PrimaryStdCell.GetCellList();
+        //        var libCellList = library.PrimaryStdCell.GetCellList();
 
-                void AddPower(dynamic node)
-                {
-                    foreach (var i in node.children())
-                    {
-                        var iName = i.__class__.__name__.As<string>();
-                        switch (iName)
-                        {
-                            case "ModuleDef":
-                                AddPowerForPort(i.portlist);
-                                AddPowerForDecl(i);
-                                break;
-                            case "Instance":
-                                string insModuleName = i.module.As<string>();
-                                if (libCellList.Contains(insModuleName))
-                                {
-                                    AddPowerForLibInstance(i);
-                                }
-                                else if (macroPowerPins.HasKey(insModuleName))
-                                {
-                                    AddPowerForMacroInstance(i);
-                                }
-                                else
-                                {
-                                    AddPowerForUserInstance(i);
-                                }
+        //        void AddPower(dynamic node)
+        //        {
+        //            foreach (var i in node.children())
+        //            {
+        //                var iName = i.__class__.__name__.As<string>();
+        //                switch (iName)
+        //                {
+        //                    case "ModuleDef":
+        //                        AddPowerForPort(i.portlist);
+        //                        AddPowerForDecl(i);
+        //                        break;
+        //                    case "Instance":
+        //                        string insModuleName = i.module.As<string>();
+        //                        if (libCellList.Contains(insModuleName))
+        //                        {
+        //                            AddPowerForLibInstance(i);
+        //                        }
+        //                        else if (macroPowerPins.HasKey(insModuleName))
+        //                        {
+        //                            AddPowerForMacroInstance(i);
+        //                        }
+        //                        else
+        //                        {
+        //                            AddPowerForUserInstance(i);
+        //                        }
 
-                                break;
-                            case "PortArg":
-                                Convert1b0ToWire(i);
-                                break;
-                        }
+        //                        break;
+        //                    case "PortArg":
+        //                        Convert1b0ToWire(i);
+        //                        break;
+        //                }
 
-                        AddPower(i);
-                    }
-                }
+        //                AddPower(i);
+        //            }
+        //        }
 
-                dynamic srcTuple = parser.parse(new List<string> {filename});
-                dynamic srcAst = srcTuple[0];
+        //        dynamic srcTuple = parser.parse(new List<string> {filename});
+        //        dynamic srcAst = srcTuple[0];
 
-                AddPower(srcAst);
+        //        AddPower(srcAst);
 
-                dynamic codegenI = codegen.ASTCodeGenerator();
-                string rslt = codegenI.visit(srcAst).As<string>();
-                File.WriteAllText(output, PythonHelper.Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
-            });
-        }
+        //        dynamic codegenI = codegen.ASTCodeGenerator();
+        //        string rslt = codegenI.visit(srcAst).As<string>();
+        //        File.WriteAllText(output, PythonHelper.Banner + DateTime.Now + Environment.NewLine + rslt, new UTF8Encoding(false));
+        //    });
+        //}
 
         public static void Run2(Library library, ProjectInfo projectInfo, string filename, string output, string[] wireOnlyCells, 
             string workingDirectory)
