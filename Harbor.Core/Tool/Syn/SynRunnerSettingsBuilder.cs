@@ -49,20 +49,14 @@ namespace Harbor.Core.Tool.Syn
 
         public SynRunnerSettingsBuilder Verilog(FilePathCollection verilog)
         {
-            if (Settings.Verilog == null)
-            {
-                Settings.Verilog = new FilePathCollection();
-            }
+            Settings.Verilog ??= new FilePathCollection();
             Settings.Verilog.Add(verilog);
             return this;
         }
 
         public SynRunnerSettingsBuilder Verilog(string pattern)
         {
-            if (Settings.Verilog == null)
-            {
-                Settings.Verilog = new FilePathCollection();
-            }
+            Settings.Verilog ??= new FilePathCollection();
             var vs = context.GetFiles(pattern);
             Settings.Verilog.Add(vs);
             return this;
@@ -70,20 +64,14 @@ namespace Harbor.Core.Tool.Syn
 
         public SynRunnerSettingsBuilder AddTimingDB(FilePathCollection db)
         {
-            if (Settings.AdditionalTimingDb == null)
-            {
-                Settings.AdditionalTimingDb = new FilePathCollection();
-            }
+            Settings.AdditionalTimingDb ??= new FilePathCollection();
             Settings.AdditionalTimingDb.Add(db);
             return this;
         }
 
         public SynRunnerSettingsBuilder AddTimingDB(string pattern)
         {
-            if (Settings.AdditionalTimingDb == null)
-            {
-                Settings.AdditionalTimingDb = new FilePathCollection();
-            }
+            Settings.AdditionalTimingDb ??= new FilePathCollection();
             var dbs = context.GetFiles(pattern);
             Settings.AdditionalTimingDb.Add(dbs);
             return this;

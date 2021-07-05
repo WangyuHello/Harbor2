@@ -30,7 +30,7 @@ namespace Harbor.Core.Tool.Syn
     {
         public DirectoryPath ProjectPath { get; set; }
         public FilePathCollection Verilog { get; set; }
-        public FilePathCollection AdditionalTimingDb { get; set; } = new FilePathCollection();
+        public FilePathCollection AdditionalTimingDb { get; set; } = new ();
         public string Top => ProjectInfo.Project;
         public string Clock { get; set; } = "vclk";
         public string Reset { get; set; }

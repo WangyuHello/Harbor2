@@ -11,6 +11,7 @@ using Harbor.Core.Tool.APR.Model;
 using Harbor.Core.Tool.APR.Tcl;
 using Harbor.Core.Tool.ICC;
 using Harbor.Core.Util;
+using Harbor.Python.Tool;
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 
@@ -67,7 +68,7 @@ namespace Harbor.Core.Tool.APR
         /// <param name="top"></param>
         public void InflatePorts(DirectoryPath synProjectPath, string m1direction, string top)
         {
-            var ports = Python.Tool.GetPorts.Run2(
+            var ports = GetPorts.Run2(
                 synProjectPath.Combine("netlist").CombineWithFilePath($"{top}.v").FullPath, top, synProjectPath.Combine("netlist").FullPath);
             
             var r = new Random(10);

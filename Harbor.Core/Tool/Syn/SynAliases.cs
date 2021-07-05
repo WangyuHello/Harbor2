@@ -1,30 +1,40 @@
 ﻿using Cake.Core;
 using Cake.Core.Annotations;
 using Cake.Core.IO;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Harbor.Common.Project;
 using Harbor.Core.Tool.AddPG;
 using Harbor.Core.Tool.DC;
 using Harbor.Core.Tool.PrimeTime;
+using Harbor.Core.Util;
 
 
 namespace Harbor.Core.Tool.Syn
 {
     public static class SynAliases
     {
-
         private static void Syn(this ICakeContext context, SynRunnerSettings configure)
         {
             configure.Context = context ?? throw new ArgumentNullException(nameof(context));
-            RunDC(context, configure);
-            RunCombineSource(context, configure);
-            RunAddPG(context, configure);
-            RunSTA(context, configure);
+            var (match, newHash) = CheckHash(context, configure);
+            if (!match)
+            {
+                RunDC(context, configure);
+                RunCombineSource(context, configure);
+                RunAddPG(context, configure);
+                RunSTA(context, configure);
+            }
+            else
+            {
+                context.Information("已是最新版本");
+            }
+            HashHelper.SaveLocalHash(newHash, "syn");
         }
 
         [CakeMethodAlias]
@@ -93,6 +103,16 @@ namespace Harbor.Core.Tool.Syn
             var f = new StreamWriter(File.Open(output.FullPath, FileMode.Create, FileAccess.Write));
             f.WriteLine(sb);
             f.Close();
+        }
+
+        private static (bool match, Dictionary<string, string> newHash) CheckHash(ICakeContext context, SynRunnerSettings settings)
+        {
+            var fl = new List<string>();
+            fl.AddRange(settings.Verilog.Select(f => f.FullPath));
+            fl.Add(context.MakeAbsolute(new FilePath("build.cake")).FullPath);
+            fl.AddRange(settings.AdditionalTimingDb.Select(f => f.FullPath));
+
+            return HashHelper.Check(fl, "syn");
         }
     }
 }

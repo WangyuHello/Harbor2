@@ -15,7 +15,7 @@ namespace Harbor.Python
         protected string Code;
         public TResult Run(TSettings settings)
         {
-            TResult r = default(TResult);
+            var r = default(TResult);
             var className = GetType().FullName;
             //className = MethodBase.GetCurrentMethod()?.DeclaringType?.FullName;
             Code = GetCodeFromResource($"{className}.py");
@@ -59,9 +59,9 @@ namespace Harbor.Python
             AnsiConsole.Render(new Rule { Style = Style.Parse("blue dim") });
         }
 
-        private void SetForWindows()
+        private static void SetForWindows()
         {
-            var pathToVirtualEnv = @"C:\Python\Python38";
+            const string pathToVirtualEnv = @"C:\Python\Python38";
             Runtime.PythonDLL = $"{pathToVirtualEnv}\\python38.dll";
             PythonEngine.PythonHome = pathToVirtualEnv;
             Environment.SetEnvironmentVariable("PATH", $"{pathToVirtualEnv};E:\\Tools\\iverilog\\bin", EnvironmentVariableTarget.Process);
@@ -70,9 +70,9 @@ namespace Harbor.Python
             PythonEngine.PythonPath = PythonEngine.PythonPath + ";" + Environment.GetEnvironmentVariable("PYTHONPATH", EnvironmentVariableTarget.Process);
         }
 
-        public void SetForLinuxServer()
+        public static void SetForLinuxServer()
         {
-            var pathToVirtualEnv = "/export/yfxie02/bin/python";
+            const string pathToVirtualEnv = "/export/yfxie02/bin/python";
             Runtime.PythonDLL = $"{pathToVirtualEnv}/lib/libpython3.8.so.1.0";
             PythonEngine.PythonHome = pathToVirtualEnv;
             Environment.SetEnvironmentVariable("PATH", $"{pathToVirtualEnv}/bin:" + Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process), EnvironmentVariableTarget.Process);
@@ -81,7 +81,7 @@ namespace Harbor.Python
             PythonEngine.PythonPath = PythonEngine.PythonPath + ":" + Environment.GetEnvironmentVariable("PYTHONPATH", EnvironmentVariableTarget.Process);
         }
 
-        private void SetEnvironment(string workingDirectory, Action code)
+        private static void SetEnvironment(string workingDirectory, Action code)
         {
             var curDir = Environment.CurrentDirectory;
             Environment.CurrentDirectory = workingDirectory;
@@ -110,7 +110,7 @@ namespace Harbor.Python
             Environment.CurrentDirectory = curDir;
         }
 
-        private string GetCodeFromResource(string fullName)
+        private static string GetCodeFromResource(string fullName)
         {
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(fullName);
             using var sr = new StreamReader(stream ?? throw new InvalidOperationException(), new UTF8Encoding(false));

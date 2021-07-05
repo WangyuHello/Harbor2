@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\cake\src\Cake.Core\Cake.Core.csproj" />
     <ProjectReference Include="..\Harbor.Common\Harbor.Common.csproj" />
   </ItemGroup>
 

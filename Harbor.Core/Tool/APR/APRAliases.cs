@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Cake.Core;
 using Cake.Core.Annotations;
@@ -10,6 +12,7 @@ using Harbor.Core.Tool.Calibre;
 using Harbor.Core.Tool.Formality;
 using Harbor.Core.Tool.ICC;
 using Harbor.Core.Tool.V2LVS;
+using Harbor.Core.Util;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
@@ -27,11 +30,19 @@ namespace Harbor.Core.Tool.APR
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
-
-            RunAPR(context, configure);
-            RunAddPG(context, configure);
-            RunFormality(context, configure);
-            RunLVS(context, configure);
+            var (match, newHash) = CheckHash(context, configure);
+            if (!match)
+            {
+                RunAPR(context, configure);
+                RunAddPG(context, configure);
+                RunFormality(context, configure);
+                RunLVS(context, configure);
+            }
+            else
+            {
+                context.Information("已是最新版本");
+            }
+            HashHelper.SaveLocalHash(newHash, "apr");
         }
 
         [CakeMethodAlias]
@@ -117,5 +128,23 @@ namespace Harbor.Core.Tool.APR
             context.CalibreLVS(gds, settings.Top, outputSpice);
         }
 
+        private static (bool match, Dictionary<string, string> newHash) CheckHash(ICakeContext context, APRRunnerSettings settings)
+        {
+            var fl = new List<string>
+            {
+                settings.SynProjectPath.Combine("rpt").CombineWithFilePath($"{settings.Top}_area.rpt").FullPath,
+                settings.SynProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}.v").FullPath,
+                settings.SynProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}.sdc").FullPath,
+                context.MakeAbsolute(new FilePath("build.cake")).FullPath
+            };
+            fl.AddRange(settings.AdditionalTimingDb.Select(f => f.FullPath));
+
+            if (settings.PinSettings.ConstraintFile != null)
+            {
+                fl.Add(context.MakeAbsolute(settings.PinSettings.ConstraintFile).FullPath);
+            }
+
+            return HashHelper.Check(fl, "apr");
+        }
     }
 }

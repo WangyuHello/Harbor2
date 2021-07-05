@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Cake.Core;
+using Cake.Core.Annotations;
 using Cake.Core.Tooling;
 using Python.Runtime;
 
@@ -135,6 +137,17 @@ namespace Harbor.Python.Tool
                 });
             }
             return rslt;
+        }
+    }
+
+    public static class GetPortsAliases
+    {
+        [CakeMethodAlias]
+        [CakeNamespaceImport("Harbor.Python.Tool")]
+        public static void GetPorts(this ICakeContext context, GetPortsSettings settings)
+        {
+            var c = new GetPorts();
+            c.Run(settings);
         }
     }
 }
