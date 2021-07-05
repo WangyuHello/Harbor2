@@ -1,7 +1,9 @@
 ﻿using Cake.Core;
 using Cake.Core.Annotations;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Cake.Common.Diagnostics;
 using Cake.Common.IO;
 using Cake.Core.IO;
 using Cake.FileHelpers;
@@ -25,6 +27,13 @@ namespace Harbor.Core.Tool.Cadence
         public static void CreateCadenceProject(this ICakeContext context)
         {
             var projectInfo = ProjectInfo.ReadFromContext(context);
+            var (match, newHash) = CheckHash(context, projectInfo);
+            if (match)
+            {
+                context.Information("已是最新版本");
+                return;
+            }
+
             var library = AllLibrary.GetLibrary(projectInfo);
 
             var cadenceDir = context.MakeAbsolute(new DirectoryPath("./Cadence"));
@@ -50,6 +59,7 @@ namespace Harbor.Core.Tool.Cadence
             RunConvertAMS(context, projectInfo, projectInfo.Project);
             //AutoImport
             context.AutoImport(cdsDir, vName, funcvName, gdsName, projectInfo.Project, projectInfo.Project);
+            HashHelper.SaveLocalHash(newHash, "cds");
         }
 
         [CakeMethodAlias]
@@ -150,9 +160,21 @@ namespace Harbor.Core.Tool.Cadence
         {
             var layoutProjectPath = context.MakeAbsolute(new DirectoryPath("./Layout"));
             context.ConvertAMS(top,
-                layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_func.v"), layoutProjectPath.Combine("netlist")
-                    .CombineWithFilePath($"{top}_cds_functional.v"),
+                layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_func.v"), 
+                layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_functional.v"),
                 layoutProjectPath.Combine("netlist"));
+        }
+
+        private static (bool match, Dictionary<string, string> newHash) CheckHash(ICakeContext context, ProjectInfo projectInfo)
+        {
+            var fl = new List<string>
+            {
+                context.MakeAbsolute(new FilePath($"./Layout/netlist/{projectInfo.Project}_cds.v")).FullPath,
+                context.MakeAbsolute(new FilePath($"./Synthesis/netlist/{projectInfo.Project}_combine.v")).FullPath,
+                context.MakeAbsolute(new FilePath("build.cake")).FullPath
+            };
+
+            return HashHelper.Check(fl, "cds");
         }
     }
 }
