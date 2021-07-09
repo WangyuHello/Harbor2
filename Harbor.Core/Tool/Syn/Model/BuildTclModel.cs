@@ -19,9 +19,9 @@ namespace Harbor.Core.Tool.Syn.Model
         public string LibName { get; set; }
         public string LibFullName { get; set; }
         public string TopName { get; set; }
-        public List<string> SourceFullPaths { get; set; } = new List<string>();
-        public List<string> AdditionalTimingDbPaths { get; set; } = new List<string>();
-        public List<string> IOTimingDbPaths { get; set; } = new List<string>();
+        public List<string> SourceFullPaths { get; set; } = new();
+        public List<string> AdditionalTimingDbPaths { get; set; } = new();
+        public List<string> IOTimingDbPaths { get; set; } = new();
         public string ClkName { get; set; }
         public string RstName { get; set; }
         public double ClkPeriod { get; set; }

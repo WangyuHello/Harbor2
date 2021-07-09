@@ -110,7 +110,7 @@ namespace Harbor.Core.Tool.Syn
             model.InvPortName = library.PrimaryStdCell.primitive_inv_port;
 
             model.TopName = Top;
-            model.SourceFullPaths = Verilog?.Select(f => f.FullPath).ToList();
+            model.SourceFullPaths = ReorderVerilog();
 
             AdditionalTimingDb = ProjectUtil.GetReferenceDb(AdditionalTimingDb, ProjectInfo);
             model.AdditionalTimingDbPaths = AdditionalTimingDb?.Select(f => f.FullPath).ToList();
@@ -153,6 +153,15 @@ namespace Harbor.Core.Tool.Syn
 
             var buildTcl = new BuildTcl(model);
             buildTcl.WriteToFile(scriptRootPath.CombineWithFilePath(BuildScriptFile).FullPath);
+        }
+
+        private List<string> ReorderVerilog()
+        {
+            var list = Verilog?.Select(f => f.FullPath).ToList();
+            var typeVerilog = list?.Where(f => f.Contains("Type")).ToList();
+            var remain = list?.SkipWhile(f => typeVerilog.Contains(f)).ToList();
+            var reorder = typeVerilog?.Concat(remain).ToList();
+            return reorder;
         }
     }
 }

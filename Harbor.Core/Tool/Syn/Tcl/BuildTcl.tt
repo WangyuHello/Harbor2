@@ -75,10 +75,13 @@ set top_name "<#= model.TopName #>"
 set_svf      "${svf_path}/${top_name}.svf"
 
 <# foreach(var v in model?.SourceFullPaths) { #>
+<# if(v.EndsWith("sv")) { #>
+set r [analyze -format sverilog -lib work <#= v #>]
+if { $r == 0 } { exit 1 }
+<# } else { #>
 set r [analyze -format verilog -lib work <#= v #>]
-if { $r == 0 } {
-    exit 1
-}
+if { $r == 0 } { exit 1 }
+<# } #>
 <# } #>
 
 set r [elaborate $top_name -arch "verilog" -lib work]

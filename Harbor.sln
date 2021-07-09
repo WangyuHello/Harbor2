@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harbor.Python", "Harbor.Pyt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harbor.Common", "Harbor.Common\Harbor.Common.csproj", "{68907338-36C4-4B49-AD13-5446CC6E34A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harbor.Verilog", "Harbor.Verilog\Harbor.Verilog.csproj", "{8B621F24-2CFB-4FDD-B2DD-80E8A02AAC82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,14 @@ Global
 		{68907338-36C4-4B49-AD13-5446CC6E34A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68907338-36C4-4B49-AD13-5446CC6E34A9}.Release|x64.ActiveCfg = Release|Any CPU
 		{68907338-36C4-4B49-AD13-5446CC6E34A9}.Release|x64.Build.0 = Release|Any CPU
+		{8B621F24-2CFB-4FDD-B2DD-80E8A02AAC82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B621F24-2CFB-4FDD-B2DD-80E8A02AAC82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B621F24-2CFB-4FDD-B2DD-80E8A02AAC82}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8B621F24-2CFB-4FDD-B2DD-80E8A02AAC82}.Debug|x64.Build.0 = Debug|Any CPU
+		{8B621F24-2CFB-4FDD-B2DD-80E8A02AAC82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B621F24-2CFB-4FDD-B2DD-80E8A02AAC82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B621F24-2CFB-4FDD-B2DD-80E8A02AAC82}.Release|x64.ActiveCfg = Release|Any CPU
+		{8B621F24-2CFB-4FDD-B2DD-80E8A02AAC82}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
