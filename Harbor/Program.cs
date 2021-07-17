@@ -40,6 +40,8 @@ namespace Harbor
 
             app.Configure(config =>
             {
+                config.AddCommand<RunCommand>("run")
+                    .WithAlias("r");
                 config.AddCommand<InitCommand>("init")
                     .WithAlias("i");
                 config.AddCommand<AddRefCommand>("addref")

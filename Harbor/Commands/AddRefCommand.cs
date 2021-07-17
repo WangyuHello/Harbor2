@@ -64,7 +64,7 @@ namespace Harbor.Commands
                             break;
                     }
                     AnsiConsole.MarkupLine($"[underline yellow]刷新cds.lib[/]");
-                    await CdsUtil.RefreshCdsLibAsync(Environment.CurrentDirectory, newPjInfo);
+                    await CdsUtil.RefreshCdsLibAsync(System.Environment.CurrentDirectory, newPjInfo);
                     break;
                 case ProjectType.Digital:
                     switch (refInfo.Type)
@@ -117,18 +117,16 @@ namespace Harbor.Commands
 
                 return projectInfo;
             }
-            else
+
+            projectInfo.Reference = new List<ProjectReference>
             {
-                projectInfo.Reference = new List<ProjectReference>
+                new()
                 {
-                    new ProjectReference
-                    {
-                        Name = refProjectInfo.Project,
-                        Path = reference
-                    }
-                };
-                return projectInfo;
-            }
+                    Name = refProjectInfo.Project,
+                    Path = reference
+                }
+            };
+            return projectInfo;
         }
     }
 }

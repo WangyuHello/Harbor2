@@ -201,7 +201,7 @@ namespace Harbor.Commands
                         var overr = AnsiConsole.Confirm($"{settings.Name}项目已存在是否覆盖?");
                         if (overr)
                         {
-                            Directory.Delete(Path.Combine(Environment.CurrentDirectory, settings.Name), true);
+                            Directory.Delete(Path.Combine(System.Environment.CurrentDirectory, settings.Name), true);
                         }
                         else
                         {
@@ -209,7 +209,7 @@ namespace Harbor.Commands
                         }
                     }
 
-                    var projectDir = Path.Combine(Environment.CurrentDirectory, settings.Name);
+                    var projectDir = Path.Combine(System.Environment.CurrentDirectory, settings.Name);
 
                     Directory.CreateDirectory(projectDir);
                     Directory.CreateDirectory(Path.Combine(projectDir, ".harbor"));
@@ -233,7 +233,7 @@ namespace Harbor.Commands
                         var overr = AnsiConsole.Confirm($"{settings.Name} 项目已存在是否覆盖?");
                         if (overr)
                         {
-                            Directory.Delete(Path.Combine(Environment.CurrentDirectory, settings.Name), true);
+                            Directory.Delete(Path.Combine(System.Environment.CurrentDirectory, settings.Name), true);
                         }
                         else
                         {
@@ -268,7 +268,7 @@ namespace Harbor.Commands
                                 .AllowEmpty().DefaultValue(10));
                     }
 
-                    var projectDir2 = Path.Combine(Environment.CurrentDirectory, settings.Name);
+                    var projectDir2 = Path.Combine(System.Environment.CurrentDirectory, settings.Name);
 
                     Directory.CreateDirectory(projectDir2);
                     Directory.CreateDirectory(Path.Combine(projectDir2, ".harbor"));
@@ -303,7 +303,7 @@ namespace Harbor.Commands
                         var overr = AnsiConsole.Confirm($"{settings.Name} 项目已存在是否覆盖?");
                         if (overr)
                         {
-                            Directory.Delete(Path.Combine(Environment.CurrentDirectory, settings.Name), true);
+                            Directory.Delete(Path.Combine(System.Environment.CurrentDirectory, settings.Name), true);
                         }
                         else
                         {
@@ -311,7 +311,7 @@ namespace Harbor.Commands
                         }
                     }
 
-                    var projectDir3 = Path.Combine(Environment.CurrentDirectory, settings.Name);
+                    var projectDir3 = Path.Combine(System.Environment.CurrentDirectory, settings.Name);
 
                     Directory.CreateDirectory(projectDir3);
                     Directory.CreateDirectory(Path.Combine(projectDir3, "astro"));
@@ -325,13 +325,13 @@ namespace Harbor.Commands
                     break;
             }
 
-            await projectInfo.WriteToDirectoryAsync(Path.Combine(Environment.CurrentDirectory, settings.Name));
+            await projectInfo.WriteToDirectoryAsync(Path.Combine(System.Environment.CurrentDirectory, settings.Name));
 
             var gitIgnote = new GitIgnore();
             var gitIgnoteText = gitIgnote.TransformText();
-            await File.WriteAllTextAsync(Path.Combine(Environment.CurrentDirectory, settings.Name, ".gitignore"), gitIgnoteText.Replace("\r", ""), encoding: Encoding.UTF8);
+            await File.WriteAllTextAsync(Path.Combine(System.Environment.CurrentDirectory, settings.Name, ".gitignore"), gitIgnoteText.Replace("\r", ""), encoding: Encoding.UTF8);
 
-            await CreateGitRepo(Path.Combine(Environment.CurrentDirectory, settings.Name));
+            await CreateGitRepo(Path.Combine(System.Environment.CurrentDirectory, settings.Name));
 
             AnsiConsole.MarkupLine("[blue]项目创建成功[/]");
 
