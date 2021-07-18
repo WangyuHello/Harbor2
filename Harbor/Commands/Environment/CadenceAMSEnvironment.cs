@@ -15,14 +15,12 @@ namespace Harbor.Commands.Environment
         public List<string> Paths { get; set; } = new()
         {
             "/apps/EDAs/cadence/INCISIV15.2/tools/bin",
-            "/apps/EDAs/cadence/INCISIV15.2/tools/coverage/bin",
             "/apps/EDAs/cadence/INCISIV15.2/tools/dfII/bin",
         };
 
         public List<string> LdLibraryPaths { get; set; } = new()
         {
             "/apps/EDAs/cadence/INCISIV15.2/tools/lib",
-            "/apps/EDAs/cadence/INCISIV15.2/tools/dfII/lib",
         };
 
         public Dictionary<string, string> AdditionalVariable { get; set; } = new()

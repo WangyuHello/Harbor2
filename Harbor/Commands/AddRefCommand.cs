@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Harbor.Commands.Util;
 using Harbor.Common.Project;
 using Harbor.Core.Util;
 using Spectre.Console;
@@ -14,9 +14,7 @@ namespace Harbor.Commands
     {
         private static bool IsDirectory(FileInfo fi)
         {
-            if ((fi.Attributes & FileAttributes.Directory) != 0)
-                return true;
-            return false;
+            return (fi.Attributes & FileAttributes.Directory) != 0;
         }
 
         public override async Task<int> ExecuteAsync(CommandContext context, AddRefCommandSettings settings)
@@ -32,7 +30,7 @@ namespace Harbor.Commands
             if (Directory.Exists(settings.Reference))
             {
                 //是文件夹
-                DirectoryInfo di = new DirectoryInfo(settings.Reference);
+                var di = new DirectoryInfo(settings.Reference);
                 settings.Reference = di.FullName;
             }
             else if(File.Exists(settings.Reference))
@@ -63,7 +61,7 @@ namespace Harbor.Commands
                             AnsiConsole.MarkupLine("[red]暂不支持[/]");
                             break;
                     }
-                    AnsiConsole.MarkupLine($"[underline yellow]刷新cds.lib[/]");
+                    AnsiConsole.MarkupLine("[underline yellow]刷新cds.lib[/]");
                     await CdsUtil.RefreshCdsLibAsync(System.Environment.CurrentDirectory, newPjInfo);
                     break;
                 case ProjectType.Digital:
@@ -112,7 +110,7 @@ namespace Harbor.Commands
                 projectInfo.Reference.Add(new ProjectReference
                 {
                     Name = refPjName,
-                    Path = reference
+                    Path = reference.GetRelativePath()
                 });
 
                 return projectInfo;
@@ -123,7 +121,7 @@ namespace Harbor.Commands
                 new()
                 {
                     Name = refProjectInfo.Project,
-                    Path = reference
+                    Path = reference.GetRelativePath()
                 }
             };
             return projectInfo;
