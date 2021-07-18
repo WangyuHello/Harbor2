@@ -25,14 +25,20 @@ namespace Harbor.Commands.Util
                 psi.RedirectStandardOutput = true;
             }
 
-            var p = Process.Start(psi);
-            if (p == null) return -1;
+            var p = new Process
+            {
+                StartInfo = psi
+            };
 
             if (redirectOutput)
             {
-                p.OutputDataReceived += (sender, args) => AnsiConsole.MarkupLine(args.Data ?? string.Empty);
-                p.ErrorDataReceived += (sender, args) => AnsiConsole.MarkupLine(args.Data ?? string.Empty);
+                p.OutputDataReceived += (_, args) => AnsiConsole.MarkupLine(args.Data?.EscapeMarkup() ?? string.Empty);
+                p.ErrorDataReceived += (_, args) => AnsiConsole.MarkupLine($"[red]{args.Data?.EscapeMarkup() ?? string.Empty}[/]");
             }
+
+            p.Start();
+            p.BeginErrorReadLine();
+            p.BeginOutputReadLine();
 
             await p.WaitForExitAsync();
             return p.ExitCode;
