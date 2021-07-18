@@ -125,7 +125,10 @@ namespace Harbor.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, InitCommandSettings settings)
         {
-            var projectInfo = new ProjectInfo();
+            var projectInfo = new ProjectInfo
+            {
+                Directory = System.Environment.CurrentDirectory
+            };
 
             if (settings.Type is null)
             {

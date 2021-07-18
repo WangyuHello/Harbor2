@@ -42,7 +42,6 @@ namespace Harbor.Commands
                     Thread.Sleep(100);
                 }
             }).Wait(Timeout.InfiniteTimeSpan);
-
         }
     }
 }

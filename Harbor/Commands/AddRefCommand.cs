@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Harbor.Commands.Util;
 using Harbor.Common.Project;
@@ -19,6 +21,11 @@ namespace Harbor.Commands
 
         public override async Task<int> ExecuteAsync(CommandContext context, AddRefCommandSettings settings)
         {
+            if (settings.Debug)
+            {
+                WaitForDebugger();
+            }
+
             var info = await ProjectInfo.ReadFromCurrentDirectoryAsync();
 
             if (string.IsNullOrEmpty(settings.Reference))
@@ -55,21 +62,21 @@ namespace Harbor.Commands
                     {
                         case ProjectType.Digital:
                             AnsiConsole.MarkupLine($"[underline green]添加数字工程引用[/] {settings.Reference}");
-                            newPjInfo = AddRefToProjectInfo(info, refInfo, settings.Reference);
+                            newPjInfo = AddRefToProjectInfo(info, refInfo);
                             break;
                         default:
                             AnsiConsole.MarkupLine("[red]暂不支持[/]");
                             break;
                     }
                     AnsiConsole.MarkupLine("[underline yellow]刷新cds.lib[/]");
-                    await CdsUtil.RefreshCdsLibAsync(System.Environment.CurrentDirectory, newPjInfo);
+                    await CdsUtil.RefreshCdsLibAsync(newPjInfo);
                     break;
                 case ProjectType.Digital:
                     switch (refInfo.Type)
                     {
                         case ProjectType.Memory:
                         case ProjectType.Ip:
-                            newPjInfo = AddRefToProjectInfo(info, refInfo, settings.Reference);
+                            newPjInfo = AddRefToProjectInfo(info, refInfo);
                             AnsiConsole.MarkupLine($"[underline green]添加引用[/] {settings.Reference}");
                             break;
                         default:
@@ -86,7 +93,7 @@ namespace Harbor.Commands
             return 0;
         }
 
-        private static ProjectInfo AddRefToProjectInfo(ProjectInfo projectInfo, ProjectInfo refProjectInfo, string reference)
+        private static ProjectInfo AddRefToProjectInfo(ProjectInfo projectInfo, ProjectInfo refProjectInfo)
         {
             if (projectInfo.Reference != null)
             {
@@ -110,7 +117,7 @@ namespace Harbor.Commands
                 projectInfo.Reference.Add(new ProjectReference
                 {
                     Name = refPjName,
-                    Path = reference.GetRelativePath()
+                    Path = projectInfo.Directory.GetRelativePath(refProjectInfo.Directory).FullPath
                 });
 
                 return projectInfo;
@@ -121,10 +128,24 @@ namespace Harbor.Commands
                 new()
                 {
                     Name = refProjectInfo.Project,
-                    Path = reference.GetRelativePath()
+                    Path = projectInfo.Directory.GetRelativePath(refProjectInfo.Directory).FullPath
                 }
             };
             return projectInfo;
+        }
+
+        private static void WaitForDebugger()
+        {
+            var processId = System.Environment.ProcessId;
+            AnsiConsole.MarkupLine("等待调试器连接, 进程号: " + processId);
+
+            Task.Run(() =>
+            {
+                while (!Debugger.IsAttached)
+                {
+                    Thread.Sleep(100);
+                }
+            }).Wait(Timeout.InfiniteTimeSpan);
         }
     }
 }

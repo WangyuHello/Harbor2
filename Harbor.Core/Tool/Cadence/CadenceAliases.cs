@@ -2,6 +2,7 @@
 using Cake.Core.Annotations;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Cake.Common.Diagnostics;
 using Cake.Common.IO;
@@ -28,7 +29,8 @@ namespace Harbor.Core.Tool.Cadence
         {
             var projectInfo = ProjectInfo.ReadFromContext(context);
             var (match, newHash) = CheckHash(context, projectInfo);
-            if (match)
+            var cadenceDir = context.MakeAbsolute(new DirectoryPath("./Cadence"));
+            if (match && context.DirectoryExists(cadenceDir))
             {
                 context.Information("已是最新版本");
                 return;
@@ -36,7 +38,6 @@ namespace Harbor.Core.Tool.Cadence
 
             var library = AllLibrary.GetLibrary(projectInfo);
 
-            var cadenceDir = context.MakeAbsolute(new DirectoryPath("./Cadence"));
             var cdsDir = cadenceDir.Combine(projectInfo.Project);
             if (context.DirectoryExists(cadenceDir))
             {
@@ -47,8 +48,9 @@ namespace Harbor.Core.Tool.Cadence
             context.CreateDirectory(cadenceDir);
             context.CreateAnalogProject(cadenceDir, projectInfo.Project, library.Pdk, library.StdCell, library.Io);
             projectInfo.Type = ProjectType.Analog;
-            projectInfo.WriteToDirectoryAsync(cdsDir.FullPath).Wait();
-            CdsUtil.RefreshCdsLibAsync(cdsDir.FullPath, projectInfo).Wait();
+            projectInfo.Directory = cdsDir;
+            projectInfo.Write().Wait();
+            CdsUtil.RefreshCdsLibAsync(projectInfo).Wait();
 
             var vName = context.MakeAbsolute(new FilePath($"./Layout/netlist/{projectInfo.Project}_cds_PG.v"));
             var funcvName = context.MakeAbsolute(new FilePath($"./Layout/netlist/{projectInfo.Project}_cds_functional.v"));

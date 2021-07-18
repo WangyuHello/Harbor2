@@ -13,7 +13,6 @@ namespace Harbor.Commands
         public string Version { get; set; }
 
         [CommandOption("--debug|-d")]
-        [Description("Launches script in debug mode.")]
         public bool Debug { get; set; }
     }
 }

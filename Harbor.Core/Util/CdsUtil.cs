@@ -40,35 +40,36 @@ namespace Harbor.Core.Util
             await File.WriteAllTextAsync(Path.Combine(dir, ".simrc"), text.Replace("\r", ""), new UTF8Encoding(false));
         }
 
-        private static string GetReferencePath(string referncePath)
+        private static string GetReferencePath(DirectoryPath dir, DirectoryPath referncePath)
         {
-            var refProjectInfo = ProjectInfo.ReadFromDirectory(referncePath);
+            //referncePath是相对路径
+            var refProjectInfo = ProjectInfo.ReadFromDirectory(dir.Combine(referncePath));
             return refProjectInfo.Type switch
             {
-                ProjectType.Digital => new DirectoryPath(referncePath).Combine($"./Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
+                ProjectType.Digital => referncePath.Combine($"./Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
                 ProjectType.Analog => throw new NotImplementedException(),
-                ProjectType.Memory => new DirectoryPath(referncePath).Combine($"./Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
-                ProjectType.Ip => new DirectoryPath(referncePath).Combine($"./Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
+                ProjectType.Memory => referncePath.Combine($"./Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
+                ProjectType.Ip => referncePath.Combine($"./Cadence/{refProjectInfo.Project}/{refProjectInfo.Project}").FullPath,
                 _ => throw new NotImplementedException()
             };
         }
 
-        public static async Task RefreshCdsLibAsync(DirectoryPath dir, ProjectInfo projectInfo)
+        public static async Task RefreshCdsLibAsync(ProjectInfo projectInfo)
         {
             var library = AllLibrary.GetLibrary(projectInfo);
 
-            var references = projectInfo.Reference;
+            var references = projectInfo.Reference;//相对于project.json的相对路径
             var pdk = library.Pdk;
             var stdCells = library.StdCell;
             var ios = library.Io;
 
             var definePairs = new Dictionary<string, (string path, bool found)>();
-            references?.ForEach(r => definePairs.Add(r.Name, (GetReferencePath(r.Path), false)));
+            references?.ForEach(r => definePairs.Add(r.Name, (GetReferencePath(projectInfo.Directory, r.Path), false)));
             definePairs.Add(pdk.pdk_name, (pdk.pdk_path, false));
             stdCells?.ForEach(s => definePairs.Add(s.cdk_name, (s.cdk_path, false)));
             ios?.ForEach(s => definePairs.Add(s.cdk_name, (s.cdk_path, false)));
 
-            var cdsLibContent = await File.ReadAllLinesAsync(dir.CombineWithFilePath("cds.lib").FullPath);
+            var cdsLibContent = await File.ReadAllLinesAsync(projectInfo.Directory.CombineWithFilePath("cds.lib").FullPath);
 
             for (int i = 0; i < cdsLibContent.Length; i++)
             {
@@ -101,7 +102,7 @@ namespace Harbor.Core.Util
                 }
             }
 
-            await File.WriteAllLinesAsync(dir.CombineWithFilePath("cds.lib").FullPath, newCdsLibContent, new UTF8Encoding(false));
+            await File.WriteAllLinesAsync(projectInfo.Directory.CombineWithFilePath("cds.lib").FullPath, newCdsLibContent, new UTF8Encoding(false));
         }
     }
 }

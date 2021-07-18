@@ -11,5 +11,8 @@ namespace Harbor.Commands
     {
         [CommandArgument(0, "[引用项目]")]
         public string Reference { get; set; }
+
+        [CommandOption("--debug|-d")]
+        public bool Debug { get; set; }
     }
 }

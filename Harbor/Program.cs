@@ -17,7 +17,7 @@ namespace Harbor
     public sealed class Program
     {
         private readonly Action<ContainerBuilder> _overrides;
-        private readonly bool _propagateExceptions;
+        private bool _propagateExceptions;
 
         public Program(
             Action<ContainerBuilder> overrides = null,
@@ -55,7 +55,9 @@ namespace Harbor
 
                 config.SetApplicationName("harhor");
                 //config.ValidateExamples();
-
+#if DEBUG
+                _propagateExceptions = true;
+#endif
                 if (_propagateExceptions)
                 {
                     config.PropagateExceptions();
