@@ -28,51 +28,52 @@ namespace Harbor.Core.Util.Template
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("var target = Argument(\"target\", \"BuildAll\");\r\n\r\nTask(\"Synthesis\")\r\n    .Does(() =" +
-                    ">\r\n{\r\n    Syn(_ => _\r\n        .Verilog(\"./Source/**/*.v\")\r\n");
+            this.Write("var target = Argument(\"target\", \"BuildAll\");\r\nvar floorPlanOnly = Argument(\"floor" +
+                    "plan\", false);\r\n\r\nTask(\"Synthesis\")\r\n    .Does(() =>\r\n{\r\n    Syn(_ => _\r\n       " +
+                    " .Verilog(\"./Source/**/*.v\")\r\n");
             
-            #line 13 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  if(!string.IsNullOrEmpty(ClockName)) { 
             
             #line default
             #line hidden
             this.Write("        .Clock(\"");
             
-            #line 14 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClockName));
             
             #line default
             #line hidden
             this.Write("\")\r\n");
             
-            #line 15 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  } 
             
             #line default
             #line hidden
             
-            #line 16 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 17 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  if(!string.IsNullOrEmpty(ResetName)) { 
             
             #line default
             #line hidden
             this.Write("        .Reset(\"");
             
-            #line 17 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 18 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ResetName));
             
             #line default
             #line hidden
             this.Write("\")\r\n");
             
-            #line 18 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 19 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  } 
             
             #line default
             #line hidden
             this.Write("        .ClockPeriod(");
             
-            #line 19 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 20 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClockPeriod));
             
             #line default
@@ -87,14 +88,8 @@ Task(""Layout"")
 {
     APR(_ => _
         .UseICC()
-        .MaxRoutingLayer(4)
-        .MaxPreRouteLayer(6)
-        // .PowerWidth(3)
-        // .GroundWidth(3)
-        // .VerticalSpace(1)
-        // .VerticalOffset(1)
-        // .HorizontalSpace(1)
-        // .HorizontalOffset(1)
+        .MaxRoutingLayer(routing: 4, preRoute: 6)
+        .FloorPlanOnly(floorPlanOnly)
         .FloorPlan(_ => _
             .Type(FloorPlanType.AspectRatio)
             // .Type(FloorPlanType.WidthHeightAuto)
@@ -103,26 +98,29 @@ Task(""Layout"")
             .HeightWidthRatio(1)
             // .CoreWidth(200)
             // .CoreHeight(200)
+
+            .PowerRing(powerWidth: 1, groundWidth: 1, verticalOffset: 0.5, horizontalOffset: 0.5, verticalSpace: 0.3, horizontalSpace: 0.3)
+            // .PowerStrap(start: 20, step: 20, width: 2)
         )
         .Pin(_ => _
             .PinSpace(0)
 ");
             
-            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  if(!string.IsNullOrEmpty(ClockName)) { 
             
             #line default
             #line hidden
             this.Write("            .Pin(\"");
             
-            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClockName));
             
             #line default
             #line hidden
             this.Write("\", PortPosition.Top, 1)\r\n");
             
-            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  } 
             
             #line default

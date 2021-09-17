@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Harbor.Commands.Environment;
+using Harbor.Core.Environment;
 using Harbor.Commands.Util;
 using Spectre.Console;
 using Spectre.Console.Cli;

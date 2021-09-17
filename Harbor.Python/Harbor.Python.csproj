@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mono.Posix.NETStandard" Version="5.20.1-preview" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="pythonnet" Version="3.0.0-preview2021-02-17" />
     <PackageReference Include="Spectre.Console" Version="0.37.0" />

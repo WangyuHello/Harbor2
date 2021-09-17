@@ -4,6 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 var target = Argument("target", "BuildAll");
+var floorPlanOnly = Argument("floorplan", false);
 
 Task("Synthesis")
     .Does(() =>
@@ -26,14 +27,8 @@ Task("Layout")
 {
     APR(_ => _
         .UseICC()
-        .MaxRoutingLayer(4)
-        .MaxPreRouteLayer(6)
-        // .PowerWidth(3)
-        // .GroundWidth(3)
-        // .VerticalSpace(1)
-        // .VerticalOffset(1)
-        // .HorizontalSpace(1)
-        // .HorizontalOffset(1)
+        .MaxRoutingLayer(routing: 4, preRoute: 6)
+        .FloorPlanOnly(floorPlanOnly)
         .FloorPlan(_ => _
             .Type(FloorPlanType.AspectRatio)
             // .Type(FloorPlanType.WidthHeightAuto)
@@ -42,6 +37,9 @@ Task("Layout")
             .HeightWidthRatio(1)
             // .CoreWidth(200)
             // .CoreHeight(200)
+
+            .PowerRing(powerWidth: 1, groundWidth: 1, verticalOffset: 0.5, horizontalOffset: 0.5, verticalSpace: 0.3, horizontalSpace: 0.3)
+            // .PowerStrap(start: 20, step: 20, width: 2)
         )
         .Pin(_ => _
             .PinSpace(0)

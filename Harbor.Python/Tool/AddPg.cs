@@ -4,10 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Cake.Core.IO;
 using Cake.Core.Tooling;
 using Harbor.Common.Project;
 using Harbor.Common.Util;
+using Mono.Unix;
 using Python.Runtime;
+using Path = System.IO.Path;
 
 namespace Harbor.Python.Tool
 {
@@ -228,8 +231,19 @@ namespace Harbor.Python.Tool
             });
         }
 
-        private static PyDict GetMacroPowerPins(
-            ProjectInfo projectInfo)
+        public static string GetAbsoluteDirectoryPath(ProjectInfo info, string path)
+        {
+            if (!UnixPath.IsPathRooted(path))
+            {
+                var p2 = Path.Combine(info.Directory.FullPath, path);
+                var di = new DirectoryInfo(p2);
+                return di.FullName;
+            }
+
+            return path;
+        }
+
+        private static PyDict GetMacroPowerPins(ProjectInfo projectInfo)
         {
             var macroPowerPins = new PyDict();
             if (projectInfo.Reference == null)
@@ -240,7 +254,7 @@ namespace Harbor.Python.Tool
             foreach (var pref in projectInfo.Reference)
             {
                 var name = pref.Name;
-                var path = pref.Path;
+                var path = GetAbsoluteDirectoryPath(projectInfo, pref.Path); //相对路径
 
                 var refProjectInfo = ProjectInfo.ReadFromDirectory(path);
                 switch (refProjectInfo.Type)

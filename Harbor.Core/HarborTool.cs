@@ -7,6 +7,7 @@ using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
 using Cake.FileHelpers;
+using Harbor.Core.Environment;
 using Spectre.Console;
 
 namespace Harbor.Core
@@ -35,6 +36,8 @@ namespace Harbor.Core
         {
             settings.Context = context;
             settings.GenerateRunScripts();
+            //settings.EnvironmentVariables = EnvironmentHelper.AddEnvironment(GetToolExecutableNames(), settings.EnvironmentVariables);
+            EnvironmentHelper.SetEnvironment(GetToolExecutableNames().First());
             var args = GetSettingsArguments(settings);
 
             PrintBanner(settings, args);
@@ -61,9 +64,15 @@ namespace Harbor.Core
         {
             AnsiConsole.Render(new Rule($"{GetToolName()}") {Alignment = Justify.Center, Style = Style.Parse("blue dim") });
             var table = new Table();
-            table.AddColumn("运行目录");
-            table.AddColumn(new TableColumn(GetWorkingDirectory(settings).ToString()));
+            table.AddColumn("项");
+            table.AddColumn("值");
+            table.AddRow("运行目录", GetWorkingDirectory(settings).ToString());
             table.AddRow("运行参数", args.RenderSafe());
+            //foreach (var env in settings.EnvironmentVariables)
+            //{
+            //    table.AddRow(env.Key, env.Value);
+            //}
+            //table.AddRow("PATH", System.Environment.GetEnvironmentVariable("PATH")!);
             table.Expand();
             AnsiConsole.Render(table);
             AnsiConsole.Render(new Rule(){ Style = Style.Parse("blue dim") });

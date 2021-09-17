@@ -13,6 +13,7 @@ using Harbor.Core.Tool.Formality;
 using Harbor.Core.Tool.ICC;
 using Harbor.Core.Tool.V2LVS;
 using Harbor.Core.Util;
+using Spectre.Console;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
@@ -30,19 +31,27 @@ namespace Harbor.Core.Tool.APR
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
-            var (match, newHash) = CheckHash(context, configure);
-            if (!match)
+            if (configure.FloorPlanOnly)
             {
+                AnsiConsole.MarkupLine("FloorPlan Only");
                 RunAPR(context, configure);
-                RunAddPG(context, configure);
-                RunFormality(context, configure);
-                RunLVS(context, configure);
             }
             else
             {
-                context.Information("已是最新版本");
+                var (match, newHash) = CheckHash(context, configure);
+                if (!match)
+                {
+                    RunAPR(context, configure);
+                    RunAddPG(context, configure);
+                    RunFormality(context, configure);
+                    RunLVS(context, configure);
+                }
+                else
+                {
+                    context.Information("已是最新版本");
+                }
+                HashHelper.SaveLocalHash(newHash, "apr");
             }
-            HashHelper.SaveLocalHash(newHash, "apr");
         }
 
         [CakeMethodAlias]

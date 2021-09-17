@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Cake.Common.IO;
 using Cake.Core;
@@ -9,6 +10,7 @@ using Harbor.Common.Project;
 using Harbor.Core.Tool.APR.Model;
 using Newtonsoft.Json.Linq;
 // ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Global
 
 namespace Harbor.Core.Tool.APR
 {
@@ -113,69 +115,16 @@ namespace Harbor.Core.Tool.APR
             return this;
         }
 
-        public APRRunnerSettingsBuilder MaxRoutingLayer(int MaxRoutingLayer)
+        public APRRunnerSettingsBuilder MaxRoutingLayer(int routing, int preRoute)
         {
-            Settings.MaxRoutingLayer = MaxRoutingLayer;
+            Settings.MaxRoutingLayer = routing;
+            Settings.MaxPreRouteLayer = preRoute;
             return this;
         }
 
-        public APRRunnerSettingsBuilder MaxPreRouteLayer(int MaxPreRouteLayer)
+        public APRRunnerSettingsBuilder FloorPlanOnly(bool floorPlanOnly = true)
         {
-            Settings.MaxPreRouteLayer = MaxPreRouteLayer;
-            return this;
-        }
-
-        public APRRunnerSettingsBuilder PowerWidth(double PowerWidth)
-        {
-            Settings.PowerWidth = PowerWidth;
-            return this;
-        }
-
-        public APRRunnerSettingsBuilder VerticalSpace(double VerticalSpace)
-        {
-            Settings.VerticalSpace = VerticalSpace;
-            return this;
-        }
-
-        public APRRunnerSettingsBuilder VerticalOffset(double VerticalOffset)
-        {
-            Settings.VerticalOffset = VerticalOffset;
-            return this;
-        }
-
-        public APRRunnerSettingsBuilder GroundWidth(double GroundWidth)
-        {
-            Settings.GroundWidth = GroundWidth;
-            return this;
-        }
-
-        public APRRunnerSettingsBuilder HorizontalSpace(double HorizontalSpace)
-        {
-            Settings.HorizontalSpace = HorizontalSpace;
-            return this;
-        }
-
-        public APRRunnerSettingsBuilder HorizontalOffset(double HorizontalOffset)
-        {
-            Settings.HorizontalOffset = HorizontalOffset;
-            return this;
-        }
-
-        public APRRunnerSettingsBuilder PowerStrap(double powerStrapStart = 20, double powerStrapStep = 20, double powerStrapWidth = 2)
-        {
-            Settings.CreatePowerStrap = true;
-            Settings.PowerStrapStart = powerStrapStart;
-            Settings.PowerStrapStep = powerStrapStep;
-            Settings.PowerStrapWidth = powerStrapWidth;
-            return this;
-        }
-
-        public APRRunnerSettingsBuilder HorizontalPowerStrap(double powerStrapStart = 20, double powerStrapStep = 20, double powerStrapWidth = 2)
-        {
-            Settings.CreateHorizontalPowerStrap = true;
-            Settings.HorizontalPowerStrapStart = powerStrapStart;
-            Settings.HorizontalPowerStrapStep = powerStrapStep;
-            Settings.HorizontalPowerStrapWidth = powerStrapWidth;
+            Settings.FloorPlanOnly = floorPlanOnly;
             return this;
         }
 
@@ -292,6 +241,18 @@ namespace Harbor.Core.Tool.APR
             return this;
         }
 
+        public FloorPlanSettingsBuilder Width(double width)
+        {
+            Settings.Width = width;
+            return this;
+        }
+
+        public FloorPlanSettingsBuilder Height(double height)
+        {
+            Settings.Height = height;
+            return this;
+        }
+
         public FloorPlanSettingsBuilder Padding(string margin)
         {
             var parts = margin.Split(' ');
@@ -335,6 +296,73 @@ namespace Harbor.Core.Tool.APR
             Settings.RightIO2Core = right;
             Settings.TopIO2Core = top;
             Settings.BottomIO2Core = bottom;
+            return this;
+        }
+
+        public FloorPlanSettingsBuilder PowerRing(double powerWidth = 1, double groundWidth = 1, double verticalOffset = 0.5,
+            double horizontalOffset = 0.5, double verticalSpace = 0.3, double horizontalSpace = 0.3)
+        {
+            Settings.PowerWidth = powerWidth;
+            Settings.GroundWidth = groundWidth;
+            Settings.VerticalOffset = verticalOffset;
+            Settings.HorizontalOffset = horizontalOffset;
+            Settings.VerticalSpace = verticalSpace;
+            Settings.HorizontalSpace = horizontalSpace;
+            return this;
+        }
+
+        public FloorPlanSettingsBuilder PowerStrap(double start = 20, double step = 20, double width = 2, string layer = "", params string[] nets)
+        {
+            var powerStrap = new PowerStrapSettings
+            {
+                Orientation = false,
+                Start = start,
+                Step = step,
+                Width = width,
+                Layer = layer
+            };
+            if (nets.Length > 0)
+            {
+                powerStrap.Nets = nets.ToList();
+            }
+            Settings.PowerStraps.Add(powerStrap);
+            return this;
+        }
+
+        public FloorPlanSettingsBuilder PowerStrap(double start = 20, double step = 20, double? stop = null, double width = 2, string layer = "", params string[] nets)
+        {
+            var powerStrap = new PowerStrapSettings
+            {
+                Orientation = false,
+                Start = start,
+                Step = step,
+                Stop = stop,
+                Width = width,
+                Layer = layer
+            };
+            if (nets.Length > 0)
+            {
+                powerStrap.Nets = nets.ToList();
+            }
+            Settings.PowerStraps.Add(powerStrap);
+            return this;
+        }
+
+        public FloorPlanSettingsBuilder HorizontalPowerStrap(double start = 20, double step = 20, double width = 2, string layer = "", params string[] nets)
+        {
+            var powerStrap = new PowerStrapSettings
+            {
+                Orientation = true,
+                Start = start,
+                Step = step,
+                Width = width,
+                Layer = layer
+            };
+            if (nets.Length > 0)
+            {
+                powerStrap.Nets = nets.ToList();
+            }
+            Settings.PowerStraps.Add(powerStrap);
             return this;
         }
     }

@@ -91,6 +91,11 @@ namespace Harbor.Core.Tool.Syn
         private static void RunCombineSource(ICakeContext context, SynRunnerSettings settings)
         {
             var sources = settings.Verilog;
+            var svs = sources.Where(s => s.GetExtension().Contains("sv")).ToList();
+            if (svs.Count != 0)
+            {
+                return; //SystemVerilog暂不支持
+            }
             var output = settings.ProjectPath.Combine("netlist").CombineWithFilePath($"{settings.Top}_combine.v");
 
             StringBuilder sb = new StringBuilder();

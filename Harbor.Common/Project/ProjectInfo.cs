@@ -62,7 +62,7 @@ namespace Harbor.Common.Project
                     foreach (var re in Reference)
                     {
                         var absDir = new DirectoryPath(re.Path).MakeAbsolute(_directory);
-                        var targetRelativeDir = absDir.GetRelativePath(value);
+                        var targetRelativeDir = value.GetRelativePath(absDir);
                         re.Path = targetRelativeDir.FullPath;
                     }
                 }

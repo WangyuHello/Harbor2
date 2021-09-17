@@ -11,10 +11,10 @@ namespace Harbor.Core
     {
         public static string Header(string comment = "#")
         {
-            return comment + "------------------------------------------------" + Environment.NewLine +
-                   comment + " 自动生成的脚本" + Environment.NewLine +
-                   comment + " Harbor " + VersionResolver.GetVersion2() + Environment.NewLine +
-                   comment + " " + DateTime.Now + Environment.NewLine +
+            return comment + "------------------------------------------------" + System.Environment.NewLine +
+                   comment + " 自动生成的脚本" + System.Environment.NewLine +
+                   comment + " Harbor " + VersionResolver.GetVersion2() + System.Environment.NewLine +
+                   comment + " " + DateTime.Now + System.Environment.NewLine +
                    comment + "------------------------------------------------";
         }
 

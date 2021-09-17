@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Harbor.Commands.Environment
+namespace Harbor.Core.Environment
 {
     public interface IEnvironmentDefinition
     {

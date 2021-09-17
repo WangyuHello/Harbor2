@@ -316,10 +316,10 @@ create_rectilinear_rings -nets { "VDD" "VSS" } -offset { <#= model.HorizontalOff
 <# if(model.MacroPlaceSettings.Count != 0) { #>
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.CreateRing) { 
-var hoffset = macroPlace.MarginLeft - 5.4;
-var voffset = macroPlace.MarginTop - 5.4;
+var hwidth = (macroPlace.MarginLeft - 1.5) / 2;
+var vwidth = (macroPlace.MarginTop - 1.5) / 2;
 #>
-create_rectilinear_rings -around macro -macro_cells {<#= macroPlace.Name.ToUpper() #>} -nets { "VDD" "VSS" } -width { 2 2 } -space { 0.4 0.4 } -offset { <#= hoffset #> <#= voffset #> }
+create_rectilinear_rings -around macro -macro_cells {<#= macroPlace.Name.ToUpper() #>} -nets { "VDD" "VSS" } -width { <#= hwidth #> <#= vwidth #> } -space { 0.5 0.5 } -offset { 0.5 0.5 }
 <# } } } #>
 
 <# if(model.FloorPlanSettings.FloorPlanType == FloorPlanType.WidthHeight || model.FloorPlanSettings.FloorPlanType == FloorPlanType.WidthHeightAuto) { 
@@ -343,13 +343,16 @@ if(model.MaxPreRouteLayer % 2 == 0) { //最高层为偶数
     }
 }
 #>
-<# if(model.CreatePowerStrap) { #>
+<# if(model.FloorPlanSettings.PowerStraps.Count > 0) { #>
+<# foreach(var strap in model.FloorPlanSettings.PowerStraps) { #>
+<# if(!strap.Orientation) { #>
 # 纵向电源网格
-create_power_straps -direction vertical -start_at <#= model.PowerStrapStart #> -nets {VDD VSS} -layer M<#= layer #> -width <#= model.PowerStrapWidth #> -configure step_and_stop -step <#= model.PowerStrapStep #> -stop <#= width #>
-<# } #>
-<# if(model.CreateHorizontalPowerStrap) { #>
+create_power_straps -direction vertical -start_at <#= strap.Start #> -nets {<#= string.Join(" ", strap.Nets)#>} -layer <#= string.IsNullOrEmpty(strap.Layer) ? "M"+layer : strap.Layer #> -width <#= strap.Width #> -configure step_and_stop -step <#= strap.Step #> -stop <#= strap.Stop == null ? width : (double)strap.Stop #>
+<# } else { #>
 # 横向电源网格
-create_power_straps -direction horizontal -start_at <#= model.HorizontalPowerStrapStart #> -nets {VDD VSS} -layer M<#= hlayer #> -width <#= model.HorizontalPowerStrapWidth #> -configure step_and_stop -step <#= model.HorizontalPowerStrapStep #> -stop <#= height #>
+create_power_straps -direction horizontal -start_at <#= strap.Start #> -nets {<#= string.Join(" ", strap.Nets)#>} -layer <#= string.IsNullOrEmpty(strap.Layer) ? "M"+hlayer : strap.Layer #> -width <#= strap.Width #> -configure step_and_stop -step <#= strap.Step #> -stop <#= strap.Stop == null ? height : (double)strap.Stop #>
+<# } #>
+<# } #>
 <# } #>
 <# } #>
 
@@ -393,6 +396,13 @@ preroute_standard_cells -fill_empty_rows -do_not_route_over_macros -remove_float
 <# } #>
 <# } #>
 
+if {[check_error -verbose] != 0} { exit 3 }
+save_mw_cel -design $top_name -as "$top_name\_floorplan"
+
+gui_zoom -window [gui_get_current_window -types Layout -mru] -full
+gui_execute_events
+# FloorPlan完成
+<# if(!model.FloorPlanOnly) { #>
 set r [place_opt -area_recovery -effort medium -congestion -power -continue_on_missing_scandef]
 if { $r == 0 } {
     exit 3
@@ -719,3 +729,4 @@ gui_write_window_image -window [gui_get_current_window -types Layout -mru] -file
 
 save_mw_cel -design $top_name
 quit
+<# } #>

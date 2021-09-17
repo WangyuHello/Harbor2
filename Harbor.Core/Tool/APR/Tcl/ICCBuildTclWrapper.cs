@@ -18,7 +18,7 @@ namespace Harbor.Core.Tool.APR.Tcl
         public void WriteToFile(string file)
         {
             var tran = TransformText();
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            if (System.Environment.OSVersion.Platform == PlatformID.Unix)
             {
                 tran = tran.Replace("\r", "");
             }

@@ -203,6 +203,17 @@ namespace Harbor.Core.Tool.APR
         }
     }
 
+    public class PowerStrapSettings
+    {
+        public string Layer { get; set; }
+        public List<string> Nets { get; set; } = new() {"VDD", "VSS"};
+        public double Start { get; set; } = 20;
+        public double Step { get; set; } = 20;
+        public double? Stop { get; set; }
+        public double Width { get; set; } = 2;
+        public bool Orientation { get; set; } = false; // true => horizontal false => vertical
+    }
+
     public class FloorPlanSettings
     {
         public double LeftIO2Core { get; set; } = 4;
@@ -217,6 +228,18 @@ namespace Harbor.Core.Tool.APR
 
         public double CoreWidth { get; set; }
         public double CoreHeight { get; set; }
+
+        public double Width { get; set; }
+        public double Height { get; set; }
+
+        public double PowerWidth { get; set; } = 1;
+        public double VerticalSpace { get; set; } = 0.3;
+        public double VerticalOffset { get; set; } = 0.5;
+        public double GroundWidth { get; set; } = 1;
+        public double HorizontalSpace { get; set; } = 0.3;
+        public double HorizontalOffset { get; set; } = 0.5;
+
+        public List<PowerStrapSettings> PowerStraps { get; set; } = new();
     }
 
     public class MacroPlaceSettings
@@ -246,20 +269,9 @@ namespace Harbor.Core.Tool.APR
         public string Top => ProjectInfo.Project;
         public int MaxRoutingLayer { get; set; } = 4;
         public int MaxPreRouteLayer { get; set; } = 6;
-        public double PowerWidth { get; set; } = 1;
-        public double VerticalSpace { get; set; } = 0.3;
-        public double VerticalOffset { get; set; } = 0.5;
-        public double GroundWidth { get; set; } = 1;
-        public double HorizontalSpace { get; set; } = 0.3;
-        public double HorizontalOffset { get; set; } = 0.5;
-        public double PowerStrapStart { get; set; } = 20;
-        public double PowerStrapStep { get; set; } = 20;
-        public double PowerStrapWidth { get; set; } = 2;
-        public bool CreatePowerStrap { get; set; } = false;
-        public double HorizontalPowerStrapStart { get; set; } = 20;
-        public double HorizontalPowerStrapStep { get; set; } = 20;
-        public double HorizontalPowerStrapWidth { get; set; } = 2;
-        public bool CreateHorizontalPowerStrap { get; set; } = false;
+
+        public bool FloorPlanOnly { get; set; } = false;
+
         public RouteSettings RouteSettings { get; set; } = new();
         public PlaceSettings PlaceSettings { get; set; } = new();
         public FloorPlanSettings FloorPlanSettings { get; set; } = new();
@@ -314,6 +326,7 @@ namespace Harbor.Core.Tool.APR
             
             var model = new BuildTclModel
             {
+                FloorPlanOnly = FloorPlanOnly,
                 Library = ProjectInfo.Library,
                 ScriptRootPath = WorkingDirectory.FullPath,
                 TechFilePath = library.PrimaryStdCell.techfile_full_name,
@@ -327,12 +340,12 @@ namespace Harbor.Core.Tool.APR
                 Power = library.PrimaryStdCell.power_pin,
                 Ground = library.PrimaryStdCell.ground_pin,
                 MaxRoutingLayer = MaxRoutingLayer,
-                PowerWidth = PowerWidth,
-                VerticalSpace = VerticalSpace,
-                VerticalOffset = VerticalOffset,
-                GroundWidth = GroundWidth,
-                HorizontalSpace = HorizontalSpace,
-                HorizontalOffset = HorizontalOffset,
+                PowerWidth = FloorPlanSettings.PowerWidth,
+                VerticalSpace = FloorPlanSettings.VerticalSpace,
+                VerticalOffset = FloorPlanSettings.VerticalOffset,
+                GroundWidth = FloorPlanSettings.GroundWidth,
+                HorizontalSpace = FloorPlanSettings.HorizontalSpace,
+                HorizontalOffset = FloorPlanSettings.HorizontalOffset,
                 TapCell = library.PrimaryStdCell.filltie_cell,
                 Antenna = library.PrimaryStdCell.antenna_full_name,
                 AntennaCells = library.PrimaryStdCell.antenna_cells,
@@ -347,18 +360,10 @@ namespace Harbor.Core.Tool.APR
                 LibName = library.PrimaryStdCell.timing_db_name_abbr,
                 LibFullName = library.PrimaryStdCell.timing_db_name,
                 GDSLayerMap = library.PrimaryStdCell.gds_layer_map,
-                Cores = Environment.ProcessorCount < 16 ? Environment.ProcessorCount : 16,
+                Cores = System.Environment.ProcessorCount < 16 ? System.Environment.ProcessorCount : 16,
                 M1RoutingDirection = library.PrimaryStdCell.m1_routing_direction,
                 MaxPreRouteLayer = MaxPreRouteLayer,
                 PowerRailLayer = library.PrimaryStdCell.power_rail_layer,
-                PowerStrapStart = PowerStrapStart,
-                PowerStrapStep = PowerStrapStep,
-                PowerStrapWidth = PowerStrapWidth,
-                CreatePowerStrap = CreatePowerStrap,
-                HorizontalPowerStrapStart = HorizontalPowerStrapStart,
-                HorizontalPowerStrapStep = HorizontalPowerStrapStep,
-                HorizontalPowerStrapWidth = HorizontalPowerStrapWidth,
-                CreateHorizontalPowerStrap = CreateHorizontalPowerStrap,
 
                 FloorPlanSettings = FloorPlanSettings,
 

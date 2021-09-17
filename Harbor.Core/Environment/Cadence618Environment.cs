@@ -2,7 +2,7 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ArrangeTrailingCommaInMultilineLists
 
-namespace Harbor.Commands.Environment
+namespace Harbor.Core.Environment
 {
     public class Cadence618Environment : IEnvironmentDefinition
     {

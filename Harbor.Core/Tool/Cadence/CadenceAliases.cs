@@ -2,7 +2,6 @@
 using Cake.Core.Annotations;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Cake.Common.Diagnostics;
 using Cake.Common.IO;
@@ -118,13 +117,16 @@ namespace Harbor.Core.Tool.Cadence
             };
 
 
-            var ilTemplate = string.Join(Environment.NewLine, preTemplate, addPinTemplate, pgTemplate, postTemplate, "exit");
+            var ilTemplate = string.Join(System.Environment.NewLine, preTemplate, addPinTemplate, pgTemplate, postTemplate, "exit");
             var ilFile = directory.CombineWithFilePath($"./.harbor/{topCellName}.il");
             context.FileWriteText(ilFile, ilTemplate);
 
             context.ImportGDS(directory, gdsName, libName, topCellName);
             context.ImportVerilog(directory, vName, libName, topCellName);
-            context.ImportVerilogFunctional(directory, funcvName, libName, topCellName);
+            if (context.FileExists(funcvName))
+            {
+                context.ImportVerilogFunctional(directory, funcvName, libName, topCellName);
+            }
             context.Virtuoso(new VirtuosoRunnerSettings
             {
                 WorkingDirectory = directory,
@@ -151,8 +153,13 @@ namespace Harbor.Core.Tool.Cadence
         {
             var layoutProjectPath = context.MakeAbsolute(new DirectoryPath("./Layout"));
             var synProjectPath = context.MakeAbsolute(new DirectoryPath("./Synthesis"));
+            var combineSourcePath = synProjectPath.Combine("netlist").CombineWithFilePath($"{top}_combine.v");
+            if (!context.FileExists(combineSourcePath))
+            {
+                return;
+            }
             context.ConvertUpper(top,
-                synProjectPath.Combine("netlist").CombineWithFilePath($"{top}_combine.v"),
+                combineSourcePath,
                 layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_PG.v"), 
                 layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_func.v"),
                 layoutProjectPath.Combine("netlist"));
@@ -161,6 +168,11 @@ namespace Harbor.Core.Tool.Cadence
         public static void RunConvertAMS(ICakeContext context, ProjectInfo projectInfo, string top)
         {
             var layoutProjectPath = context.MakeAbsolute(new DirectoryPath("./Layout"));
+            var cdsFuncPath = layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_func.v");
+            if (!context.FileExists(cdsFuncPath))
+            {
+                return;
+            }
             context.ConvertAMS(top,
                 layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_func.v"), 
                 layoutProjectPath.Combine("netlist").CombineWithFilePath($"{top}_cds_functional.v"),

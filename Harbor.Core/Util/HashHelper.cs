@@ -38,7 +38,7 @@ namespace Harbor.Core.Util
 
         public static Dictionary<string, string> GetLocalHashStorage(string prefix)
         {
-            var localHashFile = Path.Combine(Environment.CurrentDirectory, ".harbor", prefix+"_lasthash.json");
+            var localHashFile = Path.Combine(System.Environment.CurrentDirectory, ".harbor", prefix+"_lasthash.json");
             if (!File.Exists(localHashFile)) return null;
             var content = File.ReadAllText(localHashFile);
             return JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
@@ -50,7 +50,7 @@ namespace Harbor.Core.Util
             {
                 return;
             }
-            var localHarbor = Path.Combine(Environment.CurrentDirectory, ".harbor");
+            var localHarbor = Path.Combine(System.Environment.CurrentDirectory, ".harbor");
             if (!Directory.Exists(localHarbor))
             {
                 Directory.CreateDirectory(localHarbor);

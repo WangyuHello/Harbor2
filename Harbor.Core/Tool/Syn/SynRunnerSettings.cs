@@ -85,7 +85,7 @@ namespace Harbor.Core.Tool.Syn
             model.SvfPath = ProjectPath.Combine("svf").FullPath;
             model.ObjPath = ProjectPath.Combine("obj").FullPath;
             model.MemPath = ProjectPath.Combine("mem").FullPath;
-            model.Cores = Environment.ProcessorCount < 16 ? Environment.ProcessorCount : 16;
+            model.Cores = System.Environment.ProcessorCount < 16 ? System.Environment.ProcessorCount : 16;
 
             IOHelper.CreateDirectory(ProjectPath);
             IOHelper.CreateDirectory(scriptRootPath);
@@ -158,10 +158,8 @@ namespace Harbor.Core.Tool.Syn
         private List<string> ReorderVerilog()
         {
             var list = Verilog?.Select(f => f.FullPath).ToList();
-            var typeVerilog = list?.Where(f => f.Contains("Type")).ToList();
-            var remain = list?.SkipWhile(f => typeVerilog.Contains(f)).ToList();
-            var reorder = typeVerilog?.Concat(remain).ToList();
-            return reorder;
+            var disList = list?.Distinct().ToList();
+            return disList;
         }
     }
 }

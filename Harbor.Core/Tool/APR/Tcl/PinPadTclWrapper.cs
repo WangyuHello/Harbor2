@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using Harbor.Core.Tool.APR.Model;
 
@@ -18,7 +19,7 @@ namespace Harbor.Core.Tool.APR.Tcl
         public void WriteToFile(string file)
         {
             var tran = TransformText();
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 tran = tran.Replace("\r", "");
             }

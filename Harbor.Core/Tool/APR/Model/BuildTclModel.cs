@@ -7,6 +7,7 @@ namespace Harbor.Core.Tool.APR.Model
 {
     public class BuildTclModel : HarborTextModel
     {
+        public bool FloorPlanOnly { get; set; }
         public string Library { get; set; }
         public string TechFilePath { get; set; }
         public List<string> RefLibPath { get; set; } = new();
@@ -46,14 +47,7 @@ namespace Harbor.Core.Tool.APR.Model
         public string GDSLayerMap { get; set; }
         public string M1RoutingDirection { get; set; }
         public int PowerRailLayer { get; set; }
-        public double PowerStrapStart { get; set; }
-        public double PowerStrapStep { get; set; }
-        public double PowerStrapWidth { get; set; }
-        public bool CreatePowerStrap { get; set; }
-        public double HorizontalPowerStrapStart { get; set; }
-        public double HorizontalPowerStrapStep { get; set; }
-        public double HorizontalPowerStrapWidth { get; set; }
-        public bool CreateHorizontalPowerStrap { get; set; }
+
         public string PinConstrainFilePath { get; set; }
         public FloorPlanSettings FloorPlanSettings { get; set; }
 

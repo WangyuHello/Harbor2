@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Spectre.Console;
 
-namespace Harbor.Commands.Environment
+namespace Harbor.Core.Environment
 {
     public static class EnvironmentHelper
     {
@@ -17,7 +17,7 @@ namespace Harbor.Commands.Environment
                 .Select(t => Activator.CreateInstance(t) as IEnvironmentDefinition).ToList();
         }
 
-        public static bool SetEnvironment(string app, string version)
+        public static bool SetEnvironment(string app, string version = "")
         {
             var selectedEnvs = _envs.Where(e =>
             {
@@ -80,9 +80,74 @@ namespace Harbor.Commands.Environment
 
             table.Expand();
             AnsiConsole.Render(table);
-            
-
             return true;
+        }
+
+        public static IDictionary<string, string> AddEnvironment(IEnumerable<string> app, IDictionary<string, string> origin, string version = "")
+        {
+            var appNames = app as string[] ?? app.ToArray();
+            var selectedEnvs = _envs.Where(e =>
+            {
+                foreach (var (appName, appVersion) in e.Apps)
+                {
+                    if (!appNames.Contains(appName)) continue;
+                    if (string.IsNullOrEmpty(appVersion))
+                    {
+                        return true;
+                    }
+
+                    return appVersion == version;
+                }
+                return false;
+            }).ToList();
+
+            if (selectedEnvs.Count == 0)
+            {
+                return origin;
+            }
+
+            var envPaths = selectedEnvs.SelectMany(es => es.Paths).ToHashSet();
+            var envLdLibraryPaths = selectedEnvs.SelectMany(es => es.LdLibraryPaths).ToHashSet();
+            var envAdditionalVariables = selectedEnvs.SelectMany(es => es.AdditionalVariable).ToHashSet(new KeyEqualityComparer());
+
+            if (envPaths.Count > 0)
+            {
+                var valid = ValidatePath(envPaths);
+                var envString = string.Join(':', valid);
+                if (origin.ContainsKey("PATH"))
+                {
+                    origin["PATH"] = envString + ":" + origin["PATH"];
+                }
+                else
+                {
+                    origin.Add("PATH", envString);
+                }
+                System.Environment.SetEnvironmentVariable("PATH", envString + ":" + System.Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process), EnvironmentVariableTarget.Process);
+            }
+
+            if (envLdLibraryPaths.Count > 0)
+            {
+                var valid = ValidatePath(envLdLibraryPaths);
+                var envString = string.Join(':', valid);
+                if (!origin.ContainsKey("LD_LIBRARY_PATH"))
+                {
+                    origin.Add("LD_LIBRARY_PATH", envString);
+                }
+                else
+                {
+                    origin["LD_LIBRARY_PATH"] = envString + ":" + origin["LD_LIBRARY_PATH"];
+                }
+            }
+
+            if (envAdditionalVariables.Count > 0)
+            {
+                foreach (var (key, value) in envAdditionalVariables)
+                {
+                    origin.Add(key,value);
+                }
+            }
+
+            return origin;
         }
 
         private static IEnumerable<string> ValidatePath(IEnumerable<string> origin)

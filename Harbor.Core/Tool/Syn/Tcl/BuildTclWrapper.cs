@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Harbor.Core.Tool.Syn.Tcl
@@ -17,7 +18,7 @@ namespace Harbor.Core.Tool.Syn.Tcl
         public void WriteToFile(string file)
         {
             var tran = TransformText();
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 tran = tran.Replace("\r", "");
             }
