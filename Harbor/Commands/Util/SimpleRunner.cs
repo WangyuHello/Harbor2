@@ -37,8 +37,11 @@ namespace Harbor.Commands.Util
             }
 
             p.Start();
-            p.BeginErrorReadLine();
-            p.BeginOutputReadLine();
+            if (redirectOutput)
+            {
+                p.BeginErrorReadLine();
+                p.BeginOutputReadLine();
+            }
 
             await p.WaitForExitAsync();
             return p.ExitCode;

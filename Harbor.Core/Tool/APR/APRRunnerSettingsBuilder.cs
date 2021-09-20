@@ -365,6 +365,25 @@ namespace Harbor.Core.Tool.APR
             Settings.PowerStraps.Add(powerStrap);
             return this;
         }
+
+        public FloorPlanSettingsBuilder HorizontalPowerStrap(double start = 20, double step = 20, double? stop = null, double width = 2, string layer = "", params string[] nets)
+        {
+            var powerStrap = new PowerStrapSettings
+            {
+                Orientation = true,
+                Start = start,
+                Step = step,
+                Stop = stop,
+                Width = width,
+                Layer = layer
+            };
+            if (nets.Length > 0)
+            {
+                powerStrap.Nets = nets.ToList();
+            }
+            Settings.PowerStraps.Add(powerStrap);
+            return this;
+        }
     }
 
     public class PinGroupBuilder
