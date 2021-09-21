@@ -210,6 +210,7 @@ namespace Harbor.Core.Tool.APR
         public double Start { get; set; } = 20;
         public double Step { get; set; } = 20;
         public double? Stop { get; set; }
+        public double? Space { get; set; }
         public double Width { get; set; } = 2;
         public bool Orientation { get; set; } = false; // true => horizontal false => vertical
     }

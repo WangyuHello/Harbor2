@@ -316,8 +316,8 @@ create_rectilinear_rings -nets { "VDD" "VSS" } -offset { <#= model.HorizontalOff
 <# if(model.MacroPlaceSettings.Count != 0) { #>
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.CreateRing) { 
-var hwidth = (macroPlace.MarginLeft - 1.5) / 2;
-var vwidth = (macroPlace.MarginTop - 1.5) / 2;
+var hwidth = (macroPlace.MarginLeft - 2) / 2; //环外侧与边界距离为1um
+var vwidth = (macroPlace.MarginTop - 2) / 2;
 #>
 create_rectilinear_rings -around macro -macro_cells {<#= macroPlace.Name.ToUpper() #>} -nets { "VDD" "VSS" } -width { <#= hwidth #> <#= vwidth #> } -space { 0.5 0.5 } -offset { 0.5 0.5 }
 <# } } } #>
@@ -344,13 +344,15 @@ if(model.MaxPreRouteLayer % 2 == 0) { //最高层为偶数
 }
 #>
 <# if(model.FloorPlanSettings.PowerStraps.Count > 0) { #>
-<# foreach(var strap in model.FloorPlanSettings.PowerStraps) { #>
+<# foreach(var strap in model.FloorPlanSettings.PowerStraps) { 
+var pitchParam = strap.Space == null ? "" : "-pitch_within_group " + (strap.Space + strap.Width); 
+#>
 <# if(!strap.Orientation) { #>
 # 纵向电源网格
-create_power_straps -direction vertical -start_at <#= strap.Start #> -nets {<#= string.Join(" ", strap.Nets)#>} -layer <#= string.IsNullOrEmpty(strap.Layer) ? "M"+layer : strap.Layer #> -width <#= strap.Width #> -configure step_and_stop -step <#= strap.Step #> -stop <#= strap.Stop == null ? width : (double)strap.Stop #>
+create_power_straps -direction vertical -start_at <#= strap.Start #> -nets {<#= string.Join(" ", strap.Nets)#>} -layer <#= string.IsNullOrEmpty(strap.Layer) ? "M"+layer : strap.Layer #> -width <#= strap.Width #> -configure step_and_stop -step <#= strap.Step #> -stop <#= strap.Stop == null ? width : (double)strap.Stop #> <#= pitchParam #>
 <# } else { #>
 # 横向电源网格
-create_power_straps -direction horizontal -start_at <#= strap.Start #> -nets {<#= string.Join(" ", strap.Nets)#>} -layer <#= string.IsNullOrEmpty(strap.Layer) ? "M"+hlayer : strap.Layer #> -width <#= strap.Width #> -configure step_and_stop -step <#= strap.Step #> -stop <#= strap.Stop == null ? height : (double)strap.Stop #>
+create_power_straps -direction horizontal -start_at <#= strap.Start #> -nets {<#= string.Join(" ", strap.Nets)#>} -layer <#= string.IsNullOrEmpty(strap.Layer) ? "M"+hlayer : strap.Layer #> -width <#= strap.Width #> -configure step_and_stop -step <#= strap.Step #> -stop <#= strap.Stop == null ? height : (double)strap.Stop #> <#= pitchParam #>
 <# } #>
 <# } #>
 <# } #>

@@ -311,25 +311,7 @@ namespace Harbor.Core.Tool.APR
             return this;
         }
 
-        public FloorPlanSettingsBuilder PowerStrap(double start = 20, double step = 20, double width = 2, string layer = "", params string[] nets)
-        {
-            var powerStrap = new PowerStrapSettings
-            {
-                Orientation = false,
-                Start = start,
-                Step = step,
-                Width = width,
-                Layer = layer
-            };
-            if (nets.Length > 0)
-            {
-                powerStrap.Nets = nets.ToList();
-            }
-            Settings.PowerStraps.Add(powerStrap);
-            return this;
-        }
-
-        public FloorPlanSettingsBuilder PowerStrap(double start = 20, double step = 20, double? stop = null, double width = 2, string layer = "", params string[] nets)
+        public FloorPlanSettingsBuilder PowerStrap(double start = 20, double step = 20, double? stop = null, double width = 2, double? space = null, string layer = "", params string[] nets)
         {
             var powerStrap = new PowerStrapSettings
             {
@@ -338,6 +320,7 @@ namespace Harbor.Core.Tool.APR
                 Step = step,
                 Stop = stop,
                 Width = width,
+                Space = space,
                 Layer = layer
             };
             if (nets.Length > 0)
@@ -348,25 +331,7 @@ namespace Harbor.Core.Tool.APR
             return this;
         }
 
-        public FloorPlanSettingsBuilder HorizontalPowerStrap(double start = 20, double step = 20, double width = 2, string layer = "", params string[] nets)
-        {
-            var powerStrap = new PowerStrapSettings
-            {
-                Orientation = true,
-                Start = start,
-                Step = step,
-                Width = width,
-                Layer = layer
-            };
-            if (nets.Length > 0)
-            {
-                powerStrap.Nets = nets.ToList();
-            }
-            Settings.PowerStraps.Add(powerStrap);
-            return this;
-        }
-
-        public FloorPlanSettingsBuilder HorizontalPowerStrap(double start = 20, double step = 20, double? stop = null, double width = 2, string layer = "", params string[] nets)
+        public FloorPlanSettingsBuilder HorizontalPowerStrap(double start = 20, double step = 20, double? stop = null, double width = 2, double? space = null, string layer = "", params string[] nets)
         {
             var powerStrap = new PowerStrapSettings
             {
@@ -374,6 +339,7 @@ namespace Harbor.Core.Tool.APR
                 Start = start,
                 Step = step,
                 Stop = stop,
+                Space = space,
                 Width = width,
                 Layer = layer
             };
