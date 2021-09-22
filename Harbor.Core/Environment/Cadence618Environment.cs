@@ -4,6 +4,7 @@
 
 namespace Harbor.Core.Environment
 {
+    [DefaultEnvironment]
     public class Cadence618Environment : IEnvironmentDefinition
     {
         public List<(string app, string version)> Apps { get; set; } = new()

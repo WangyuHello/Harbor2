@@ -3,36 +3,32 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Spectre.Console;
+// ReSharper disable IdentifierTypo
 
 namespace Harbor.Core.Environment
 {
     public static class EnvironmentHelper
     {
-        private static readonly List<IEnvironmentDefinition> _envs;
+        private static readonly List<(IEnvironmentDefinition env, bool isDefault)> _envs;
 
         static EnvironmentHelper()
         {
             _envs = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IEnvironmentDefinition))))
-                .Select(t => Activator.CreateInstance(t) as IEnvironmentDefinition).ToList();
+                .Select(t =>
+                {
+                    var c = Activator.CreateInstance(t) as IEnvironmentDefinition;
+                    var attrs = Attribute.GetCustomAttributes(t);
+                    var isDefault = attrs.Select(a => a is DefaultEnvironmentAttribute).SingleOrDefault();
+                    return (c, isDefault);
+                }).ToList();
         }
+
 
         public static bool SetEnvironment(string app, string version = "")
         {
-            var selectedEnvs = _envs.Where(e =>
-            {
-                foreach (var (appName, appVersion) in e.Apps)
-                {
-                    if (appName != app) continue;
-                    if (string.IsNullOrEmpty(appVersion))
-                    {
-                        return true;
-                    }
+            var selectedEnvs = GetSelectedEnvs(new [] {app}, version);
 
-                    return appVersion == version;
-                }
-                return false;
-            }).ToList();
             if (selectedEnvs.Count == 0)
             {
                 return false;
@@ -83,23 +79,35 @@ namespace Harbor.Core.Environment
             return true;
         }
 
-        public static IDictionary<string, string> AddEnvironment(IEnumerable<string> app, IDictionary<string, string> origin, string version = "")
+        private static List<IEnvironmentDefinition> GetSelectedEnvs(IEnumerable<string> app, string version)
         {
-            var appNames = app as string[] ?? app.ToArray();
+            var apps = app as string[] ?? app.ToArray();
             var selectedEnvs = _envs.Where(e =>
             {
-                foreach (var (appName, appVersion) in e.Apps)
+                foreach (var (appName, appVersion) in e.env.Apps)
                 {
-                    if (!appNames.Contains(appName)) continue;
+                    if (!apps.Contains(appName)) continue;
                     if (string.IsNullOrEmpty(appVersion))
                     {
                         return true;
                     }
 
+                    if (string.IsNullOrEmpty(version))
+                    {
+                        return e.isDefault;
+                    }
+
                     return appVersion == version;
                 }
+
                 return false;
-            }).ToList();
+            }).Select(tup => tup.env).ToList();
+            return selectedEnvs;
+        }
+
+        public static IDictionary<string, string> AddEnvironment(IEnumerable<string> app, IDictionary<string, string> origin, string version = "")
+        {
+            var selectedEnvs = GetSelectedEnvs(app, version);
 
             if (selectedEnvs.Count == 0)
             {

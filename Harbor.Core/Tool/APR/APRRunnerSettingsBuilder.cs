@@ -316,11 +316,11 @@ namespace Harbor.Core.Tool.APR
             return this;
         }
 
-        public FloorPlanSettingsBuilder PowerRing(double powerWidth = 1, double groundWidth = 1, double verticalOffset = 0.5,
+        public FloorPlanSettingsBuilder PowerRing(double horizontalWidth = 1, double verticalWidth = 1, double verticalOffset = 0.5,
             double horizontalOffset = 0.5, double verticalSpace = 0.3, double horizontalSpace = 0.3, params string[] nets)
         {
-            Settings.VerticalWidth = powerWidth;
-            Settings.HorizontalWidth = groundWidth;
+            Settings.VerticalWidth = verticalWidth;
+            Settings.HorizontalWidth = horizontalWidth;
             Settings.VerticalOffset = verticalOffset;
             Settings.HorizontalOffset = horizontalOffset;
             Settings.VerticalSpace = verticalSpace;
@@ -329,6 +329,7 @@ namespace Harbor.Core.Tool.APR
             {
                 Settings.PowerRingNets = nets.ToList();
             }
+
             return this;
         }
 

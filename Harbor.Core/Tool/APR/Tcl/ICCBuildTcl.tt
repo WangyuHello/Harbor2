@@ -142,7 +142,6 @@ var y2 = macroPlace.Y + (double)macroPlace.Height;
 var x2_ = macroPlace.X + (double)macroPlace.Height;
 var y2_ = macroPlace.Y + (double)macroPlace.Width;
 #>
-# 设置Macro摆放
 set_undoable_attribute [get_cells "<#= macroPlace.Name.ToUpper() #>"] orientation {<#= macroPlace.Orientation.ToString()#>}
 move_objects -x <#= x1 #> -y <#= y1 #> [get_cells "<#= macroPlace.Name.ToUpper() #>"]
 <# 
@@ -165,22 +164,19 @@ create_placement_blockage -bbox {<#= p_x1 #> <#= p_y1 #> <#= p_x2 #> <#= p_y2 #>
 <# if(macroPlace.ReverseRoutingDirection) { #>
 create_route_guide -name route_guide_<#= macroPlace.Name.ToUpper().Replace("/", "_") #> -coordinate {{<#= p_x1 #> <#= p_y1 #>} {<#= p_x2 #> <#= p_y2 #>}} -switch_preferred_direction_layers "<#= string.Join(" ", Enumerable.Range(3,model.MaxRoutingLayer-2).Select(s => "M"+s)) #>"
 <# } #>
-<# if(macroPlace.PowerConnections != null) { #>
-<# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #>
 <# } #>
-<# } #>
+<# if(model.MacroPlaceSettings.Count > 0) { #>
 set_dont_touch_placement [all_macro_cells]
 <# } #>
 
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
@@ -297,11 +293,11 @@ derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.Primar
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
@@ -351,10 +347,8 @@ var powerStrapNets = strap.Nets.Count > 0 ? strap.Nets : new List<string>(){mode
 var powerStrapNetsString = string.Join(" ", powerStrapNets);
 #>
 <# if(!strap.Orientation) { #>
-# 纵向电源网格
 create_power_straps -direction vertical -start_at <#= strap.Start #> -nets {<#= powerStrapNetsString #>} -layer <#= string.IsNullOrEmpty(strap.Layer) ? "M"+layer : strap.Layer #> -width <#= strap.Width #> -configure step_and_stop -step <#= strap.Step #> -stop <#= strap.Stop == null ? width : (double)strap.Stop #> <#= pitchParam #>
 <# } else { #>
-# 横向电源网格
 create_power_straps -direction horizontal -start_at <#= strap.Start #> -nets {<#= powerStrapNetsString #>} -layer <#= string.IsNullOrEmpty(strap.Layer) ? "M"+hlayer : strap.Layer #> -width <#= strap.Width #> -configure step_and_stop -step <#= strap.Step #> -stop <#= strap.Stop == null ? height : (double)strap.Stop #> <#= pitchParam #>
 <# } #>
 <# } #>
@@ -366,11 +360,11 @@ derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.Primar
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
@@ -422,11 +416,11 @@ derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.Primar
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
@@ -452,11 +446,11 @@ derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.Primar
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
@@ -499,11 +493,11 @@ derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.Primar
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
@@ -531,11 +525,11 @@ derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.Primar
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
@@ -577,11 +571,11 @@ derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.Primar
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
@@ -610,11 +604,11 @@ derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.Primar
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
@@ -646,11 +640,11 @@ derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.Primar
 <# foreach(var macroPlace in model.MacroPlaceSettings) { #>
 <# if(macroPlace.PowerConnections != null) { #>
 <# foreach(var pairs in macroPlace.PowerConnections) { #>
-derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= pairs.Value #> -power_pin <#= pairs.Key #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } else { #>
 <# foreach(var pPin in macroPlace.PowerPins) { #>
-derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name #>}
+derive_pg_connection -power_net <#= model.FloorPlanSettings.PowerSettings.PrimaryPower #> -power_pin <#= pPin #> -cells {<#= macroPlace.Name.ToUpper() #>}
 <# } #>
 <# } #>
 <# } #>
