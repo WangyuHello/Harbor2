@@ -227,11 +227,11 @@ namespace Harbor.Core.Tool.APR
         public double CoreUtilization { get; set; } = 0.7;
         public double AspectRatio { get; set; } = 1;
 
-        public double CoreWidth { get; set; }
-        public double CoreHeight { get; set; }
+        public double? CoreWidth { get; set; }
+        public double? CoreHeight { get; set; }
 
-        public double Width { get; set; }
-        public double Height { get; set; }
+        public double? Width { get; set; }
+        public double? Height { get; set; }
 
         public double VerticalWidth { get; set; } = 1;
         public double VerticalSpace { get; set; } = 0.3;
@@ -327,15 +327,16 @@ namespace Harbor.Core.Tool.APR
                 var area2 = area / FloorPlanSettings.CoreUtilization;
                 var width = Math.Sqrt(area2 / FloorPlanSettings.AspectRatio);
                 var height = Math.Sqrt(area2 * FloorPlanSettings.AspectRatio);
-
-                if (area2 < 25) //Area过小可能导致Utilization超过100%
-                {
-                    height += 2;
-                    width += 2;
-                }
-
                 FloorPlanSettings.CoreHeight = height;
                 FloorPlanSettings.CoreWidth = width;
+            }
+
+            if (FloorPlanSettings.CoreWidth == null || FloorPlanSettings.CoreHeight == null)
+            {
+                FloorPlanSettings.CoreWidth = FloorPlanSettings.Width - FloorPlanSettings.LeftIO2Core -
+                                              FloorPlanSettings.RightIO2Core;
+                FloorPlanSettings.CoreHeight = FloorPlanSettings.Height - FloorPlanSettings.TopIO2Core -
+                                              FloorPlanSettings.BottomIO2Core;
             }
             
             var model = new BuildTclModel

@@ -93,34 +93,37 @@ Task(""Layout"")
         .FloorPlan(_ => _
             .Type(FloorPlanType.AspectRatio)
             // .Type(FloorPlanType.WidthHeightAuto)
+            // .Type(FloorPlanType.WidthHeight)
             .Padding(4,4)
             .CoreUtilization(0.7)
             .HeightWidthRatio(1)
             // .CoreWidth(200)
             // .CoreHeight(200)
+            // .Width(200)
+            // .Height(200)
 
-            .PowerRing(powerWidth: 1, groundWidth: 1, verticalOffset: 0.5, horizontalOffset: 0.5, verticalSpace: 0.3, horizontalSpace: 0.3)
+            .PowerRing(horizontalWidth: 1, verticalWidth: 1, verticalOffset: 0.5, horizontalOffset: 0.5, verticalSpace: 0.3, horizontalSpace: 0.3)
             // .PowerStrap(start: 20, step: 20, width: 2)
         )
         .Pin(_ => _
             .PinSpace(0)
 ");
             
-            #line 46 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 49 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  if(!string.IsNullOrEmpty(ClockName)) { 
             
             #line default
             #line hidden
             this.Write("            .Pin(\"");
             
-            #line 47 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 50 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClockName));
             
             #line default
             #line hidden
             this.Write("\", PortPosition.Top, 1)\r\n");
             
-            #line 48 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
+            #line 51 "E:\Documents\Repo\Harbor2\Harbor.Core\Util\Template\BuildCake.tt"
  } 
             
             #line default
