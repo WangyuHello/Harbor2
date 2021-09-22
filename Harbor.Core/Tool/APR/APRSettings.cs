@@ -206,7 +206,7 @@ namespace Harbor.Core.Tool.APR
     public class PowerStrapSettings
     {
         public string Layer { get; set; }
-        public List<string> Nets { get; set; } = new() {"VDD", "VSS"};
+        public List<string> Nets { get; set; } = new();
         public double Start { get; set; } = 20;
         public double Step { get; set; } = 20;
         public double? Stop { get; set; }
@@ -233,12 +233,16 @@ namespace Harbor.Core.Tool.APR
         public double Width { get; set; }
         public double Height { get; set; }
 
-        public double PowerWidth { get; set; } = 1;
+        public double VerticalWidth { get; set; } = 1;
         public double VerticalSpace { get; set; } = 0.3;
         public double VerticalOffset { get; set; } = 0.5;
-        public double GroundWidth { get; set; } = 1;
+        public double HorizontalWidth { get; set; } = 1;
         public double HorizontalSpace { get; set; } = 0.3;
         public double HorizontalOffset { get; set; } = 0.5;
+
+        public PowerSettings PowerSettings { get; set; } = new();
+
+        public List<string> PowerRingNets { get; set; } = new();
 
         public List<PowerStrapSettings> PowerStraps { get; set; } = new();
     }
@@ -260,6 +264,15 @@ namespace Harbor.Core.Tool.APR
         public double MarginBottom { get; set; } = 8;
         public bool CreateRing { get; set; } = false;
         public bool ReverseRoutingDirection { get; set; } = false;
+
+        public Dictionary<string,string> PowerConnections { get; set; }
+    }
+
+    public class PowerSettings
+    {
+        public string PrimaryPower { get; set; } = "VDD";
+        public string PrimaryGround { get; set; } = "VSS";
+        public List<string> AdditionalPower { get; set; } = new();
     }
 
     public class APRRunnerSettings : HarborToolSettings
@@ -341,12 +354,6 @@ namespace Harbor.Core.Tool.APR
                 Power = library.PrimaryStdCell.power_pin,
                 Ground = library.PrimaryStdCell.ground_pin,
                 MaxRoutingLayer = MaxRoutingLayer,
-                PowerWidth = FloorPlanSettings.PowerWidth,
-                VerticalSpace = FloorPlanSettings.VerticalSpace,
-                VerticalOffset = FloorPlanSettings.VerticalOffset,
-                GroundWidth = FloorPlanSettings.GroundWidth,
-                HorizontalSpace = FloorPlanSettings.HorizontalSpace,
-                HorizontalOffset = FloorPlanSettings.HorizontalOffset,
                 TapCell = library.PrimaryStdCell.filltie_cell,
                 Antenna = library.PrimaryStdCell.antenna_full_name,
                 AntennaCells = library.PrimaryStdCell.antenna_cells,

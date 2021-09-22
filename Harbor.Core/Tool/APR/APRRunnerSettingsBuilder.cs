@@ -299,15 +299,36 @@ namespace Harbor.Core.Tool.APR
             return this;
         }
 
-        public FloorPlanSettingsBuilder PowerRing(double powerWidth = 1, double groundWidth = 1, double verticalOffset = 0.5,
-            double horizontalOffset = 0.5, double verticalSpace = 0.3, double horizontalSpace = 0.3)
+        public FloorPlanSettingsBuilder Power(string power, string ground,
+            params string[] additionalPower)
         {
-            Settings.PowerWidth = powerWidth;
-            Settings.GroundWidth = groundWidth;
+            var powerSetting = new PowerSettings
+            {
+                PrimaryPower = power,
+                PrimaryGround = ground
+            };
+            if (additionalPower.Length > 0)
+            {
+                powerSetting.AdditionalPower = additionalPower.ToList();
+            }
+
+            Settings.PowerSettings = powerSetting;
+            return this;
+        }
+
+        public FloorPlanSettingsBuilder PowerRing(double powerWidth = 1, double groundWidth = 1, double verticalOffset = 0.5,
+            double horizontalOffset = 0.5, double verticalSpace = 0.3, double horizontalSpace = 0.3, params string[] nets)
+        {
+            Settings.VerticalWidth = powerWidth;
+            Settings.HorizontalWidth = groundWidth;
             Settings.VerticalOffset = verticalOffset;
             Settings.HorizontalOffset = horizontalOffset;
             Settings.VerticalSpace = verticalSpace;
             Settings.HorizontalSpace = horizontalSpace;
+            if (nets.Length > 0)
+            {
+                Settings.PowerRingNets = nets.ToList();
+            }
             return this;
         }
 
@@ -470,17 +491,17 @@ namespace Harbor.Core.Tool.APR
     {
         public PlaceSettings Settings { get; } = new PlaceSettings();
 
-        public PlaceSettingsBuilder PlaceMacro(string name, string type, double x, double y, Orientation orientation = Orientation.N, bool createRing = false, bool reverseRoutingDirection = false)
+        public PlaceSettingsBuilder PlaceMacro(string name, string type, double x, double y, Orientation orientation = Orientation.N, bool createRing = false, bool reverseRoutingDirection = false, Dictionary<string, string> powerConnections = null)
         {
             return PlaceMacro(name, type, x, y, (8,8,8,8), orientation, createRing, reverseRoutingDirection);
         }
 
-        public PlaceSettingsBuilder PlaceMacro(string name, string type, double x, double y, (double, double) margin, Orientation orientation = Orientation.N, bool createRing = false, bool reverseRoutingDirection = false)
+        public PlaceSettingsBuilder PlaceMacro(string name, string type, double x, double y, (double, double) margin, Orientation orientation = Orientation.N, bool createRing = false, bool reverseRoutingDirection = false, Dictionary<string, string> powerConnections = null)
         {
             return PlaceMacro(name, type, x, y, (margin.Item1, margin.Item2, margin.Item1, margin.Item2), orientation, createRing, reverseRoutingDirection);
         }
 
-        public PlaceSettingsBuilder PlaceMacro(string name, string type, double x, double y, (double, double, double, double) margin, Orientation orientation = Orientation.N, bool createRing = false, bool reverseRoutingDirection = false)
+        public PlaceSettingsBuilder PlaceMacro(string name, string type, double x, double y, (double, double, double, double) margin, Orientation orientation = Orientation.N, bool createRing = false, bool reverseRoutingDirection = false, Dictionary<string, string> powerConnections = null)
         {
             Settings.MacroPlaceSettings.Add(new MacroPlaceSettings
             {
@@ -494,7 +515,8 @@ namespace Harbor.Core.Tool.APR
                 MarginTop = margin.Item2,
                 MarginBottom = margin.Item4,
                 CreateRing = createRing,
-                ReverseRoutingDirection = reverseRoutingDirection
+                ReverseRoutingDirection = reverseRoutingDirection,
+                PowerConnections = powerConnections
             });
             return this;
         }

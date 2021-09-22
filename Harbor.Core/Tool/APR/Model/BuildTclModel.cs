@@ -28,12 +28,7 @@ namespace Harbor.Core.Tool.APR.Model
         public string Ground { get; set; }
         public int MaxRoutingLayer { get; set; }
         public int MaxPreRouteLayer { get; set; }
-        public double PowerWidth { get; set; }
-        public double VerticalSpace { get; set; }
-        public double VerticalOffset { get; set; }
-        public double GroundWidth { get; set; }
-        public double HorizontalSpace { get; set; }
-        public double HorizontalOffset { get; set; }
+
         public string TapCell { get; set; }
         public string Antenna { get; set; }
         public string[] AntennaCells { get; set; }
@@ -58,7 +53,7 @@ namespace Harbor.Core.Tool.APR.Model
         public int MnTXT5 { get; set; }
         public int MnTXT6 { get; set; }
 
-        public List<MacroPlaceSettings> MacroPlaceSettings { get; set; } = new List<MacroPlaceSettings>();
+        public List<MacroPlaceSettings> MacroPlaceSettings { get; set; } = new();
 
         public Library.LibraryStdCell StdCell { get; set; }
     }
