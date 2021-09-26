@@ -160,9 +160,20 @@ namespace Harbor.Core.Tool.APR
             return this;
         }
 
-        public APRRunnerSettingsBuilder Pin(Action<PinSettingsBuilder> pin)
+        public APRRunnerSettingsBuilder Pin(string constraint = "", PinPlaceMode mode = PinPlaceMode.Uniform, decimal space = -1, string verticalLayer = "", string horizontalLayer = "", Action<PinSettingsBuilder> pin = null)
         {
-            var pinBuilder = new PinSettingsBuilder(context);
+            var pinSettings = new PinSettings
+            {
+                PinPlaceMode = mode,
+                VercitalLayer = verticalLayer,
+                HorizontalLayer = horizontalLayer,
+                Space = space
+            };
+            if (!string.IsNullOrEmpty(constraint))
+            {
+                pinSettings.ConstraintFile = constraint;
+            }
+            var pinBuilder = new PinSettingsBuilder(pinSettings);
             pin?.Invoke(pinBuilder);
             Settings.PinSettings = pinBuilder.Settings;
             return this;
@@ -376,116 +387,93 @@ namespace Harbor.Core.Tool.APR
 
     public class PinGroupBuilder
     {
-        public PinGroupSettings Settings = new();
+        public PinGroupSettings Settings { get; set; }
 
-        public PinGroupBuilder PinSpace(decimal pinSpace)
+        public PinGroupBuilder(PinGroupSettings settings)
         {
-            Settings.PinSpace = pinSpace;
-            return this;
+            Settings = settings;
         }
 
-        public PinGroupBuilder PinsSpace(string pinSpace)
+        public PinGroupBuilder Pin(string name, decimal offset = -1, string layer = "", bool reverseBusOrder = false)
         {
-            Settings.PinSpace = decimal.Parse(pinSpace);
-            return this;
-        }
-
-        public PinGroupBuilder PinsSpace(double pinSpace)
-        {
-            Settings.PinSpace = (decimal)pinSpace;
-            return this;
-        }
-
-        public PinGroupBuilder Order(int order)
-        {
-            Settings.Order = order;
-            return this;
-        }
-
-        public PinGroupBuilder Offset(decimal offset)
-        {
-            Settings.Offset = offset;
-            return this;
-        }
-
-        public PinGroupBuilder Offset(string offset)
-        {
-            Settings.Offset = decimal.Parse(offset);
-            return this;
-        }
-
-        public PinGroupBuilder Offset(double offset)
-        {
-            Settings.Offset = (decimal)offset;
-            return this;
-        }
-
-        public PinGroupBuilder Position(PortPosition position)
-        {
-            Settings.Position = position;
-            return this;
-        }
-
-        public PinGroupBuilder Pin(string name, int order = -1)
-        {
-            Settings.Ports.Add((name, order));
+            Settings.Pins.Add(new SinglePinSettings
+            {
+                Name = name,
+                Layer = layer,
+                Offset = offset,
+                ReverseBusOrder = reverseBusOrder
+            });
             return this;
         }
     }
 
     public class PinSettingsBuilder
     {
-        public PinSettings Settings { get; set; } = new PinSettings();
-        private readonly ICakeContext context;
+        public PinSettings Settings { get; set; }
 
-        public PinSettingsBuilder(ICakeContext context)
+        public PinSettingsBuilder(PinSettings settings)
         {
-            this.context = context;
+            Settings = settings;
         }
 
-        public PinSettingsBuilder PinSpace(decimal pinSpace)
+        public PinSettingsBuilder Pin(string name, PinPosition position, decimal offset = -1, string layer = "", bool reverseBusOrder = false)
         {
-            Settings.PinSpace = pinSpace;
+            var p = new SinglePinSettings
+            {
+                Name = name,
+                Layer = layer,
+                Offset = offset,
+                Position = position,
+                ReverseBusOrder = reverseBusOrder
+            };
+            switch (position)
+            {
+                case PinPosition.Left:
+                    Settings.LeftPins.Add(p);
+                    break;
+                case PinPosition.Top:
+                    Settings.TopPins.Add(p);
+                    break;
+                case PinPosition.Right:
+                    Settings.RightPins.Add(p);
+                    break;
+                case PinPosition.Bottom:
+                    Settings.BottomPins.Add(p);
+                    break;
+            }
             return this;
         }
 
-        public PinSettingsBuilder PinsSpace(string pinSpace)
+        public PinSettingsBuilder Group(PinPosition position, decimal offset = -1, decimal space = -1, string layer = "", bool reverseBusOrder = false, Action <PinGroupBuilder> group = null)
         {
-            Settings.PinSpace = decimal.Parse(pinSpace);
-            return this;
-        }
-
-        public PinSettingsBuilder PinsSpace(double pinSpace)
-        {
-            Settings.PinSpace = (decimal) pinSpace;
-            return this;
-        }
-
-        public PinSettingsBuilder PlaceMode(PinPlaceMode mode)
-        {
-            Settings.PinPlaceMode = mode;
-            return this;
-        }
-
-        public PinSettingsBuilder Pin(string name, PortPosition portPosition, int order = -1)
-        {
-            Settings.PinPair.Add((name.ToUpper(), portPosition, order));
-            return this;
-        }
-
-        public PinSettingsBuilder Group(Action<PinGroupBuilder> group)
-        {
-            var pinGroupBuilder = new PinGroupBuilder();
+            var s = new PinGroupSettings
+            {
+                Position = position,
+                Layer = layer,
+                Offset = offset,
+                Space = space,
+                ReverseBusOrder = reverseBusOrder
+            };
+            var pinGroupBuilder = new PinGroupBuilder(s);
             group?.Invoke(pinGroupBuilder);
-            Settings.Groups.Add(pinGroupBuilder.Settings);
+            switch (position)
+            {
+                case PinPosition.Left:
+                    Settings.LeftPins.Add(pinGroupBuilder.Settings);
+                    break;
+                case PinPosition.Top:
+                    Settings.TopPins.Add(pinGroupBuilder.Settings);
+                    break;
+                case PinPosition.Right:
+                    Settings.RightPins.Add(pinGroupBuilder.Settings);
+                    break;
+                case PinPosition.Bottom:
+                    Settings.BottomPins.Add(pinGroupBuilder.Settings);
+                    break;
+            }
             return this;
         }
 
-        public PinSettingsBuilder Constraint(string file)
-        {
-            Settings.ConstraintFile = context.MakeAbsolute(new FilePath(file));
-            return this;
-        }
     }
 
     public class PlaceSettingsBuilder

@@ -7,27 +7,82 @@
 <#= HarborTextModel.Header() #>
 #=============左侧端口====================
 <#  
-int space = (int)model.PinSpace;
-var realLeftOrders = 1; 
+int order = 1; 
 decimal offset = 0m; 
-#>
-<# foreach(var p in model.LeftPorts) { #>
-<# for(int i = p.Width.lsb; i <= p.Width.msb; i++) { #>
-<# offset += model.PinSpace;
-var tempName = $"{p.Name}[{i}]";
-if((p.Width.msb == p.Width.lsb) && (p.Width.msb == 0))
+
+foreach(var p in model.LeftPins) 
 {
-	tempName = p.Name;
-}
-#>
-<# if(model.PinPlaceMode == PinPlaceMode.Uniform ) { #>
-set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realLeftOrders #> -pin_spacing <#= space #>
-<# } else if(model.PinPlaceMode == PinPlaceMode.ByOffset) { #>
-set_pin_physical_constraints -pin_name {<#= tempName #>} -layers {metal<#= p.MetalLayer #>} -side <#= (int)p.Position+1 #> -order <#= realLeftOrders #> -pin_spacing 0 -offset <#= offset #>
-<# } #>
-<# realLeftOrders += 1; #>
-<# } #>
-<# } #>
+	var offsetParam = model.PinPlaceMode == PinPlaceMode.ByOffset ? $"-offset {p.Offset}" : "";
+	var side = (int)p.Position + 1;
+	var orderParam = model.PinPlaceMode == PinPlaceMode.ByOffset ? "" : $"-order {order}";
+
+	if(p is SinglePinSettings sp) 
+	{
+		var name = sp.Name;
+		var vp = model.VerilogPorts[sp.Name];
+		var layer = string.IsNullOrEmpty(sp.Layer) ? model.HorizontalLayer : sp.Layer;
+		var spaceParam = model.PinPlaceMode == PinPlaceMode.ByOffset ? "" : (model.Space == -1 ? "" : $"-pin_spacing {model.Space}");
+		
+		if(vp.Width.msb == vp.Width.lsb && vp.Width.msb == 0) 
+		{ #>
+set_pin_physical_constraints -pin_name {<#= name #>} -layers {<#= layer #>} -side <#= side #> <#= orderParam #> <#= spaceParam #> <#= offsetParam #>
+<#			order++;
+		}
+		else 
+		{
+			if(p.ReverseBusOrder)
+			{
+				for(int i = vp.Width.msb; i <= vp.Width.lsb; i++)
+				{ #>
+set_pin_physical_constraints -pin_name {<#= name #>[<#= i #>]} -layers {<#= layer #>} -side <#= side #> <#= orderParam #> <#= spaceParam #> <#= offsetParam #>
+<#					order++;
+				}
+			}
+			else
+			{
+				for(int i = vp.Width.lsb; i <= vp.Width.msb; i++)
+				{ #>
+set_pin_physical_constraints -pin_name {<#= name #>[<#= i #>]} -layers {<#= layer #>} -side <#= side #> <#= orderParam #> <#= spaceParam #> <#= offsetParam #>
+<#					order++;
+				}
+			}
+		}
+	} 
+	else if(p is PinGroupSettings pg) 
+	{
+		foreach(var p2 in pg.Pins)
+		{
+			var name = p2.Name;
+			var vp = model.VerilogPorts[p2.Name];
+			var layer = string.IsNullOrEmpty(p2.Layer) ? (string.IsNullOrEmpty(pg.Layer) ? model.HorizontalLayer : pg.Layer): p2.Layer;
+			var spaceParam = model.PinPlaceMode == PinPlaceMode.ByOffset ? "" : (pg.Space == -1 ? (model.Space == -1 ? "" : $"-pin_spacing {model.Space}") : $"-pin_spacing {pg.Space}");
+			if(vp.Width.msb == vp.Width.lsb && vp.Width.msb == 0) 
+			{ #>
+set_pin_physical_constraints -pin_name {<#= name #>} -layers {<#= layer #>} -side <#= side #> <#= orderParam #> <#= spaceParam #> <#= offsetParam #>
+<#				order++;
+			}
+			else 
+			{
+				if(p.ReverseBusOrder)
+				{
+					for(int i = vp.Width.msb; i <= vp.Width.lsb; i++)
+					{ #>
+set_pin_physical_constraints -pin_name {<#= name #>[<#= i #>]} -layers {<#= layer #>} -side <#= side #> <#= orderParam #> <#= spaceParam #> <#= offsetParam #>
+<#						order++;
+					}
+				}
+				else
+				{
+					for(int i = vp.Width.lsb; i <= vp.Width.msb; i++)
+					{ #>
+set_pin_physical_constraints -pin_name {<#= name #>[<#= i #>]} -layers {<#= layer #>} -side <#= side #> <#= orderParam #> <#= spaceParam #> <#= offsetParam #>
+<#						order++;
+					}
+				}
+			}
+		}
+	}
+} #>
 #=============上侧端口====================
 <# var realTopOrders = 1; 
 offset = 0m;

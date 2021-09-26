@@ -6,7 +6,7 @@ namespace Harbor.Common.Model
         public int MetalLayer { get; set; }
         public string Name { get; set; }
         public Width Width { get; set; }
-        public PortPosition Position { get; set; }
+        public PinPosition Position { get; set; }
         public int Order { get; set; }
     }
 
@@ -16,7 +16,7 @@ namespace Harbor.Common.Model
         public int lsb { get; set; }
     }
 
-    public enum PortPosition
+    public enum PinPosition
     {
         Left,
         Top,

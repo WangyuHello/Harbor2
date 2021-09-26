@@ -44,13 +44,12 @@ Task("Layout")
             .PowerRing(horizontalWidth: 1, verticalWidth: 1, verticalOffset: 0.5, horizontalOffset: 0.5, verticalSpace: 0.3, horizontalSpace: 0.3)
             // .PowerStrap(start: 20, step: 20, width: 2)
         )
-        .Pin(_ => _
-            .PinSpace(0)
+        .Pin(mode: PinPlaceMode.Uniform, _ => _ // 或者 PinPlaceMode.ByOffset
 <# if(!string.IsNullOrEmpty(ClockName)) { #>
-            .Pin("<#= ClockName #>", PortPosition.Top, 1)
+            .Pin(name: "<#= ClockName #>", position: PortPosition.Top)
 <# } #>
-            // .Constraint("./Source/pin_pad.tcl")
         )
+        // .Pin(constraint: "./Source/pin_pad.tcl")
         .AddPG()
         .FormalVerify()
         .OpenGUI()

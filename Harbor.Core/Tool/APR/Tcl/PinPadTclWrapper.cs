@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using Harbor.Core.Tool.APR.Model;
 
 namespace Harbor.Core.Tool.APR.Tcl
 {
     public partial class PinPadTcl
     {
-        private PinPadTclModel model;
+        private readonly PinSettings model;
 
-        public PinPadTcl(PinPadTclModel model)
+        public PinPadTcl(PinSettings model)
         {
             this.model = model;
         }

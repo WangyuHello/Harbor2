@@ -27,179 +27,86 @@ namespace Harbor.Core.Tool.APR
         public List<MacroPlaceSettings> MacroPlaceSettings { get; set; } = new();
     }
 
-    public class PinGroupSettings
+    public interface IPinSettings
     {
-        /// <summary>
-        /// 如果order为-1则按List中的顺序
-        /// </summary>
-        public List<(string name, int order)> Ports { get; set; } = new();
-        public PortPosition Position { get; set; }
+        public PinPosition Position { get; set; }
         public decimal Offset { get; set; }
-        public int Order { get; set; }
-        public decimal PinSpace { get; set; }
+        public string Layer { get; set; }
+        public bool ReverseBusOrder { get; set; }
+    }
+
+    public class SinglePinSettings : IPinSettings
+    {
+        public PinPosition Position { get; set; }
+        public decimal Offset { get; set; }
+        public string Layer { get; set; }
+        public bool ReverseBusOrder { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public class PinGroupSettings : IPinSettings
+    {
+        public PinPosition Position { get; set; }
+        public decimal Offset { get; set; }
+        public string Layer { get; set; }
+        public bool ReverseBusOrder { get; set; }
+
+        public List<SinglePinSettings> Pins { get; set; }
+        public decimal Space { get; set; }
     }
 
     public class PinSettings
     {
+        public List<IPinSettings> LeftPins { get; set; } = new();
+        public List<IPinSettings> TopPins { get; set; } = new();
+        public List<IPinSettings> RightPins { get; set; } = new();
+        public List<IPinSettings> BottomPins { get; set; } = new();
 
-        public List<Port> LeftPorts { get; set; } = new();
-        public List<Port> TopPorts { get; set; } = new();
-        public List<Port> RightPorts { get; set; } = new();
-        public List<Port> BottomPorts { get; set; } = new();
-        public decimal PinSpace { get; set; }
         public PinPlaceMode PinPlaceMode { get; set; } = PinPlaceMode.Uniform;
+        public decimal Space { get; set; }
+        public string VercitalLayer { get; set; }
+        public string HorizontalLayer { get; set; }
+
+        public Dictionary<string, VerilogPortDefinition> VerilogPorts { get; set; }
+
         /// <summary>
         /// 如果指定了pin约束脚本,则直接引用,不自动生成约束
         /// </summary>
         public FilePath ConstraintFile { get; set; }
 
-        /// <summary>
-        /// 所有的用户设置的Pin信息
-        /// 如果order为-1则用户未指定顺序
-        /// </summary>
-        public List<(string name, PortPosition position, int order)> PinPair { get; set; } = new();
-        public List<PinGroupSettings> Groups = new();
+        public void SetDefaultLayer(string m1_routing_direction)
+        {
+            var defaultVerticalLayer = m1_routing_direction switch
+            {
+                "horizontal" => "M4",
+                "vertical" => "M3",
+                _ => throw new NotImplementedException("不支持的M1走线方向")
+            };
 
-        /// <summary>
-        /// 从 Verilog 源文件中读取所有的Port，然后根据用户设置好的PinPair变量，将Ports数组填充
-        /// </summary>
-        /// <param name="synProjectPath"></param>
-        /// <param name="m1direction"></param>
-        /// <param name="top"></param>
-        public void InflatePorts(DirectoryPath synProjectPath, string m1direction, string top)
+            var defaulthorizontalLayer = m1_routing_direction switch
+            {
+                "horizontal" => "M3",
+                "vertical" => "M4",
+                _ => throw new NotImplementedException("不支持的M1走线方向")
+            };
+
+            if (string.IsNullOrEmpty(VercitalLayer))
+            {
+                VercitalLayer = defaultVerticalLayer;
+            }
+
+            if (string.IsNullOrEmpty(HorizontalLayer))
+            {
+                HorizontalLayer = defaulthorizontalLayer;
+            }
+        }
+
+        public void ReadVerilogPorts(DirectoryPath synProjectPath, string top)
         {
             var ports = GetPorts.Run2(
                 synProjectPath.Combine("netlist").CombineWithFilePath($"{top}.v").FullPath, top, synProjectPath.Combine("netlist").FullPath);
-            
-            var r = new Random(10);
-
-            var leftOrders = new HashSet<int>();
-            var topOrders = new HashSet<int>();
-            var rightOrders = new HashSet<int>();
-            var bottomOrders = new HashSet<int>();
-
-            // 将port放到指定的方位
-            foreach (var p in ports)
-            {
-                var userDefinedPin = PinPair.FirstOrDefault(i => i.name == p.Name);
-
-                PortPosition pos; //默认为Left
-                var order = -1;
-
-                if (string.IsNullOrEmpty(userDefinedPin.name))
-                {
-                    pos = (PortPosition)r.Next(0, 4); // 用户没有定义则随机安排位置
-                }
-                else // 发现用户已定义
-                {
-                    pos = userDefinedPin.position;
-                    order = userDefinedPin.order;
-                }
-
-                var isHorizontal = (pos == PortPosition.Left) || (pos == PortPosition.Right);
-                var metalNum = m1direction == "horizontal" ?
-                    (isHorizontal ? 3 : 4) :
-                    (isHorizontal ? 4 : 3);
-
-                var p2 = new Port
-                {
-                    MetalLayer = metalNum,
-                    Name = p.Name,
-                    Position = pos,
-                    Width = new Width(){lsb = p.Width.lsb, msb = p.Width.msb},
-                    Order = order
-                };
-
-                switch (pos)
-                {
-                    case PortPosition.Left:
-                        LeftPorts.Add(p2);
-                        if(order != -1) leftOrders.Add(order);
-                        break;
-                    case PortPosition.Top:
-                        TopPorts.Add(p2);
-                        if (order != -1) topOrders.Add(order);
-                        break;
-                    case PortPosition.Right:
-                        RightPorts.Add(p2);
-                        if (order != -1) rightOrders.Add(order);
-                        break;
-                    case PortPosition.Bottom:
-                        BottomPorts.Add(p2);
-                        if (order != -1) bottomOrders.Add(order);
-                        break;
-                }
-            }
-
-            // 第二次循环将order确定
-            foreach (var p in LeftPorts)
-            {
-                if (p.Order == -1)
-                {
-                    for (int i = 1; ; i++)
-                    {
-                        if (!leftOrders.Contains(i))
-                        {
-                            p.Order = i;
-                            leftOrders.Add(i);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            LeftPorts.Sort((p1, p2) => p1.Order.CompareTo(p2.Order));
-
-            foreach (var p in TopPorts)
-            {
-                if (p.Order == -1)
-                {
-                    for (int i = 1; ; i++)
-                    {
-                        if (!topOrders.Contains(i))
-                        {
-                            p.Order = i;
-                            topOrders.Add(i);
-                            break;
-                        }
-                    }
-                }
-            }
-            TopPorts.Sort((p1, p2) => p1.Order.CompareTo(p2.Order));
-
-            foreach (var p in RightPorts)
-            {
-                if (p.Order == -1)
-                {
-                    for (int i = 1; ; i++)
-                    {
-                        if (!rightOrders.Contains(i))
-                        {
-                            p.Order = i;
-                            rightOrders.Add(i);
-                            break;
-                        }
-                    }
-                }
-            }
-            RightPorts.Sort((p1, p2) => p1.Order.CompareTo(p2.Order));
-
-            foreach (var p in BottomPorts)
-            {
-                if (p.Order == -1)
-                {
-                    for (int i = 1; ; i++)
-                    {
-                        if (!bottomOrders.Contains(i))
-                        {
-                            p.Order = i;
-                            bottomOrders.Add(i);
-                            break;
-                        }
-                    }
-                }
-            }
-            BottomPorts.Sort((p1, p2) => p1.Order.CompareTo(p2.Order));
+            VerilogPorts = ports.ToDictionary(v => v.Name);
         }
     }
 
@@ -409,18 +316,9 @@ namespace Harbor.Core.Tool.APR
 
             if (PinSettings.ConstraintFile == null)
             {
-                PinSettings.InflatePorts(SynProjectPath, library.PrimaryStdCell.m1_routing_direction, Top);
-                var pinPadTclModel = new PinPadTclModel
-                {
-                    PinSpace = PinSettings.PinSpace,
-                    PinPlaceMode = PinSettings.PinPlaceMode,
-                    LeftPorts = PinSettings.LeftPorts,
-                    TopPorts = PinSettings.TopPorts,
-                    RightPorts = PinSettings.RightPorts,
-                    BottomPorts = PinSettings.BottomPorts
-                };
-
-                var pinPadTcl = new PinPadTcl(pinPadTclModel);
+                PinSettings.SetDefaultLayer(library.PrimaryStdCell.m1_routing_direction);
+                PinSettings.ReadVerilogPorts(SynProjectPath, Top);
+                var pinPadTcl = new PinPadTcl(PinSettings);
                 pinPadTcl.WriteToFile(WorkingDirectory.CombineWithFilePath("pin_pad.tcl").FullPath);
             }
             else
